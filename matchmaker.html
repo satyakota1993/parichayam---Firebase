@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parichayam Matchmaker Portal</title>
+  <style>
+    :root{
+      --bg:#f7efe2;
+      --panel:#fffaf3;
+      --panel-2:#fff4e4;
+      --ink:#5d1626;
+      --muted:#8a6c5a;
+      --line:rgba(121,60,23,.12);
+      --accent:#8a1d33;
+      --accent-2:#c9963a;
+      --green:#17663f;
+      --blue:#315fb7;
+      --red:#b3293d;
+      --shadow:0 18px 45px rgba(74,24,15,.08);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Georgia,"Times New Roman",serif;background:linear-gradient(180deg,#fbf5ec 0%,#f3e5d3 100%);color:var(--ink)}
+    a{color:inherit}
+    .shell{max-width:1360px;margin:0 auto;padding:24px}
+    .topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:22px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand-mark{width:52px;height:52px;border-radius:18px;background:radial-gradient(circle at 30% 30%,#f7d57a,#c8782f 70%,#7f1b31);box-shadow:0 10px 24px rgba(123,28,46,.18)}
+    .brand h1{margin:0;font-size:1.6rem;font-weight:700}
+    .brand p{margin:.2rem 0 0;color:var(--muted);font-size:.9rem}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{appearance:none;border:none;border-radius:999px;padding:12px 18px;font:inherit;font-size:.92rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+    .btn-primary{background:var(--accent);color:#fff;box-shadow:0 12px 24px rgba(123,28,46,.18)}
+    .btn-secondary{background:#fff;color:var(--ink);border:1px solid var(--line)}
+    .hero{background:linear-gradient(135deg,#fffaf3 0%,#f7e6cf 100%);border:1px solid rgba(121,60,23,.1);border-radius:30px;padding:28px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-bottom:18px}
+    .hero h2{margin:0 0 10px;font-size:2rem}
+    .hero p{margin:0;color:var(--muted);line-height:1.7}
+    .hero-side{background:rgba(255,255,255,.56);border:1px solid rgba(121,60,23,.08);border-radius:24px;padding:18px}
+    .hero-kpi{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(121,60,23,.08)}
+    .hero-kpi:last-child{border-bottom:none;padding-bottom:0}
+    .hero-kpi span{font-size:.82rem;color:var(--muted)}
+    .hero-kpi strong{font-size:1.18rem}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+    .card{background:var(--panel);border:1px solid rgba(121,60,23,.1);border-radius:24px;padding:18px;box-shadow:var(--shadow)}
+    .metric{display:flex;flex-direction:column;gap:8px}
+    .metric span{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+    .metric strong{font-size:2rem}
+    .layout{display:grid;grid-template-columns:1.25fr .9fr;gap:18px}
+    .section-title{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}
+    .section-title h3{margin:0;font-size:1.15rem}
+    .section-title p{margin:0;color:var(--muted);font-size:.82rem}
+    .stack{display:flex;flex-direction:column;gap:12px}
+    .case-card{border:1px solid rgba(121,60,23,.1);border-radius:20px;padding:16px;background:var(--panel-2)}
+    .case-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+    .case-name{font-size:1rem;font-weight:700;margin:0}
+    .subtle{font-size:.82rem;color:var(--muted);line-height:1.6}
+    .pill-row{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{display:inline-flex;align-items:center;border-radius:999px;padding:6px 10px;font-size:.72rem;font-weight:700}
+    .pill-maroon{background:rgba(138,29,51,.1);color:var(--accent)}
+    .pill-gold{background:rgba(201,150,58,.16);color:#7b5f13}
+    .pill-green{background:rgba(23,102,63,.12);color:var(--green)}
+    .pill-blue{background:rgba(49,95,183,.12);color:var(--blue)}
+    .pill-red{background:rgba(179,41,61,.12);color:var(--red)}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .mini-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:.78rem;font-weight:700;text-decoration:none;cursor:pointer}
+    .mini-btn.primary{background:var(--accent);color:#fff;border-color:transparent}
+    .mini-btn.green{background:rgba(23,102,63,.12);color:var(--green);border-color:rgba(23,102,63,.16)}
+    .mini-btn.blue{background:rgba(49,95,183,.12);color:var(--blue);border-color:rgba(49,95,183,.16)}
+    .mini-btn.red{background:rgba(179,41,61,.12);color:var(--red);border-color:rgba(179,41,61,.16)}
+    .form-inline{display:grid;grid-template-columns:1.1fr .85fr .8fr auto;gap:8px;margin-top:12px}
+    .field{width:100%;border:1px solid rgba(121,60,23,.15);border-radius:14px;background:#fff;padding:11px 13px;font:inherit;color:var(--ink)}
+    .list-empty{padding:24px;border:1px dashed rgba(121,60,23,.18);border-radius:18px;color:var(--muted);text-align:center;background:rgba(255,255,255,.4)}
+    .gate{min-height:100vh;display:grid;place-items:center;padding:24px}
+    .gate-card{max-width:560px;width:100%;background:var(--panel);border:1px solid rgba(121,60,23,.1);border-radius:28px;padding:28px;box-shadow:var(--shadow);text-align:center}
+    .feed-item{padding:12px 0;border-bottom:1px solid rgba(121,60,23,.09)}
+    .feed-item:last-child{border-bottom:none;padding-bottom:0}
+    .feed-item strong{display:block;font-size:.88rem}
+    .feed-item span{font-size:.78rem;color:var(--muted);line-height:1.6}
+    .toast-wrap{position:fixed;top:18px;right:18px;z-index:9999;display:flex;flex-direction:column;gap:10px}
+    .toast{background:#2d1620;color:#fff;padding:12px 14px;border-radius:14px;box-shadow:0 18px 34px rgba(22,10,14,.22);font-size:.85rem;opacity:0;transform:translateY(-8px);transition:all .2s ease}
+    .toast.show{opacity:1;transform:translateY(0)}
+    @media (max-width:1080px){
+      .hero,.layout{grid-template-columns:1fr}
+      .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (max-width:640px){
+      .shell{padding:16px}
+      .topbar{flex-direction:column;align-items:flex-start}
+      .grid{grid-template-columns:1fr}
+      .form-inline{grid-template-columns:1fr}
+      .hero h2{font-size:1.6rem}
+    }
+  </style>
+</head>
+<body>
+  <div id="toastWrap" class="toast-wrap"></div>
+  <div class="shell" id="portalShell" style="display:none">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div>
+          <h1>Parichayam Operations</h1>
+          <p id="portalMeta">Matchmaker workspace</p>
+        </div>
+      </div>
+      <div class="toolbar">
+        <button class="btn btn-secondary" onclick="refreshMatchmakerPortal()">Refresh</button>
+        <a class="btn btn-secondary" href="/dashboard">Member Dashboard</a>
+        <button class="btn btn-primary" onclick="signOutPortal()">Sign Out</button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div>
+        <h2 id="heroTitle">Client operations for every active lead.</h2>
+        <p id="heroCopy">Use this workspace to follow up with clients, keep verification moving, and track the value of the cases handled by your team. Admin can see the same operating data, while matchmakers and employees only see what is assigned to them.</p>
+      </div>
+      <div class="hero-side">
+        <div class="hero-kpi"><span>Logged in as</span><strong id="heroUser">-</strong></div>
+        <div class="hero-kpi"><span>Role</span><strong id="heroRole">-</strong></div>
+        <div class="hero-kpi"><span>Open assignments</span><strong id="heroAssignments">0</strong></div>
+        <div class="hero-kpi"><span>Verification tasks</span><strong id="heroVerifications">0</strong></div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card metric"><span>Assigned Clients</span><strong id="metricClients">0</strong></div>
+      <div class="card metric"><span>Need Follow-Up</span><strong id="metricFollowup">0</strong></div>
+      <div class="card metric"><span>Verification Queue</span><strong id="metricVerify">0</strong></div>
+      <div class="card metric"><span>Earned Incentive</span><strong id="metricEarned">Rs 0</strong></div>
+    </section>
+
+    <section class="layout">
+      <div class="stack">
+        <div class="card">
+          <div class="section-title">
+            <div>
+              <h3 id="assignmentSectionTitle">Assigned Clients</h3>
+              <p id="assignmentSectionCopy">Manage status, next follow-up, and direct communication from one place.</p>
+            </div>
+          </div>
+          <div id="assignmentList" class="stack"></div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <div>
+              <h3>Verification Tasks</h3>
+              <p>Admin and employees can claim, approve, or reject verification tasks from here.</p>
+            </div>
+          </div>
+          <div id="verificationList" class="stack"></div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="card">
+          <div class="section-title">
+            <div>
+              <h3>Earnings Snapshot</h3>
+              <p>Live view of open incentive value and completed earnings from handled clients.</p>
+            </div>
+          </div>
+          <div id="earningsSummary" class="stack"></div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <div>
+              <h3>Recent Activity</h3>
+              <p>Every important client or verification update shows here for accountability.</p>
+            </div>
+          </div>
+          <div id="activityFeed"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="gate" id="gateWrap">
+    <div class="gate-card">
+      <h2 style="margin-top:0">Parichayam Matchmaker Portal</h2>
+      <p id="gateMessage" style="color:var(--muted);line-height:1.75">Checking your access and preparing the operations workspace.</p>
+      <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px">
+        <a class="btn btn-primary" href="/auth">Go to Sign In</a>
+        <a class="btn btn-secondary" href="/">Open Website</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore-compat.js"></script>
+  <script src="parichayam-firebase-config.js"></script>
+  <script src="parichayam-firebase.js"></script>
+  <script>
+    const portalState = {
+      member: null,
+      assignments: [],
+      verifications: [],
+      activity: [],
+      members: [],
+    };
+
+    const MATCHMAKER_PIPELINE = [
+      'new',
+      'contacted',
+      'profile_pending',
+      'verification_pending',
+      'shortlisted',
+      'family_discussion',
+      'meeting_planned',
+      'negotiation',
+      'converted',
+      'closed',
+      'on_hold',
+    ];
+
+    const EMPLOYEE_OPERATIONS = [
+      'new',
+      'verification_pending',
+      'in_review',
+      'awaiting_member',
+      'resolved',
+      'closed',
+      'on_hold',
+    ];
+
+    function escapeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function toast(message, type = 'info') {
+      const wrap = document.getElementById('toastWrap');
+      if (!wrap) return;
+      const toastEl = document.createElement('div');
+      const colors = {
+        info: '#2d1620',
+        success: '#0f5132',
+        warning: '#7b5f13',
+        error: '#7b2030',
+      };
+      toastEl.className = 'toast';
+      toastEl.style.background = colors[type] || colors.info;
+      toastEl.textContent = message;
+      wrap.appendChild(toastEl);
+      requestAnimationFrame(() => toastEl.classList.add('show'));
+      setTimeout(() => {
+        toastEl.classList.remove('show');
+        setTimeout(() => toastEl.remove(), 220);
+      }, 3200);
+    }
+
+    function formatCurrency(value) {
+      const amount = Number(value || 0);
+      return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount);
+    }
+
+    function formatDateTime(value) {
+      if (!value) return 'Not set';
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return 'Not set';
+      return date.toLocaleString('en-IN', { day:'numeric', month:'short', hour:'numeric', minute:'2-digit' });
+    }
+
+    function normalizePhone(value) {
+      return String(value || '').replace(/[^\d]/g, '').replace(/^91/, '').slice(-10);
+    }
+
+    function roleLabel(value) {
+      const role = String(value || 'staff').trim().toLowerCase();
+      return role.charAt(0).toUpperCase() + role.slice(1).replace(/_/g, ' ');
+    }
+
+    function stageLabel(value) {
+      return roleLabel(String(value || 'new').replace(/_/g, ' '));
+    }
+
+    function currentRole() {
+      return String(portalState.member?.role || '').toUpperCase();
+    }
+
+    function isEmployeeRole() {
+      return currentRole() === 'EMPLOYEE';
+    }
+
+    function isReviewRole() {
+      return ['ADMIN', 'EMPLOYEE'].includes(currentRole());
+    }
+
+    function assignmentStagesFor(item) {
+      return String(item?.assignedRole || currentRole()).toUpperCase() === 'EMPLOYEE'
+        ? EMPLOYEE_OPERATIONS
+        : MATCHMAKER_PIPELINE;
+    }
+
+    function buildStageOptions(item) {
+      const current = String(item?.status || assignmentStagesFor(item)[0]).trim().toLowerCase();
+      return assignmentStagesFor(item).map((status) => {
+        const selected = status === current ? ' selected' : '';
+        return `<option value="${escapeHtml(status)}"${selected}>${escapeHtml(stageLabel(status))}</option>`;
+      }).join('');
+    }
+
+    function statusPill(status) {
+      const value = String(status || 'active').trim().toLowerCase();
+      const className = ['resolved', 'converted', 'approved'].includes(value)
+        ? 'pill-green'
+        : ['follow_up', 'awaiting_payment', 'verification_pending', 'shortlisted', 'meeting_planned', 'negotiation', 'family_discussion'].includes(value)
+          ? 'pill-gold'
+          : ['rejected', 'cancelled', 'closed', 'on_hold'].includes(value)
+            ? 'pill-red'
+            : 'pill-blue';
+      return `<span class="pill ${className}">${escapeHtml(stageLabel(value))}</span>`;
+    }
+
+    function memberByUid(uid) {
+      return portalState.members.find(item => String(item.uid || item.id || '') === String(uid || '')) || {};
+    }
+
+    function contactActions(member, fallback = {}) {
+      const phone = normalizePhone(member.phone || fallback.phone || '');
+      const email = String(member.email || fallback.email || '').trim();
+      const name = member.name || fallback.name || 'Member';
+      return [
+        phone ? `<a class="mini-btn blue" href="tel:+91${phone}">Call</a>` : '',
+        phone ? `<a class="mini-btn green" href="https://wa.me/91${phone}?text=${encodeURIComponent('Namaste ' + name + ', this is ' + (portalState.member?.name || 'your Parichayam matchmaker') + ' from Parichayam. I am following up on your profile.')}" target="_blank" rel="noopener">WhatsApp</a>` : '',
+        email ? `<a class="mini-btn" href="mailto:${email}">Email</a>` : '',
+      ].join('');
+    }
+
+    function showGate(message) {
+      document.getElementById('portalShell').style.display = 'none';
+      document.getElementById('gateWrap').style.display = 'grid';
+      document.getElementById('gateMessage').textContent = message;
+    }
+
+    function showPortal() {
+      document.getElementById('gateWrap').style.display = 'none';
+      document.getElementById('portalShell').style.display = '';
+    }
+
+    function renderSummary() {
+      const assignments = portalState.assignments;
+      const openCases = assignments.filter(item => !['resolved', 'converted', 'closed', 'on_hold'].includes(String(item.status || '').toLowerCase()));
+      const followups = assignments.filter(item => ['new', 'contacted', 'profile_pending', 'verification_pending', 'shortlisted', 'family_discussion', 'meeting_planned', 'negotiation', 'in_review', 'awaiting_member'].includes(String(item.status || '').toLowerCase()));
+      const verifications = portalState.verifications.filter(item => !['approved', 'rejected'].includes(String(item.status || '').toLowerCase()));
+      const earned = assignments.filter(item => ['resolved', 'converted'].includes(String(item.status || '').toLowerCase()))
+        .reduce((sum, item) => sum + Number(item.incentiveAmount || 0), 0);
+      const openValue = openCases.reduce((sum, item) => sum + Number(item.incentiveAmount || 0), 0);
+
+      document.getElementById('heroUser').textContent = portalState.member?.name || portalState.member?.email || 'Staff';
+      document.getElementById('heroRole').textContent = roleLabel(portalState.member?.role || 'staff');
+      document.getElementById('heroAssignments').textContent = String(openCases.length);
+      document.getElementById('heroVerifications').textContent = String(verifications.length);
+      document.getElementById('metricClients').textContent = String(assignments.length);
+      document.getElementById('metricFollowup').textContent = String(followups.length);
+      document.getElementById('metricVerify').textContent = String(verifications.length);
+      document.getElementById('metricEarned').textContent = formatCurrency(earned);
+      document.getElementById('portalMeta').textContent = `${roleLabel(portalState.member?.role || 'staff')} workspace`;
+      document.getElementById('heroTitle').textContent = isEmployeeRole()
+        ? 'Verification and operations desk for active member cases.'
+        : 'Client operations for every active lead.';
+      document.getElementById('heroCopy').textContent = isEmployeeRole()
+        ? 'Use this workspace to clear documents, coordinate missing proofs, and keep verification SLAs moving. Admin can see the same queue, while employees work only on their assigned items.'
+        : 'Use this workspace to follow up with clients, keep verification moving, and track the value of the cases handled by your team. Admin can see the same operating data, while matchmakers and employees only see what is assigned to them.';
+      document.getElementById('assignmentSectionTitle').textContent = isEmployeeRole() ? 'Operational Cases' : 'Assigned Clients';
+      document.getElementById('assignmentSectionCopy').textContent = isEmployeeRole()
+        ? 'Track ops handoffs, missing documents, and member callbacks tied to your queue.'
+        : 'Manage status, next follow-up, and direct communication from one place.';
+
+      document.getElementById('earningsSummary').innerHTML = `
+        <div class="case-card">
+          <div class="case-head">
+            <div>
+              <p class="case-name">Completed incentive</p>
+              <div class="subtle">All resolved or converted cases handled by you.</div>
+            </div>
+            ${statusPill('approved')}
+          </div>
+          <div style="font-size:1.8rem;font-weight:700;margin-top:10px">${formatCurrency(earned)}</div>
+        </div>
+        <div class="case-card">
+          <div class="case-head">
+            <div>
+              <p class="case-name">Open case value</p>
+              <div class="subtle">Potential payout once active cases are completed.</div>
+            </div>
+            ${statusPill('follow_up')}
+          </div>
+          <div style="font-size:1.8rem;font-weight:700;margin-top:10px">${formatCurrency(openValue)}</div>
+        </div>
+      `;
+    }
+
+    function renderAssignments() {
+      const wrap = document.getElementById('assignmentList');
+      if (!portalState.assignments.length) {
+        wrap.innerHTML = `<div class="list-empty">${isEmployeeRole() ? 'No operational cases are assigned to you yet. Admin can push member ops work from the staff dashboard.' : 'No client assignments yet. Admin can assign cases from the staff dashboard.'}</div>`;
+        return;
+      }
+      wrap.innerHTML = portalState.assignments.map(item => {
+        const member = memberByUid(item.memberUid);
+        const noteId = `case-note-${item.id}`;
+        const followId = `case-follow-${item.id}`;
+        const stageId = `case-stage-${item.id}`;
+        return `
+          <div class="case-card">
+            <div class="case-head">
+              <div>
+                <p class="case-name">${escapeHtml(item.memberName || member.name || 'Member')}</p>
+                <div class="subtle">${escapeHtml(item.memberCity || member.city || 'Unknown city')} · ${escapeHtml(item.memberPhone || member.phone || 'No phone')}${item.memberEmail || member.email ? ' · ' + escapeHtml(item.memberEmail || member.email) : ''}</div>
+              </div>
+              <div class="pill-row">
+                ${statusPill(item.status || 'active')}
+                <span class="pill pill-maroon">${formatCurrency(item.incentiveAmount || 0)}</span>
+              </div>
+            </div>
+            <div class="subtle" style="margin-top:10px">${escapeHtml(item.note || 'No case note yet.')}</div>
+            <div class="actions">${contactActions(member, { phone: item.memberPhone, email: item.memberEmail, name: item.memberName })}</div>
+            <div class="form-inline">
+              <input class="field" id="${noteId}" placeholder="Add an updated note for this client" value="${escapeHtml(item.note || '')}">
+              <input class="field" id="${followId}" type="datetime-local" value="${item.nextFollowUpAt ? new Date(item.nextFollowUpAt).toISOString().slice(0,16) : ''}">
+              <select class="field" id="${stageId}">${buildStageOptions(item)}</select>
+              <button class="mini-btn primary" onclick="saveAssignmentCase('${escapeHtml(item.id)}')">Save Case</button>
+            </div>
+            <div class="actions">
+              ${isEmployeeRole()
+                ? `<button class="mini-btn blue" onclick="markAssignmentStatus('${escapeHtml(item.id)}','in_review')">In Review</button>
+                   <button class="mini-btn" onclick="markAssignmentStatus('${escapeHtml(item.id)}','awaiting_member')">Awaiting Member</button>
+                   <button class="mini-btn green" onclick="markAssignmentStatus('${escapeHtml(item.id)}','resolved')">Resolved</button>`
+                : `<button class="mini-btn blue" onclick="markAssignmentStatus('${escapeHtml(item.id)}','contacted')">Contacted</button>
+                   <button class="mini-btn" onclick="markAssignmentStatus('${escapeHtml(item.id)}','shortlisted')">Shortlisted</button>
+                   <button class="mini-btn green" onclick="markAssignmentStatus('${escapeHtml(item.id)}','family_discussion')">Family Discussion</button>
+                   <button class="mini-btn red" onclick="markAssignmentStatus('${escapeHtml(item.id)}','converted')">Converted</button>`}
+            </div>
+            <div class="subtle" style="margin-top:10px">Last contact: ${escapeHtml(formatDateTime(item.lastContactAt || item.updatedAt || item.createdAt))} · Next follow-up: ${escapeHtml(formatDateTime(item.nextFollowUpAt))}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderVerifications() {
+      const wrap = document.getElementById('verificationList');
+      if (!portalState.verifications.length) {
+        wrap.innerHTML = '<div class="list-empty">No verification tasks are assigned to you right now.</div>';
+        return;
+      }
+      wrap.innerHTML = portalState.verifications.map(item => {
+        const member = memberByUid(item.memberUid);
+        const canReview = isReviewRole();
+        const canClaim = ['ADMIN', 'EMPLOYEE'].includes(currentRole());
+        return `
+          <div class="case-card">
+            <div class="case-head">
+              <div>
+                <p class="case-name">${escapeHtml(item.memberName || member.name || 'Member')}</p>
+                <div class="subtle">${escapeHtml(String(item.type || 'verification').toUpperCase())} · ${escapeHtml(item.documentType || 'Document')} · ${escapeHtml(formatDateTime(item.createdAt))}</div>
+              </div>
+              <div class="pill-row">
+                ${statusPill(item.status || 'pending_review')}
+                <span class="pill ${String(item.paymentStatus || '').toLowerCase() === 'paid' ? 'pill-green' : 'pill-gold'}">${String(item.paymentStatus || '').toLowerCase() === 'paid' ? 'Paid' : 'Awaiting payment'}</span>
+              </div>
+            </div>
+            <div class="actions">${contactActions(member, { phone: item.memberPhone, email: item.memberEmail, name: item.memberName })}</div>
+            <div class="subtle" style="margin-top:10px">Assigned to: ${escapeHtml(item.assignedToName || 'Not assigned')} · Last reminder: ${escapeHtml(formatDateTime(item.lastReminderAt))}</div>
+            <div class="actions">
+              ${!item.assignedToUid && canClaim ? `<button class="mini-btn blue" onclick="takeVerificationTask('${escapeHtml(item.id)}')">Take Task</button>` : ''}
+              ${canReview ? `<button class="mini-btn green" onclick="approveVerificationTask('${escapeHtml(item.id)}')">Approve</button>` : ''}
+              ${canReview ? `<button class="mini-btn red" onclick="rejectVerificationTask('${escapeHtml(item.id)}')">Reject</button>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderActivity() {
+      const wrap = document.getElementById('activityFeed');
+      if (!portalState.activity.length) {
+        wrap.innerHTML = '<div class="list-empty">No activity has been logged yet.</div>';
+        return;
+      }
+      wrap.innerHTML = portalState.activity.slice(0, 14).map(item => `
+        <div class="feed-item">
+          <strong>${escapeHtml(item.memberName || 'Member')}</strong>
+          <span>${escapeHtml(item.note || 'Updated a case.')} · ${escapeHtml(formatDateTime(item.createdAt))}</span>
+        </div>
+      `).join('');
+    }
+
+    async function refreshMatchmakerPortal() {
+      try {
+        const [assignments, verifications, activity, members] = await Promise.all([
+          window.ParichayamFirebase.listMemberAssignments(),
+          window.ParichayamFirebase.listVerificationRequests(),
+          window.ParichayamFirebase.listStaffActivity(),
+          window.ParichayamFirebase.listMembers(500),
+        ]);
+        portalState.assignments = assignments || [];
+        portalState.verifications = verifications || [];
+        portalState.activity = activity || [];
+        portalState.members = members || [];
+        renderSummary();
+        renderAssignments();
+        renderVerifications();
+        renderActivity();
+      } catch (error) {
+        toast(error?.message || 'Unable to refresh the workspace.', 'error');
+      }
+    }
+
+    async function markAssignmentStatus(id, status) {
+      const assignment = portalState.assignments.find(item => String(item.id) === String(id));
+      if (!assignment) return;
+      try {
+        await window.ParichayamFirebase.saveMemberAssignment(id, {
+          status,
+          outcome: status,
+          lastContactAt: new Date().toISOString(),
+        });
+        await window.ParichayamFirebase.logStaffActivity({
+          memberUid: assignment.memberUid,
+          memberName: assignment.memberName || 'Member',
+          type: 'assignment_status',
+          note: `Case moved to ${status}`,
+        });
+        await refreshMatchmakerPortal();
+        toast('Client case updated.', 'success');
+      } catch (error) {
+        toast(error?.message || 'Unable to update the client case.', 'error');
+      }
+    }
+
+    async function saveAssignmentCase(id) {
+      const assignment = portalState.assignments.find(item => String(item.id) === String(id));
+      if (!assignment) return;
+      const note = document.getElementById(`case-note-${id}`)?.value.trim() || '';
+      const nextFollowUpAt = document.getElementById(`case-follow-${id}`)?.value || '';
+      const stage = document.getElementById(`case-stage-${id}`)?.value || assignment.status || '';
+      try {
+        await window.ParichayamFirebase.saveMemberAssignment(id, {
+          note,
+          status: stage,
+          nextFollowUpAt: nextFollowUpAt ? new Date(nextFollowUpAt).toISOString() : '',
+          lastContactAt: new Date().toISOString(),
+        });
+        await window.ParichayamFirebase.logStaffActivity({
+          memberUid: assignment.memberUid,
+          memberName: assignment.memberName || 'Member',
+          type: 'assignment_note',
+          note: `${stageLabel(stage || assignment.status || 'new')} · ${note || 'Updated follow-up details'}`,
+        });
+        await refreshMatchmakerPortal();
+        toast('Case updated.', 'success');
+      } catch (error) {
+        toast(error?.message || 'Unable to save this case.', 'error');
+      }
+    }
+
+    async function takeVerificationTask(id) {
+      const task = portalState.verifications.find(item => String(item.id) === String(id));
+      if (!task || !portalState.member) return;
+      try {
+        await window.ParichayamFirebase.saveVerificationRequest(id, {
+          assignedToUid: portalState.member.uid || portalState.member.id,
+          assignedToName: portalState.member.name || portalState.member.email || 'Staff',
+          assignedRole: portalState.member.role || 'EMPLOYEE',
+          assignedAt: new Date().toISOString(),
+          status: 'in_review',
+        });
+        await window.ParichayamFirebase.logStaffActivity({
+          memberUid: task.memberUid,
+          memberName: task.memberName || 'Member',
+          type: 'verification_assignment',
+          note: 'Verification task claimed from the matchmaker portal',
+        });
+        await refreshMatchmakerPortal();
+        toast('Verification task assigned to you.', 'success');
+      } catch (error) {
+        toast(error?.message || 'Unable to claim that verification task.', 'error');
+      }
+    }
+
+    async function approveVerificationTask(id) {
+      const task = portalState.verifications.find(item => String(item.id) === String(id));
+      if (!task) return;
+      try {
+        await window.ParichayamFirebase.saveVerificationRequest(id, {
+          status: 'approved',
+          approvedAt: new Date().toISOString(),
+          memberVerificationStatus: task.memberVerificationStatus || {},
+        });
+        await window.ParichayamFirebase.logStaffActivity({
+          memberUid: task.memberUid,
+          memberName: task.memberName || 'Member',
+          type: 'verification_approved',
+          note: `${String(task.type || 'verification').toUpperCase()} approved from the matchmaker portal`,
+        });
+        await refreshMatchmakerPortal();
+        toast('Verification approved.', 'success');
+      } catch (error) {
+        toast(error?.message || 'Unable to approve that verification task.', 'error');
+      }
+    }
+
+    async function rejectVerificationTask(id) {
+      const task = portalState.verifications.find(item => String(item.id) === String(id));
+      if (!task) return;
+      try {
+        await window.ParichayamFirebase.saveVerificationRequest(id, {
+          status: 'rejected',
+          rejectedAt: new Date().toISOString(),
+          memberVerificationStatus: task.memberVerificationStatus || {},
+        });
+        await window.ParichayamFirebase.logStaffActivity({
+          memberUid: task.memberUid,
+          memberName: task.memberName || 'Member',
+          type: 'verification_rejected',
+          note: `${String(task.type || 'verification').toUpperCase()} rejected from the matchmaker portal`,
+        });
+        await refreshMatchmakerPortal();
+        toast('Verification rejected.', 'warning');
+      } catch (error) {
+        toast(error?.message || 'Unable to reject that verification task.', 'error');
+      }
+    }
+
+    async function signOutPortal() {
+      try {
+        await window.ParichayamFirebase?.signOutAndRedirect('/auth');
+      } catch (error) {
+        window.location.href = '/auth';
+      }
+    }
+
+    async function startPortal() {
+      if (!window.ParichayamFirebase?.isConfigured?.()) {
+        showGate('Firebase is not configured for this build yet. Please finish the Firebase setup first.');
+        return;
+      }
+      try {
+        await window.ParichayamFirebase.bootstrapPage('matchmaker');
+        const member = await window.ParichayamFirebase.getCurrentMember();
+        const role = String(member?.role || '').toUpperCase();
+        if (!['ADMIN', 'MATCHMAKER', 'EMPLOYEE'].includes(role)) {
+          showGate('This account does not have matchmaker or staff access. Please sign in with an approved admin, employee, or matchmaker account.');
+          return;
+        }
+        portalState.member = member;
+        showPortal();
+        await refreshMatchmakerPortal();
+      } catch (error) {
+        showGate(error?.message || 'Please sign in to open the matchmaker workspace.');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', startPortal);
+  </script>
+</body>
+</html>

@@ -1,0 +1,1773 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- ============================================================
+     AUTH PAGE — Parichayam Vyshya Matrimony
+     ============================================================
+     PURPOSE: Sign In + Register (2-step only)
+     STEP 1: Account basics (name, mobile, email, password, gender)
+     STEP 2: Choose membership plan
+     STEP 3: Success → redirect to dashboard
+     
+     DETAILS (personal, education, family, jathakam) are filled 
+     INSIDE the dashboard after login — not here.
+     ============================================================ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- SEO META -->
+<title>Sign In or Register — Parichayam Vyshya Matrimony | AP & Telangana</title>
+<meta name="description" content="Join Parichayam — AP's most trusted Vyshya matrimony. Create free profile in 60 seconds. Same-Gotra auto-block, AI biodata, matchmaker-verified profiles.">
+<meta name="keywords" content="Vyshya matrimony login, Arya Vysya marriage register, Telugu matrimony sign up, Vijayawada matrimony, Parichayam login">
+
+<!-- OPEN GRAPH (WhatsApp/Facebook share) -->
+<meta property="og:title" content="Sign In — Parichayam Vyshya Matrimony">
+<meta property="og:description" content="Create your free profile in 60 seconds. Matchmaker-verified, Same-Gotra auto-block, AI biodata upload.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://parichayam.co.in/auth">
+<link rel="canonical" href="https://parichayam.co.in/auth">
+
+<!-- STRUCTURED DATA (Google) -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Sign In — Parichayam","url":"https://parichayam.co.in/auth","isPartOf":{"@type":"WebSite","name":"Parichayam","url":"https://parichayam.co.in"}}
+</script>
+
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Tiro+Telugu&display=swap" rel="stylesheet">
+<style>
+/* ── CSS VARIABLES — Change a color here, entire page updates ── */
+:root{--maroon:#7B1C2E;--deep:#4A0E1A;--deep2:#2A0810;--gold:#C9963A;--gl:#E8C06A;--cream:#FDF6EC;--warm:#F5EAD8;--text:#2C1A10;--muted:#8A6A58;--white:#FFFDF9;--green:#166534;--red:#dc2626;}
+
+/* ── RESET ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden;}
+
+/* ── LEFT PANEL — Brand showcase (hidden on mobile) ── */
+.left{width:45%;background:linear-gradient(155deg,var(--deep2) 0%,var(--deep) 40%,var(--maroon) 100%);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:2.5rem;overflow:hidden;}
+.left::before{content:'';position:absolute;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l5 10h10l-8 6 3 10-10-7-10 7 3-10-8-6h10z' fill='%23C9963A'/%3E%3C/svg%3E");background-size:60px;}
+.left-content{position:relative;z-index:1;}
+.brand{display:flex;align-items:center;gap:.75rem;margin-bottom:3rem;}
+.brand-icon{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gl),var(--gold));display:flex;align-items:center;justify-content:center;font-size:1.4rem;border:2px solid rgba(201,150,58,.4);}
+.brand-name{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gl);}
+.brand-sub{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);display:block;}
+.left-headline{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,3rem);color:white;line-height:1.15;margin-bottom:1rem;}
+.left-headline em{color:var(--gl);font-style:italic;}
+.left-telugu{font-family:'Tiro Telugu',serif;color:rgba(255,255,255,.45);font-size:1rem;margin-bottom:1.8rem;}
+.trust-pills{display:flex;flex-direction:column;gap:.65rem;}
+.trust-pill{display:flex;align-items:center;gap:.75rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.7rem 1rem;}
+.tp-icon{font-size:1.1rem;flex-shrink:0;}
+.tp-text{font-size:.78rem;color:rgba(255,255,255,.7);font-weight:300;line-height:1.4;}
+.tp-text strong{color:white;font-weight:500;}
+.left-stats{position:relative;z-index:1;display:flex;gap:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08);}
+.ls-num{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gl);}
+.ls-lbl{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);}
+
+/* ── RIGHT PANEL — Auth forms ── */
+.right{margin-left:45%;flex:1;display:flex;align-items:center;justify-content:center;padding:2rem;min-height:100vh;}
+.auth-box{width:100%;max-width:460px;}
+.auth-tabs{display:flex;background:var(--warm);border-radius:12px;padding:.25rem;margin-bottom:1.8rem;}
+.at{flex:1;padding:.65rem;border:none;background:transparent;border-radius:10px;font-size:.85rem;font-weight:500;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .22s;text-align:center;}
+.at.active{background:var(--white);color:var(--maroon);box-shadow:0 2px 8px rgba(123,28,46,.1);}
+.auth-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--deep);margin-bottom:.35rem;}
+.auth-sub{font-size:.82rem;color:var(--muted);margin-bottom:1.5rem;font-weight:300;line-height:1.6;}
+
+/* ── FORM ELEMENTS ── */
+.panel{display:none;}.panel.active{display:block;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.f-group{display:flex;flex-direction:column;gap:.28rem;margin-bottom:.85rem;}
+.f-label{font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.f-inp,.f-sel{width:100%;padding:.72rem 1rem;background:var(--cream);color:var(--text);border:1.5px solid rgba(201,150,58,.22);border-radius:10px;font-size:.88rem;outline:none;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.f-inp:focus,.f-sel:focus{border-color:var(--gold);background:var(--white);box-shadow:0 0 0 3px rgba(201,150,58,.1);}
+.f-hint{font-size:.7rem;color:var(--muted);margin-top:.18rem;}
+.method-toggle{display:flex;gap:.5rem;margin-bottom:1.1rem;}
+.mt-btn{flex:1;padding:.55rem;border:1.5px solid rgba(201,150,58,.22);border-radius:8px;background:var(--cream);font-size:.78rem;font-weight:500;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;text-align:center;}
+.mt-btn.active{border-color:var(--maroon);background:rgba(123,28,46,.06);color:var(--maroon);}
+.inp-wrap{position:relative;}
+.inp-wrap .inp-icon{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);font-size:.9rem;pointer-events:none;}
+.inp-wrap .f-inp{padding-left:2.6rem;}
+.inp-wrap .inp-toggle{position:absolute;right:.85rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:.85rem;color:var(--muted);}
+.phone-wrap{display:flex;gap:.5rem;}
+.country-code{padding:.72rem .9rem;background:var(--cream);border:1.5px solid rgba(201,150,58,.22);border-radius:10px;font-size:.88rem;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:.3rem;min-width:80px;}
+.btn-submit{width:100%;padding:.88rem;background:linear-gradient(135deg,var(--deep),var(--maroon));color:white;border:none;border-radius:10px;font-size:.92rem;font-weight:600;font-family:'DM Sans',sans-serif;letter-spacing:.03em;cursor:pointer;transition:all .22s;box-shadow:0 4px 16px rgba(123,28,46,.3);position:relative;overflow:hidden;}
+.btn-submit:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(123,28,46,.4);}
+.btn-submit.loading::after{content:'';position:absolute;right:1.2rem;top:50%;transform:translateY(-50%);width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:translateY(-50%) rotate(360deg);}}
+.terms-row{display:flex;align-items:flex-start;gap:.65rem;margin-bottom:1rem;}
+.terms-cb{width:16px;height:16px;accent-color:var(--maroon);flex-shrink:0;margin-top:.15rem;cursor:pointer;}
+.terms-text{font-size:.76rem;color:var(--muted);line-height:1.55;font-weight:300;}
+.terms-text a{color:var(--maroon);font-weight:500;text-decoration:none;}
+.f-row2{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;}
+.str-bar{height:4px;border-radius:2px;margin-top:.38rem;background:rgba(201,150,58,.12);overflow:hidden;display:none;}
+.str-fill{height:100%;width:0%;border-radius:2px;transition:all .3s;}
+.str-label{font-size:.62rem;margin-top:.15rem;display:none;}
+.resend-link{color:var(--gold);font-weight:600;cursor:pointer;font-size:.78rem;}
+.resend-link:hover{color:var(--maroon);}
+.auth-footer{margin-top:1.5rem;text-align:center;font-size:.78rem;color:var(--muted);}
+.auth-footer a{color:var(--maroon);font-weight:500;cursor:pointer;text-decoration:none;}
+.btn-back{width:100%;padding:.55rem;background:transparent;color:var(--muted);border:1.5px solid rgba(201,150,58,.2);border-radius:10px;font-size:.82rem;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:.45rem;transition:all .2s;}
+.btn-back:hover{border-color:var(--maroon);color:var(--maroon);}
+.plan-cards{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.85rem;}
+.plan-card{border:1.5px solid rgba(201,150,58,.2);border-radius:10px;padding:.85rem;cursor:pointer;transition:all .2s;background:var(--cream);text-align:center;position:relative;}
+.plan-card:hover,.plan-card.sel{border-color:var(--maroon);background:rgba(123,28,46,.04);}
+.plan-card.sel::before{content:'✓';position:absolute;top:6px;right:8px;font-size:.65rem;font-weight:700;color:var(--green);}
+.plan-card.best-val{border-color:var(--green);}
+.plan-card.best-val::after{content:'Best value';position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--green);color:white;font-size:.58rem;font-weight:700;padding:1px 8px;border-radius:10px;white-space:nowrap;}
+.pc-price{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--maroon);}
+.pc-label{font-size:.65rem;color:var(--muted);font-weight:300;}
+.pc-save{font-size:.6rem;color:var(--green);font-weight:600;margin-top:.2rem;}
+.otp-row{display:flex;gap:.65rem;justify-content:center;margin:1rem 0;}
+.otp-inp{width:52px;height:56px;border:1.5px solid rgba(201,150,58,.25);border-radius:10px;background:var(--cream);text-align:center;font-size:1.4rem;font-weight:600;font-family:'Playfair Display',serif;color:var(--maroon);outline:none;transition:all .2s;}
+.otp-inp:focus{border-color:var(--gold);background:var(--white);box-shadow:0 0 0 3px rgba(201,150,58,.1);}
+.otp-inp.filled{border-color:var(--maroon);background:rgba(123,28,46,.04);}
+.countdown{font-size:.78rem;color:var(--muted);text-align:center;margin-top:.75rem;}
+.countdown span{color:var(--maroon);font-weight:600;}
+.success-state{text-align:center;padding:1.5rem 0;}
+.success-icon{font-size:3.5rem;margin-bottom:1rem;}
+.success-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--deep);margin-bottom:.5rem;}
+.success-sub{font-size:.85rem;color:var(--muted);line-height:1.65;font-weight:300;}
+.steps-bar{display:flex;align-items:center;gap:.5rem;margin-bottom:1.5rem;}
+.step-dot{width:8px;height:8px;border-radius:50%;background:rgba(201,150,58,.3);transition:all .3s;}
+.step-dot.active{background:var(--maroon);width:24px;border-radius:4px;}
+.step-dot.done{background:var(--green);}
+.step-label{font-size:.7rem;color:var(--muted);margin-left:.25rem;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){.left{display:none;}.right{margin-left:0;padding:1.5rem;}}
+@media(max-width:480px){.right{padding:1.2rem .9rem;}.auth-box{max-width:100%;}.auth-title{font-size:1.25rem;}.f-row2{grid-template-columns:1fr;}.btn-submit{font-size:.86rem;padding:.82rem;}.phone-wrap{gap:.35rem;}.country-code{padding:.72rem .65rem;font-size:.82rem;}}
+@media(max-width:360px){.right{padding:1rem .7rem;}.plan-cards{grid-template-columns:1fr;}}
+
+/* ── TOAST NOTIFICATIONS ── */
+.toast-wrap{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:.5rem;pointer-events:none;}
+.toast{display:flex;align-items:center;gap:.65rem;padding:.75rem 1.1rem;border-radius:10px;font-size:.82rem;font-family:'DM Sans',sans-serif;max-width:340px;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;pointer-events:auto;box-shadow:0 4px 16px rgba(0,0,0,.15);}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.success{background:#166534;color:#d1fae5;border:1px solid rgba(34,197,94,.3);}
+.toast.error{background:#7f1d1d;color:#fecaca;border:1px solid rgba(239,68,68,.3);}
+.toast.info{background:#1e3a5f;color:#bfdbfe;border:1px solid rgba(59,130,246,.3);}
+</style>
+</head>
+<body>
+
+<!-- LEFT BRANDING PANEL (desktop only) -->
+<aside class="left">
+  <div class="left-content">
+    <div class="brand"><div class="brand-icon">🪷</div><div><div class="brand-name">Parichayam</div><span class="brand-sub">Vyshya Matrimony</span></div></div>
+    <h1 class="left-headline">Find Your <em>Perfect</em><br>Life Partner</h1>
+    <div class="left-telugu">మీ జీవిత సహచరుడిని కనుగొనండి</div>
+    <div class="trust-pills">
+      <div class="trust-pill"><div class="tp-icon">✓</div><div class="tp-text"><strong>Every profile personally verified</strong> by our matchmaker</div></div>
+      <div class="trust-pill"><div class="tp-icon">🌟</div><div class="tp-text"><strong>Same-Gotra auto-block</strong> — Vyshya customs respected</div></div>
+      <div class="trust-pill"><div class="tp-icon">⚡</div><div class="tp-text"><strong>AI biodata auto-fill</strong> — upload PDF, all fields populate</div></div>
+      <div class="trust-pill"><div class="tp-icon">🤝</div><div class="tp-text"><strong>Father's network</strong> — matchmakers across AP & TS</div></div>
+    </div>
+  </div>
+  <div class="left-stats">
+    <div class="ls-item"><div class="ls-num">2,400+</div><div class="ls-lbl">Families</div></div>
+    <div class="ls-item"><div class="ls-num">380+</div><div class="ls-lbl">Marriages</div></div>
+    <div class="ls-item"><div class="ls-num">12+</div><div class="ls-lbl">Cities</div></div>
+  </div>
+</aside>
+
+<!-- RIGHT — AUTH FORMS -->
+<main class="right">
+  <div class="auth-box">
+    <!-- Tab switcher -->
+    <div class="auth-tabs">
+      <button class="at active" onclick="switchTab('login',this)">Sign In</button>
+      <button class="at" onclick="switchTab('register',this)">Create Profile</button>
+    </div>
+
+    <!-- ══ LOGIN PANEL ══ -->
+    <div class="panel active" id="panel-login">
+      <div class="auth-title">Welcome back 🙏</div>
+      <div class="auth-sub">Sign in with your mobile number or email.</div>
+      <div class="method-toggle">
+        <button class="mt-btn active" onclick="setLoginMethod('mobile',this)">📱 Mobile</button>
+        <button class="mt-btn" onclick="setLoginMethod('email',this)">📧 Email</button>
+      </div>
+      <!-- Mobile login -->
+      <div id="login-mobile">
+        <div class="f-group"><label class="f-label">Mobile Number</label><div class="phone-wrap"><div class="country-code">🇮🇳 +91</div><input class="f-inp" id="login-phone" type="tel" maxlength="10" placeholder="98XXX XXXXX" oninput="this.value=this.value.replace(/\D/g,'')"></div></div>
+        <div class="method-toggle" id="login-mobile-auth-switch" style="display:none;margin-bottom:.85rem">
+          <button class="mt-btn active" type="button" id="login-mobile-mode-password" onclick="setMobileLoginAuthMode('password',this)">🔒 Password</button>
+          <button class="mt-btn" type="button" id="login-mobile-mode-otp" onclick="setMobileLoginAuthMode('otp',this)">🔐 OTP</button>
+        </div>
+        <div id="login-mobile-password-box">
+          <div class="f-group"><label class="f-label">Password</label><div class="inp-wrap"><span class="inp-icon">🔒</span><input class="f-inp" id="login-mobile-pass" type="password" placeholder="Your password" onkeydown="if(event.key==='Enter')doLogin()"><button class="inp-toggle" type="button" onclick="togglePass('login-mobile-pass',this)">👁</button></div></div>
+          <div style="text-align:right;margin-bottom:.85rem"><span class="resend-link" onclick="showForgotPassword()">Forgot password?</span></div>
+          <button class="btn-submit" type="button" onclick="doLogin()">Sign In →</button>
+        </div>
+        <div id="login-mobile-otp-box" style="display:none">
+          <div class="f-group"><label class="f-label">One-Time Password</label><div class="inp-wrap"><span class="inp-icon">🔐</span><input class="f-inp" id="login-mobile-otp" type="text" maxlength="6" placeholder="Enter 6-digit OTP" oninput="this.value=this.value.replace(/\D/g,'')" onkeydown="if(event.key==='Enter')doLogin()"></div></div>
+          <div class="f-group" style="margin-top:-.15rem">
+            <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+              <button class="btn-back" type="button" id="login-mobile-send-otp" onclick="startMobileOtpLogin()">Send OTP</button>
+              <button class="btn-back" type="button" id="login-mobile-resend-otp" onclick="retryMobileOtpLogin()" style="display:none">Resend OTP</button>
+            </div>
+            <span class="f-hint" id="login-mobile-otp-hint" style="display:block;margin-top:.55rem">Use secure OTP login for your mobile number.</span>
+          </div>
+          <button class="btn-submit" type="button" onclick="doLogin()">Verify OTP & Sign In →</button>
+        </div>
+      </div>
+      <!-- Email login -->
+      <div id="login-email" style="display:none">
+        <div class="f-group"><label class="f-label">Email</label><div class="inp-wrap"><span class="inp-icon">✉</span><input class="f-inp" id="login-email-inp" type="email" placeholder="your@email.com"></div></div>
+        <div class="f-group"><label class="f-label">Password</label><div class="inp-wrap"><span class="inp-icon">🔒</span><input class="f-inp" id="login-pass" type="password" placeholder="Your password" onkeydown="if(event.key==='Enter')doLogin()"><button class="inp-toggle" onclick="togglePass('login-pass',this)">👁</button></div></div>
+        <div style="text-align:right;margin-bottom:.85rem"><span class="resend-link" onclick="showForgotPassword()">Forgot password?</span></div>
+        <button class="btn-submit" type="button" onclick="doLogin()">Sign In →</button>
+      </div>
+      <div class="auth-footer">Don't have an account? <a onclick="switchTab('register',null)">Create Your Profile →</a></div>
+    </div>
+
+    <!-- ══ FORGOT PASSWORD ══ -->
+    <div class="panel" id="panel-forgot">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem"><button onclick="showPanel('login')" style="font-size:1.1rem;background:none;border:none;cursor:pointer;color:var(--muted)">←</button><div class="auth-title" style="margin:0">Reset Password</div></div>
+      <div class="auth-sub">Enter your registered mobile number or email. We will send a secure reset link to the email linked to your account.</div>
+      <div id="forgot-step1">
+        <div class="f-group"><label class="f-label">Mobile Number or Email</label><div class="inp-wrap"><span class="inp-icon">✉</span><input class="f-inp" id="forgot-identifier" type="text" placeholder="98XXX XXXXX or your@email.com"></div><span class="f-hint">We will send a secure password reset link to the email linked to this account.</span></div>
+        <button class="btn-submit" type="button" onclick="sendForgotOTP()">Send Reset Link →</button>
+      </div>
+      <div id="forgot-step2" style="display:none">
+        <div style="text-align:center;margin-bottom:.85rem">
+          <div style="font-size:.92rem;color:var(--text);font-weight:600">Reset link sent</div>
+          <div style="font-size:.85rem;color:var(--muted);margin-top:.35rem">We sent a secure password reset link to <strong id="forgot-sent-to">your registered email</strong>.</div>
+        </div>
+        <div class="f-group" style="margin-bottom:.9rem">
+          <span class="f-hint" style="display:block">Open the email, use the link, set your new password, then come back here and sign in.</span>
+        </div>
+        <button class="btn-submit" type="button" onclick="showPanel('login')">Back to Sign In →</button>
+        <div class="countdown">Need another email? <span id="countdown-forgot">30</span>s · <span class="resend-link" id="resend-forgot" style="display:none" onclick="sendForgotOTP()">Send Again</span></div>
+      </div>
+      <div id="forgot-step3" style="display:none"></div>
+    </div>
+    <!-- ══ REGISTER — 2 STEPS ONLY ══ -->
+    <div class="panel" id="panel-register">
+      <!-- Step 1: Account -->
+      <div id="reg-step1">
+        <div class="steps-bar"><div class="step-dot active"></div><div class="step-dot"></div><span class="step-label">Step 1 of 2 — Account</span></div>
+        <div class="auth-title">Create Your Profile</div>
+        <div class="auth-sub">Just the basics — complete your full profile in the dashboard after signup.</div>
+        <div class="f-group"><label class="f-label">Profile Is For *</label><select class="f-sel" id="reg-for"><option value="">Select</option><option value="bride">Myself — Bride</option><option value="groom">Myself — Bridegroom</option><option value="daughter">Daughter</option><option value="son">Son</option><option value="sister">Sister</option><option value="brother">Brother</option></select></div>
+        <div id="third-party-notice" style="display:none;background:rgba(201,150,58,.08);border:1px solid rgba(201,150,58,.22);border-radius:10px;padding:.85rem;margin-bottom:.85rem;font-size:.78rem;color:var(--muted);line-height:1.65">📋 <strong style="color:var(--text)">Creating on behalf of someone else?</strong> Make sure you have their consent.</div>
+        <div class="f-group"><label class="f-label">Full Name *</label><input class="f-inp" id="reg-name" placeholder="Full name as on Aadhaar" maxlength="200"></div>
+        <div class="f-group"><label class="f-label">WhatsApp / Mobile *</label><div class="phone-wrap"><div class="country-code">🇮🇳 +91</div><input class="f-inp" id="reg-phone" type="tel" maxlength="10" placeholder="98XXX XXXXX" oninput="this.value=this.value.replace(/\D/g,'')"></div><span class="f-hint">Used for login, OTP, and WhatsApp alerts</span></div>
+        <div class="f-group" id="signup-msg91-block" style="display:none;background:rgba(123,28,46,.04);border:1px solid rgba(123,28,46,.12);border-radius:12px;padding:.9rem;margin-bottom:.9rem">
+          <label class="f-label" style="margin-bottom:.3rem">Mobile OTP Verification</label>
+          <div style="font-size:.74rem;color:var(--muted);line-height:1.65;margin-bottom:.75rem" id="signup-msg91-copy">Verify this mobile number with MSG91 before you continue to plan selection.</div>
+          <div class="f-row2">
+            <div class="inp-wrap"><span class="inp-icon">🔐</span><input class="f-inp" id="signup-msg91-otp" type="text" maxlength="6" placeholder="Enter OTP" oninput="this.value=this.value.replace(/\D/g,'')"></div>
+            <button class="btn-back" type="button" id="signup-msg91-send" onclick="startSignupPhoneVerification()">Send OTP</button>
+          </div>
+          <div style="display:flex;gap:.6rem;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:.8rem">
+            <button class="btn-back" type="button" id="signup-msg91-resend" onclick="retrySignupPhoneVerification()" style="display:none">Resend OTP</button>
+            <button class="btn-submit" type="button" id="signup-msg91-verify" onclick="verifySignupPhoneOtp()" style="margin:0;flex:1;min-width:180px">Verify Mobile →</button>
+          </div>
+          <span class="f-hint" id="signup-msg91-status" style="display:block;margin-top:.65rem">Required before account creation.</span>
+        </div>
+        <div class="f-group"><label class="f-label">Email *</label><div class="inp-wrap"><span class="inp-icon">✉</span><input class="f-inp" id="reg-email" type="email" placeholder="your@email.com"></div></div>
+        <div class="f-group"><label class="f-label">Agent Ref ID</label><input class="f-inp" id="reg-agent-ref" placeholder="Optional - e.g. PARI-GUNT-6655" oninput="handleAgentRefInput()"><span class="f-hint" id="agent-ref-hint">If an agent referred your family, enter their code or open their shared signup link.</span></div>
+        <div class="f-row2">
+          <div class="f-group"><label class="f-label">Password *</label><div class="inp-wrap"><span class="inp-icon">🔒</span><input class="f-inp" id="reg-pass" type="password" placeholder="Min 8 chars" oninput="checkPassStrength(this.value)"><button class="inp-toggle" type="button" onclick="togglePass('reg-pass',this)">👁</button></div><div class="str-bar" id="pass-strength-bar"><div class="str-fill" id="pass-strength-fill"></div></div><div class="str-label" id="pass-strength-label"></div></div>
+          <div class="f-group"><label class="f-label">Confirm *</label><div class="inp-wrap"><span class="inp-icon">🔒</span><input class="f-inp" id="reg-confirm-pass" type="password" placeholder="Repeat"><button class="inp-toggle" type="button" onclick="togglePass('reg-confirm-pass',this)">👁</button></div></div>
+        </div>
+        <div class="terms-row"><input type="checkbox" class="terms-cb" id="terms-cb"><label for="terms-cb" class="terms-text">I agree to Parichayam's <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</label></div>
+        <button class="btn-submit" id="btn-register-step1" type="button" onclick="regStep1Next()">Continue →</button>
+        <div class="auth-footer">Already have an account? <a onclick="switchTab('login',null)">Sign In</a></div>
+      </div>
+
+      <!-- Step 2: Choose Plan -->
+      <div id="reg-step2" style="display:none">
+        <div class="steps-bar"><div class="step-dot done"></div><div class="step-dot active"></div><span class="step-label">Step 2 of 2 — Choose Plan</span></div>
+        <div class="auth-title" id="trial-title">Your 30-Day <em style="font-style:italic;color:var(--maroon)">Free Trial</em></div>
+        <div class="auth-sub" id="trial-sub">Start free — full access for 30 days.</div>
+        <div style="background:linear-gradient(135deg,var(--deep),var(--maroon));border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem"><div style="display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:.3rem">✦ Free Trial</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:white" id="trial-heading">30 Days · Full Access</div><div style="font-size:.72rem;color:rgba(255,255,255,.55);font-weight:300;margin-top:.15rem" id="trial-meta">30 connects/month · All features</div></div><div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gl)">₹0</div></div></div>
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.65rem;font-weight:300">After trial, choose a plan (optional):</div>
+        <div class="plan-cards">
+          <div class="plan-card" onclick="selPlan(this,'1mo')"><div class="pc-price">₹199</div><div class="pc-label">1 Month</div></div>
+          <div class="plan-card" onclick="selPlan(this,'3mo')"><div class="pc-price">₹449</div><div class="pc-label">3 Months</div><div class="pc-save">Save 25%</div></div>
+          <div class="plan-card best-val" onclick="selPlan(this,'6mo')"><div class="pc-price">₹550</div><div class="pc-label">6 Months</div><div class="pc-save">Save 54%</div></div>
+          <div class="plan-card" onclick="selPlan(this,'annual')"><div class="pc-price">₹1,000</div><div class="pc-label">Annual</div><div class="pc-save">Save 58%</div></div>
+        </div>
+        <button class="btn-submit" id="btn-plan-next" type="button" onclick="regStep2Next()">Start Free Trial →</button>
+        <div style="text-align:center;font-size:.7rem;color:var(--muted);margin-top:.5rem">No credit card · Upgrade anytime</div>
+        <button class="btn-back" type="button" onclick="showRegStep(1)">← Back</button>
+      </div>
+
+      <!-- Step 3: Success -->
+      <div id="reg-step3" style="display:none">
+        <div class="success-state">
+          <div class="success-icon">🪷</div>
+          <div class="success-title">Welcome to Parichayam!</div>
+          <div class="success-sub" style="margin:0 auto;max-width:340px">Account created! Now go to your dashboard to <strong>complete your profile</strong> — photos, Jathakam, education, and family info.<br><br>Matchmaker will review within <strong>24 hours</strong>.</div>
+          <button class="btn-submit" type="button" style="margin-top:1.5rem" onclick="window.location.href='dashboard.html'">Go to My Dashboard →</button>
+          <div style="font-size:.76rem;color:var(--muted);margin-top:1rem">Complete profile = 8× more responses</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-storage-compat.js"></script>
+<script src="parichayam-firebase-config.js"></script>
+<script src="parichayam-firebase.js"></script>
+<script>
+/* ── STATE ── */
+let loginMethod = 'mobile';
+let selectedPlan = null;
+let mobileLoginAuthMode = 'password';
+let forgotPasswordState = { identifier:'', resetToken:'', maskedEmail:'' };
+const DEFAULT_PLAN_PRICES = { '1mo': 199, '3mo': 449, '6mo': 550, 'annual': 1000 };
+const PLAN_LABELS = { '1mo': '1 Month', '3mo': '3 Months', '6mo': '6 Months', 'annual': 'Annual' };
+const AUTH_TOKEN_KEY = 'parichayam_auth_token';
+const REGISTRATION_DRAFT_KEY = 'parichayam_registration_draft';
+const AGENT_DIRECTORY_KEY = 'parichayam_agent_directory';
+const DEFAULT_AGENT_REF_HINT = 'If an agent referred your family, enter their code or open their shared signup link.';
+const DEFAULT_API_BASE_URL = window.location.protocol === 'file:' ? 'http://localhost:4000/api' : '/api';
+const MSG91_SDK_SRC = 'https://verify.msg91.com/otp-provider.js';
+const DEFAULT_TRIAL_SETTINGS = {
+  durationDays: 30,
+  trialConnects: 30,
+  freeConnects: 5,
+  freeDailyInterests: 5,
+  freeMonthlyInterests: 30,
+};
+const DEFAULT_AUTH_SETTINGS = {
+  enabled: false,
+  mode: 'firebase-password',
+  requireSignupOtp: false,
+  allowPasswordFallback: true,
+  widgetId: '',
+  authToken: '',
+  countryCode: '91',
+  verifyEndpoint: 'https://us-central1-parichayam-9ee09.cloudfunctions.net/msg91VerifyAccessToken',
+  brandLabel: 'Parichayam',
+};
+let authSettingsCache = null;
+let msg91Runtime = {
+  sdkReady: false,
+  initSignature: '',
+  login: { phone: '', requestId: '', accessToken: '' },
+  signup: { phone: '', requestId: '', accessToken: '', verified: false, verifiedAt: '' },
+};
+
+function getApiBaseUrl() {
+  const saved = localStorage.getItem('parichayam_api_base_url');
+  const configured = window.PARICHAYAM_API_BASE_URL || saved || DEFAULT_API_BASE_URL;
+  return String(configured || '').replace(/\/+$/, '');
+}
+
+function isLocalDemoMode() {
+  const host = String(window.location.hostname || '').toLowerCase();
+  return window.location.protocol === 'file:' || host === 'localhost' || host === '127.0.0.1';
+}
+
+function canUseBackendAuth() {
+  return !!getApiBaseUrl();
+}
+
+function persistAuthSession(member, token) {
+  if (token) sessionStorage.setItem(AUTH_TOKEN_KEY, token);
+  if (member) {
+    window.USER_SESSION = member;
+    sessionStorage.setItem('parichayam_member_session', JSON.stringify(member));
+  }
+}
+
+function saveRegistrationDraft(member) {
+  try {
+    sessionStorage.setItem(REGISTRATION_DRAFT_KEY, JSON.stringify(member || {}));
+    localStorage.setItem(REGISTRATION_DRAFT_KEY, JSON.stringify(member || {}));
+  } catch (error) {
+    console.warn('Unable to save registration draft:', error);
+  }
+}
+
+function getRegistrationDraft() {
+  try {
+    return JSON.parse(sessionStorage.getItem(REGISTRATION_DRAFT_KEY) || localStorage.getItem(REGISTRATION_DRAFT_KEY) || 'null');
+  } catch (error) {
+    return null;
+  }
+}
+
+function normalizeAgentRefId(value) {
+  return String(value || '')
+    .toUpperCase()
+    .replace(/[^A-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-{2,}/g, '-');
+}
+
+function getAgentDirectory() {
+  try {
+    const raw = JSON.parse(sessionStorage.getItem(AGENT_DIRECTORY_KEY) || localStorage.getItem(AGENT_DIRECTORY_KEY) || '[]') || [];
+    return Array.isArray(raw)
+      ? raw
+          .map(agent => ({
+            refId: normalizeAgentRefId(agent?.refId || agent?.agentRefId || ''),
+            name: String(agent?.name || '').trim(),
+            city: String(agent?.city || '').trim(),
+            tier: String(agent?.tier || '').trim(),
+            mobile: String(agent?.mobile || '').replace(/\D/g, '').slice(-10),
+            active: agent?.active !== false && String(agent?.status || 'active').toLowerCase() !== 'revoked',
+          }))
+          .filter(agent => agent.refId)
+      : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function findAgentByRefId(refId) {
+  const normalized = normalizeAgentRefId(refId);
+  if (!normalized) return null;
+  return getAgentDirectory().find(agent => agent.refId === normalized && agent.active !== false) || null;
+}
+
+async function syncAgentDirectory() {
+  if (!window.ParichayamFirebase?.getAgentDirectory) return getAgentDirectory();
+  try {
+    const directory = await window.ParichayamFirebase.getAgentDirectory();
+    sessionStorage.setItem(AGENT_DIRECTORY_KEY, JSON.stringify(directory || []));
+    return getAgentDirectory();
+  } catch (error) {
+    console.warn('Unable to refresh agent directory:', error?.message || error);
+    return getAgentDirectory();
+  }
+}
+
+function handleAgentRefInput() {
+  const input = document.getElementById('reg-agent-ref');
+  const hint = document.getElementById('agent-ref-hint');
+  if (!input || !hint) return;
+
+  const refId = normalizeAgentRefId(input.value);
+  input.value = refId;
+
+  if (!refId) {
+    hint.textContent = DEFAULT_AGENT_REF_HINT;
+    hint.style.color = '';
+    return;
+  }
+
+  const match = findAgentByRefId(refId);
+  if (match) {
+    hint.textContent = `Referral linked to ${match.name}${match.city ? ' · ' + match.city : ''}${match.tier ? ' · ' + match.tier : ''}`;
+    hint.style.color = 'var(--green)';
+    return;
+  }
+
+  if (getAgentDirectory().length) {
+    hint.textContent = 'No active agent found for this code. Please recheck it or clear the field.';
+    hint.style.color = 'var(--red)';
+    return;
+  }
+
+  hint.textContent = 'We will verify this code after signup if the agent directory is not loaded yet.';
+  hint.style.color = '';
+}
+
+function applyPrefilledAgentRef() {
+  const params = new URLSearchParams(window.location.search || '');
+  const refId = normalizeAgentRefId(params.get('ref') || params.get('agentRefId') || '');
+  const input = document.getElementById('reg-agent-ref');
+  if (!input || !refId) return;
+  input.value = refId;
+  switchTab('register', null);
+  showRegStep(1);
+  handleAgentRefInput();
+}
+
+function showToast(message, type = 'info') {
+  const wrap = document.getElementById('toastWrap');
+  if (!wrap) {
+    alert(message);
+    return;
+  }
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + (type || 'info');
+  toast.textContent = String(message || 'Something happened.');
+  wrap.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  window.setTimeout(() => {
+    toast.classList.remove('show');
+    window.setTimeout(() => toast.remove(), 250);
+  }, 3200);
+}
+
+function normalizeAuthError(error, fallback) {
+  const code = String(error?.code || error?.message || '').toLowerCase();
+  if (code.includes('auth/configuration-not-found') || code.includes('configuration_not_found')) {
+    return 'Firebase Email/Password sign-in is not active for this project yet. Enable Email/Password in Firebase Authentication and save once.';
+  }
+  if (code.includes('auth/operation-not-allowed')) {
+    return 'Email/Password sign-in is disabled in Firebase Authentication. Please enable it in Sign-in method.';
+  }
+  if (code.includes('auth/email-already-in-use')) {
+    return 'This email is already registered. Please sign in instead.';
+  }
+  if (code.includes('auth/invalid-email')) {
+    return 'Enter a valid email address.';
+  }
+  if (code.includes('auth/weak-password')) {
+    return 'Password is too weak. Use at least 8 characters.';
+  }
+  if (code.includes('auth/network-request-failed')) {
+    return 'Network issue. Please check your connection and try again.';
+  }
+  return error?.message || fallback || 'Request failed.';
+}
+
+function syncTrialSettingsCache(settings) {
+  if (!settings) return;
+  localStorage.setItem('parichayam_trial_settings', JSON.stringify({
+    durationDays: settings.durationDays,
+    trialConnects: settings.trialConnects,
+    freeConnects: settings.freeConnects,
+    freeDailyInterests: settings.freeDailyInterests,
+    freeMonthlyInterests: settings.freeMonthlyInterests,
+  }));
+  updateTrialCopy();
+}
+
+function normalizeAuthSettings(raw) {
+  const configFallback = window.PARICHAYAM_MSG91_OPTIONS || {};
+  const saved = raw || {};
+  const mode = String(saved.mode || configFallback.mode || DEFAULT_AUTH_SETTINGS.mode).trim().toLowerCase();
+  const allowedModes = ['firebase-password', 'msg91-hybrid', 'msg91-mobile-first'];
+  return {
+    ...DEFAULT_AUTH_SETTINGS,
+    ...configFallback,
+    ...saved,
+    enabled: saved.enabled === true || configFallback.enabled === true,
+    mode: allowedModes.includes(mode) ? mode : DEFAULT_AUTH_SETTINGS.mode,
+    requireSignupOtp: saved.requireSignupOtp === true || configFallback.requireSignupOtp === true,
+    allowPasswordFallback: saved.allowPasswordFallback !== false && configFallback.allowPasswordFallback !== false,
+    widgetId: String(saved.widgetId || configFallback.widgetId || '').trim(),
+    authToken: String(saved.authToken || configFallback.authToken || '').trim(),
+    countryCode: String(saved.countryCode || configFallback.countryCode || DEFAULT_AUTH_SETTINGS.countryCode).replace(/[^\d]/g, '').slice(0, 4) || DEFAULT_AUTH_SETTINGS.countryCode,
+    verifyEndpoint: String(saved.verifyEndpoint || configFallback.verifyEndpoint || '').trim(),
+    brandLabel: String(saved.brandLabel || configFallback.brandLabel || DEFAULT_AUTH_SETTINGS.brandLabel).trim() || DEFAULT_AUTH_SETTINGS.brandLabel,
+  };
+}
+
+function storeAuthSettings(settings) {
+  const normalized = normalizeAuthSettings(settings);
+  authSettingsCache = normalized;
+  try {
+    const encoded = JSON.stringify(normalized);
+    localStorage.setItem('parichayam_auth_settings', encoded);
+    sessionStorage.setItem('parichayam_auth_settings', encoded);
+  } catch (error) {}
+  return normalized;
+}
+
+function getAuthSettings() {
+  if (authSettingsCache) return authSettingsCache;
+  try {
+    return storeAuthSettings(JSON.parse(sessionStorage.getItem('parichayam_auth_settings') || localStorage.getItem('parichayam_auth_settings') || '{}') || {});
+  } catch (error) {
+    return storeAuthSettings({});
+  }
+}
+
+async function syncAuthSettings() {
+  if (window.ParichayamFirebase?.getStateValue) {
+    try {
+      const remote = await window.ParichayamFirebase.getStateValue('parichayam_auth_settings', getAuthSettings());
+      return storeAuthSettings(remote);
+    } catch (error) {
+      console.warn('Unable to refresh MSG91 auth settings:', error?.message || error);
+    }
+  }
+  return getAuthSettings();
+}
+
+function setInlineStatus(id, message, type = 'info') {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = String(message || '');
+  const colors = {
+    success: 'var(--green)',
+    error: 'var(--red)',
+    warn: 'var(--gold)',
+    info: 'var(--muted)',
+  };
+  el.style.color = colors[type] || colors.info;
+}
+
+function clearMsg91Flow(flow) {
+  if (!msg91Runtime[flow]) return;
+  msg91Runtime[flow] = {
+    phone: '',
+    requestId: '',
+    accessToken: '',
+    verified: flow === 'signup' ? false : undefined,
+    verifiedAt: flow === 'signup' ? '' : undefined,
+  };
+}
+
+function getEffectiveMobileLoginMode() {
+  const settings = getAuthSettings();
+  const otpAvailable = settings.enabled && settings.mode !== 'firebase-password' && settings.widgetId && settings.authToken;
+  if (!otpAvailable) return 'password';
+  if (settings.allowPasswordFallback === false) return 'otp';
+  return mobileLoginAuthMode === 'otp'
+    ? 'otp'
+    : (settings.mode === 'msg91-mobile-first' ? 'otp' : 'password');
+}
+
+function formatMsg91Identifier(phone) {
+  const settings = getAuthSettings();
+  return String(settings.countryCode || '91') + String(phone || '').replace(/\D/g, '').slice(-10);
+}
+
+function extractMsg91RequestId(payload) {
+  const candidates = [
+    payload?.requestId,
+    payload?.reqId,
+    payload?.request_id,
+    payload?.data?.requestId,
+    payload?.data?.reqId,
+    payload?.data?.request_id,
+  ];
+  return String(candidates.find(Boolean) || '').trim();
+}
+
+function extractMsg91AccessToken(payload) {
+  const candidates = [
+    payload?.accessToken,
+    payload?.token,
+    payload?.jwt,
+    payload?.authToken,
+    payload?.data?.accessToken,
+    payload?.data?.token,
+    payload?.data?.jwt,
+    payload?.data?.authToken,
+  ];
+  return String(candidates.find(Boolean) || '').trim();
+}
+
+function buildMsg91Configuration() {
+  const settings = getAuthSettings();
+  return {
+    widgetId: settings.widgetId,
+    tokenAuth: settings.authToken,
+    authToken: settings.authToken,
+    exposeMethods: true,
+    success: (data) => {
+      const token = extractMsg91AccessToken(data);
+      if (token) {
+        msg91Runtime.login.accessToken = token;
+      }
+    },
+    failure: (error) => {
+      console.warn('MSG91 widget failure:', error?.message || error);
+    },
+  };
+}
+
+function loadMsg91Sdk() {
+  return new Promise((resolve, reject) => {
+    if (typeof window.initSendOTP === 'function') {
+      resolve();
+      return;
+    }
+    const existing = document.querySelector('script[data-msg91-sdk="true"]');
+    if (existing) {
+      if (existing.dataset.ready === 'true') {
+        resolve();
+        return;
+      }
+      if (existing.dataset.failed === 'true') {
+        reject(new Error('Unable to load MSG91 OTP widget.'));
+        return;
+      }
+      existing.addEventListener('load', () => resolve(), { once: true });
+      existing.addEventListener('error', () => reject(new Error('Unable to load MSG91 OTP widget.')), { once: true });
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = MSG91_SDK_SRC;
+    script.async = true;
+    script.dataset.msg91Sdk = 'true';
+    script.onload = () => {
+      script.dataset.ready = 'true';
+      resolve();
+    };
+    script.onerror = () => {
+      script.dataset.failed = 'true';
+      reject(new Error('Unable to load MSG91 OTP widget.'));
+    };
+    document.head.appendChild(script);
+  });
+}
+
+async function ensureMsg91Ready() {
+  const settings = getAuthSettings();
+  if (!(settings.enabled && settings.widgetId && settings.authToken)) {
+    throw new Error('MSG91 OTP is not fully configured yet. Ask admin to save the widget details first.');
+  }
+  await loadMsg91Sdk();
+  if (typeof window.initSendOTP !== 'function') {
+    throw new Error('MSG91 OTP widget did not initialize correctly.');
+  }
+  const signature = [settings.widgetId, settings.authToken, settings.countryCode].join('|');
+  if (!msg91Runtime.sdkReady || msg91Runtime.initSignature !== signature || typeof window.sendOtp !== 'function' || typeof window.verifyOtp !== 'function') {
+    window.initSendOTP(buildMsg91Configuration());
+    msg91Runtime.sdkReady = true;
+    msg91Runtime.initSignature = signature;
+  }
+  if (typeof window.sendOtp !== 'function' || typeof window.verifyOtp !== 'function') {
+    throw new Error('MSG91 custom UI methods are unavailable. Enable Custom UI / exposeMethods in the widget.');
+  }
+}
+
+async function sendMsg91Otp(flow, phone) {
+  await ensureMsg91Ready();
+  const payload = await new Promise((resolve, reject) => {
+    try {
+      window.sendOtp(
+        formatMsg91Identifier(phone),
+        (data) => resolve(data || {}),
+        (error) => reject(new Error(error?.message || error?.error || 'Unable to send OTP.'))
+      );
+    } catch (error) {
+      reject(error);
+    }
+  });
+  msg91Runtime[flow].phone = phone;
+  msg91Runtime[flow].requestId = extractMsg91RequestId(payload);
+  msg91Runtime[flow].accessToken = '';
+  return payload;
+}
+
+async function retryMsg91Otp(flow) {
+  await ensureMsg91Ready();
+  if (typeof window.retryOtp !== 'function') {
+    throw new Error('MSG91 resend OTP is not enabled for this widget configuration.');
+  }
+  const requestId = String(msg91Runtime[flow]?.requestId || '').trim();
+  if (!requestId) throw new Error('Send the OTP first.');
+  const payload = await new Promise((resolve, reject) => {
+    try {
+      window.retryOtp(
+        null,
+        (data) => resolve(data || {}),
+        (error) => reject(new Error(error?.message || error?.error || 'Unable to resend OTP.')),
+        requestId
+      );
+    } catch (error) {
+      reject(error);
+    }
+  });
+  msg91Runtime[flow].requestId = extractMsg91RequestId(payload) || requestId;
+  return payload;
+}
+
+async function verifyMsg91Otp(flow, otp) {
+  await ensureMsg91Ready();
+  const requestId = String(msg91Runtime[flow]?.requestId || '').trim();
+  if (!requestId) throw new Error('Send the OTP first.');
+  const payload = await new Promise((resolve, reject) => {
+    try {
+      window.verifyOtp(
+        String(otp || '').trim(),
+        (data) => resolve(data || {}),
+        (error) => reject(new Error(error?.message || error?.error || 'Unable to verify OTP.')),
+        requestId
+      );
+    } catch (error) {
+      reject(error);
+    }
+  });
+  const accessToken = extractMsg91AccessToken(payload);
+  if (!accessToken) {
+    throw new Error('MSG91 did not return an access token. Check the widget configuration.');
+  }
+  msg91Runtime[flow].accessToken = accessToken;
+  return { payload, accessToken };
+}
+
+async function verifyMsg91TokenWithServer(body) {
+  const settings = getAuthSettings();
+  const endpoint = String(settings.verifyEndpoint || '').trim();
+  if (!endpoint) {
+    throw new Error('MSG91 verify endpoint is missing. Save the Firebase Function URL in admin settings first.');
+  }
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body || {}),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.message || 'Unable to validate the OTP securely.');
+  }
+  return data;
+}
+
+async function directFirebaseCustomTokenLogin(customToken) {
+  if (window.ParichayamFirebase?.signInWithCustomToken) {
+    return window.ParichayamFirebase.signInWithCustomToken(customToken);
+  }
+  const ctx = getFirebaseContext();
+  if (!ctx) throw new Error('Firebase is not configured on this page.');
+  const credential = await firebaseOperationTimeout(
+    ctx.auth.signInWithCustomToken(customToken),
+    10000,
+    'Secure sign-in is taking too long. Please try again.'
+  );
+  const memberDoc = await firebaseOperationTimeout(
+    ctx.db.collection('members').doc(credential.user.uid).get(),
+    10000,
+    'Unable to load your profile right now.'
+  );
+  return {
+    member: {
+      id: credential.user.uid,
+      uid: credential.user.uid,
+      email: credential.user.email || '',
+      ...(memberDoc.exists ? (memberDoc.data() || {}) : {}),
+    },
+    token: 'firebase:' + credential.user.uid,
+  };
+}
+
+function updateMobileAuthModeUI() {
+  const settings = getAuthSettings();
+  const otpAvailable = settings.enabled && settings.mode !== 'firebase-password' && !!settings.widgetId && !!settings.authToken;
+  const allowPassword = !otpAvailable || settings.allowPasswordFallback !== false;
+  const switcher = document.getElementById('login-mobile-auth-switch');
+  const passwordBtn = document.getElementById('login-mobile-mode-password');
+  const otpBtn = document.getElementById('login-mobile-mode-otp');
+  const passwordBox = document.getElementById('login-mobile-password-box');
+  const otpBox = document.getElementById('login-mobile-otp-box');
+  const signupBox = document.getElementById('signup-msg91-block');
+  const signupCopy = document.getElementById('signup-msg91-copy');
+  const signupStatus = document.getElementById('signup-msg91-status');
+
+  if (!otpAvailable) mobileLoginAuthMode = 'password';
+  if (otpAvailable && !allowPassword) mobileLoginAuthMode = 'otp';
+  if (otpAvailable && settings.mode === 'msg91-mobile-first' && mobileLoginAuthMode !== 'otp') mobileLoginAuthMode = 'otp';
+
+  if (switcher) switcher.style.display = otpAvailable ? 'flex' : 'none';
+  if (passwordBtn) {
+    passwordBtn.style.display = allowPassword ? '' : 'none';
+    passwordBtn.classList.toggle('active', getEffectiveMobileLoginMode() === 'password');
+  }
+  if (otpBtn) otpBtn.classList.toggle('active', getEffectiveMobileLoginMode() === 'otp');
+  if (passwordBox) passwordBox.style.display = getEffectiveMobileLoginMode() === 'password' ? 'block' : 'none';
+  if (otpBox) otpBox.style.display = getEffectiveMobileLoginMode() === 'otp' ? 'block' : 'none';
+
+  if (signupBox) signupBox.style.display = settings.enabled && settings.mode !== 'firebase-password' ? 'block' : 'none';
+  if (signupCopy) {
+    signupCopy.textContent = settings.requireSignupOtp
+      ? `Verify this mobile number with ${settings.brandLabel} OTP before you continue to plan selection.`
+      : `OTP verification via ${settings.brandLabel} is available now. We recommend verifying the phone before signup.`;
+  }
+  if (signupStatus && !(msg91Runtime.signup.verified && msg91Runtime.signup.phone)) {
+    setInlineStatus('signup-msg91-status', settings.requireSignupOtp ? 'Required before account creation.' : 'Optional, but recommended for trusted onboarding.', settings.requireSignupOtp ? 'warn' : 'info');
+  }
+  setInlineStatus('login-mobile-otp-hint', otpAvailable
+    ? `We will verify the OTP with ${settings.brandLabel} and then sign you in securely.`
+    : 'Use your mobile password to sign in.');
+}
+
+function setMobileLoginAuthMode(mode, el) {
+  mobileLoginAuthMode = mode === 'otp' ? 'otp' : 'password';
+  document.querySelectorAll('#login-mobile-auth-switch .mt-btn').forEach((btn) => btn.classList.remove('active'));
+  if (el) el.classList.add('active');
+  updateMobileAuthModeUI();
+}
+
+function resetSignupVerificationIfPhoneChanged() {
+  const phone = String(document.getElementById('reg-phone')?.value || '').replace(/\D/g, '').slice(-10);
+  if (msg91Runtime.signup.phone && msg91Runtime.signup.phone !== phone) {
+    clearMsg91Flow('signup');
+    setInlineStatus('signup-msg91-status', 'Phone number changed. Please verify this number again.', 'warn');
+  }
+}
+
+function resetLoginOtpIfPhoneChanged() {
+  const phone = String(document.getElementById('login-phone')?.value || '').replace(/\D/g, '').slice(-10);
+  if (msg91Runtime.login.phone && msg91Runtime.login.phone !== phone) {
+    clearMsg91Flow('login');
+    setInlineStatus('login-mobile-otp-hint', 'Phone number changed. Send a fresh OTP for this number.', 'warn');
+    const resendBtn = document.getElementById('login-mobile-resend-otp');
+    if (resendBtn) resendBtn.style.display = 'none';
+  }
+}
+
+async function startSignupPhoneVerification() {
+  const phone = String(document.getElementById('reg-phone')?.value || '').replace(/\D/g, '').slice(-10);
+  if (!phone || phone.length < 10) {
+    showToast('Enter a valid 10-digit mobile number first.', 'error');
+    return;
+  }
+  try {
+    setInlineStatus('signup-msg91-status', 'Sending OTP...', 'info');
+    await sendMsg91Otp('signup', phone);
+    const resendBtn = document.getElementById('signup-msg91-resend');
+    if (resendBtn) resendBtn.style.display = 'inline-flex';
+    setInlineStatus('signup-msg91-status', `OTP sent to +${getAuthSettings().countryCode} ${phone}. Enter it below to verify.`, 'info');
+    showToast('OTP sent successfully.', 'success');
+  } catch (error) {
+    setInlineStatus('signup-msg91-status', normalizeAuthError(error, 'Unable to send OTP right now.'), 'error');
+    showToast(normalizeAuthError(error, 'Unable to send OTP right now.'), 'error');
+  }
+}
+
+async function retrySignupPhoneVerification() {
+  try {
+    setInlineStatus('signup-msg91-status', 'Requesting a fresh OTP...', 'info');
+    await retryMsg91Otp('signup');
+    setInlineStatus('signup-msg91-status', 'A new OTP has been sent. Please enter the latest code.', 'info');
+    showToast('OTP resent.', 'success');
+  } catch (error) {
+    setInlineStatus('signup-msg91-status', normalizeAuthError(error, 'Unable to resend OTP right now.'), 'error');
+    showToast(normalizeAuthError(error, 'Unable to resend OTP right now.'), 'error');
+  }
+}
+
+async function verifySignupPhoneOtp() {
+  const otp = String(document.getElementById('signup-msg91-otp')?.value || '').trim();
+  const phone = String(document.getElementById('reg-phone')?.value || '').replace(/\D/g, '').slice(-10);
+  if (!otp || otp.length < 4) {
+    showToast('Enter the OTP sent to your mobile number.', 'error');
+    return;
+  }
+  try {
+    setInlineStatus('signup-msg91-status', 'Verifying OTP securely...', 'info');
+    const verified = await verifyMsg91Otp('signup', otp);
+    const result = await verifyMsg91TokenWithServer({
+      accessToken: verified.accessToken,
+      phone,
+      intent: 'signup',
+    });
+    if (result.alreadyRegistered) {
+      throw new Error('This mobile number is already registered. Please sign in instead.');
+    }
+    const verifiedPhone = String(result.phone || '').replace(/\D/g, '').slice(-10);
+    if (verifiedPhone && verifiedPhone !== phone) {
+      throw new Error('The verified number does not match the phone entered on the form.');
+    }
+    msg91Runtime.signup.phone = phone;
+    msg91Runtime.signup.verified = true;
+    msg91Runtime.signup.verifiedAt = new Date().toISOString();
+    setInlineStatus('signup-msg91-status', `Verified for ${phone}. You can continue to the next step now.`, 'success');
+    showToast('Mobile number verified successfully.', 'success');
+  } catch (error) {
+    msg91Runtime.signup.verified = false;
+    setInlineStatus('signup-msg91-status', normalizeAuthError(error, 'Unable to verify that OTP.'), 'error');
+    showToast(normalizeAuthError(error, 'Unable to verify that OTP.'), 'error');
+  }
+}
+
+async function startMobileOtpLogin() {
+  const phone = String(document.getElementById('login-phone')?.value || '').replace(/\D/g, '').slice(-10);
+  if (!phone || phone.length < 10) {
+    showToast('Enter a valid 10-digit mobile number first.', 'error');
+    return;
+  }
+  try {
+    setInlineStatus('login-mobile-otp-hint', 'Sending OTP to your mobile...', 'info');
+    await sendMsg91Otp('login', phone);
+    const resendBtn = document.getElementById('login-mobile-resend-otp');
+    if (resendBtn) resendBtn.style.display = 'inline-flex';
+    setInlineStatus('login-mobile-otp-hint', `OTP sent to +${getAuthSettings().countryCode} ${phone}. Enter it and tap sign in.`, 'info');
+    showToast('OTP sent successfully.', 'success');
+  } catch (error) {
+    setInlineStatus('login-mobile-otp-hint', normalizeAuthError(error, 'Unable to send OTP right now.'), 'error');
+    showToast(normalizeAuthError(error, 'Unable to send OTP right now.'), 'error');
+  }
+}
+
+async function retryMobileOtpLogin() {
+  try {
+    setInlineStatus('login-mobile-otp-hint', 'Requesting a fresh OTP...', 'info');
+    await retryMsg91Otp('login');
+    setInlineStatus('login-mobile-otp-hint', 'A new OTP has been sent. Please enter the latest code.', 'info');
+    showToast('OTP resent.', 'success');
+  } catch (error) {
+    setInlineStatus('login-mobile-otp-hint', normalizeAuthError(error, 'Unable to resend OTP right now.'), 'error');
+    showToast(normalizeAuthError(error, 'Unable to resend OTP right now.'), 'error');
+  }
+}
+
+async function completeMobileOtpLogin() {
+  const phone = String(document.getElementById('login-phone')?.value || '').replace(/\D/g, '').slice(-10);
+  const otp = String(document.getElementById('login-mobile-otp')?.value || '').trim();
+  if (!phone || phone.length < 10) throw new Error('Enter a valid 10-digit mobile number.');
+  if (!otp || otp.length < 4) throw new Error('Enter the OTP sent to your mobile number.');
+  const verified = await verifyMsg91Otp('login', otp);
+  const result = await verifyMsg91TokenWithServer({
+    accessToken: verified.accessToken,
+    phone,
+    intent: 'login',
+  });
+  if (!result.firebaseToken) {
+    throw new Error('Secure login token was not returned by the server.');
+  }
+  return directFirebaseCustomTokenLogin(result.firebaseToken);
+}
+
+async function apiFetch(path, options = {}) {
+  const url = getApiBaseUrl() + path;
+  try {
+    const response = await fetch(url, {
+      method: options.method || 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(options.headers || {}),
+      },
+      body: options.body ? JSON.stringify(options.body) : undefined,
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const error = new Error(data.message || 'Request failed');
+      error.status = response.status;
+      error.payload = data;
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    if (!('status' in error)) error.isNetworkError = true;
+    throw error;
+  }
+}
+
+function canUseFirebaseBridge() {
+  return !!window.ParichayamFirebase?.isConfigured?.();
+}
+
+function firebaseOperationTimeout(promise, ms, message) {
+  let timer = null;
+  const timeout = new Promise((_, reject) => {
+    timer = window.setTimeout(() => reject(new Error(message || 'Request timed out.')), ms || 10000);
+  });
+  return Promise.race([promise, timeout]).finally(() => {
+    if (timer) window.clearTimeout(timer);
+  });
+}
+
+function getFirebaseContext() {
+  if (!window.firebase) return null;
+  try {
+    if (!window.firebase.apps.length && window.PARICHAYAM_FIREBASE_CONFIG) {
+      window.firebase.initializeApp(window.PARICHAYAM_FIREBASE_CONFIG);
+    }
+    return {
+      auth: window.firebase.auth(),
+      db: window.firebase.firestore(),
+      serverTimestamp: window.firebase.firestore.FieldValue.serverTimestamp,
+    };
+  } catch (error) {
+    console.warn('Firebase context unavailable:', error);
+    return null;
+  }
+}
+
+async function resolveFirebaseEmailIdentifier(db, identifier) {
+  const value = String(identifier || '').trim();
+  if (!value) throw new Error('Enter your mobile number or email.');
+  if (value.includes('@')) return value.toLowerCase();
+  const phone = value.replace(/\D/g, '').slice(-10);
+  if (phone.length < 10) throw new Error('Enter a valid 10-digit mobile number.');
+  const indexDoc = await firebaseOperationTimeout(
+    db.collection('memberPhoneIndex').doc(phone).get(),
+    10000,
+    'Unable to verify your mobile number right now.'
+  );
+  if (indexDoc.exists && indexDoc.data()?.email) {
+    return String(indexDoc.data().email || '').toLowerCase();
+  }
+  throw new Error('No account found for this mobile number.');
+}
+
+async function directFirebaseRegister(body) {
+  const ctx = getFirebaseContext();
+  if (!ctx) throw new Error('Firebase is not configured on this page.');
+
+  const name = String(body?.name || '').trim();
+  const phone = String(body?.phone || '').replace(/\D/g, '').slice(-10);
+  const email = String(body?.email || '').trim().toLowerCase();
+  const password = String(body?.password || '');
+  const profileFor = String(body?.profileFor || '');
+  const gender = String(body?.gender || '');
+  const pendingPlan = String(body?.pendingPlan || '');
+  const agentRefId = normalizeAgentRefId(body?.agentRefId || '');
+  const referredAgent = findAgentByRefId(agentRefId);
+  const trialSettings = getTrialSettings();
+
+  if (!name) throw new Error('Enter the full name.');
+  if (phone.length < 10) throw new Error('Enter a valid 10-digit mobile number.');
+  if (!email.includes('@')) throw new Error('Enter a valid email address.');
+  if (password.length < 8) throw new Error('Password must be at least 8 characters.');
+
+  const credential = await firebaseOperationTimeout(
+    ctx.auth.createUserWithEmailAndPassword(email, password),
+    10000,
+    'Account creation is taking too long. Please try again.'
+  );
+
+  const now = new Date();
+  const member = {
+    id: credential.user.uid,
+    uid: credential.user.uid,
+    name,
+    phone,
+    email,
+    profileFor,
+    gender,
+    plan: 'trial',
+    tier: 'trial',
+    pendingPlan,
+    isPaid: false,
+    registeredOn: now.toISOString(),
+    trialDurationDays: trialSettings.durationDays,
+    trialEndsOn: new Date(now.getTime() + (trialSettings.durationDays * 24 * 60 * 60 * 1000)).toISOString(),
+    connects: trialSettings.trialConnects,
+    connectsMax: trialSettings.trialConnects,
+    role: 'MEMBER',
+    createdAt: now.toISOString(),
+    updatedAt: now.toISOString(),
+    ...(agentRefId ? {
+      agentRefId,
+      referredByAgentRefId: agentRefId,
+      referredByAgentName: referredAgent?.name || '',
+      referredByAgentCity: referredAgent?.city || '',
+      referredByAgentTier: referredAgent?.tier || '',
+      referredByAgentMobile: referredAgent?.mobile || '',
+      agentReferralStatus: referredAgent ? 'matched' : (getAgentDirectory().length ? 'unverified' : 'pending'),
+      referredAt: now.toISOString(),
+    } : {}),
+  };
+
+  saveRegistrationDraft(member);
+
+  ctx.db.collection('members').doc(member.uid).set(member, { merge: true }).catch((error) => {
+    console.warn('Deferred member profile sync failed:', error?.message || error);
+  });
+
+  ctx.db.collection('memberPhoneIndex').doc(phone).set({
+    uid: member.uid,
+    email,
+    updatedAt: ctx.serverTimestamp(),
+  }, { merge: true }).catch((error) => {
+    console.warn('Deferred phone index sync failed:', error?.message || error);
+  });
+
+  return {
+    member,
+    token: 'firebase:' + member.uid,
+    trialSettings,
+  };
+}
+
+async function directFirebaseLogin(body) {
+  const ctx = getFirebaseContext();
+  if (!ctx) throw new Error('Firebase is not configured on this page.');
+  const email = await resolveFirebaseEmailIdentifier(ctx.db, body?.identifier || '');
+  const password = String(body?.password || '');
+  if (!password) throw new Error('Enter your password.');
+
+  const credential = await firebaseOperationTimeout(
+    ctx.auth.signInWithEmailAndPassword(email, password),
+    10000,
+    'Sign-in is taking too long. Please try again.'
+  );
+
+  const memberDoc = await firebaseOperationTimeout(
+    ctx.db.collection('members').doc(credential.user.uid).get(),
+    10000,
+    'Unable to load your profile right now.'
+  );
+
+  const member = {
+    id: credential.user.uid,
+    uid: credential.user.uid,
+    email: credential.user.email || email,
+    ...(((getRegistrationDraft() || {}).uid === credential.user.uid || String((getRegistrationDraft() || {}).email || '').toLowerCase() === String(email || '').toLowerCase()) ? (getRegistrationDraft() || {}) : {}),
+    ...(memberDoc.exists ? (memberDoc.data() || {}) : {}),
+  };
+
+  return {
+    member,
+    token: 'firebase:' + credential.user.uid,
+  };
+}
+
+async function directFirebasePasswordReset(body) {
+  const ctx = getFirebaseContext();
+  if (!ctx) throw new Error('Firebase is not configured on this page.');
+  const email = await resolveFirebaseEmailIdentifier(ctx.db, body?.identifier || '');
+  await firebaseOperationTimeout(
+    ctx.auth.sendPasswordResetEmail(email, {
+      url: window.location.origin + '/auth',
+      handleCodeInApp: false,
+    }),
+    10000,
+    'Sending the reset email is taking too long. Please try again.'
+  );
+  const masked = email.replace(/^(.{2}).+(@.+)$/, '$1***$2');
+  return {
+    maskedEmail: masked,
+    delivery: 'firebase-email-link',
+  };
+}
+
+async function requestAuthAction(path, body) {
+  if (canUseFirebaseBridge()) {
+    if (path === '/auth/register') {
+      return window.ParichayamFirebase?.register
+        ? window.ParichayamFirebase.register(body || {})
+        : directFirebaseRegister(body || {});
+    }
+    if (path === '/auth/login') {
+      return window.ParichayamFirebase?.login
+        ? window.ParichayamFirebase.login(body || {})
+        : directFirebaseLogin(body || {});
+    }
+    if (path === '/auth/forgot-password/request') {
+      return window.ParichayamFirebase?.requestPasswordReset
+        ? window.ParichayamFirebase.requestPasswordReset(body || {})
+        : directFirebasePasswordReset(body || {});
+    }
+  }
+  return apiFetch(path, { method: 'POST', body: body || {} });
+}
+
+async function syncPublicTrialSettings() {
+  if (canUseFirebaseBridge()) {
+    try {
+      const result = await window.ParichayamFirebase.getPublicSettingsBundle();
+      if (result && result.trial) {
+        syncTrialSettingsCache(result.trial);
+        return result.trial;
+      }
+    } catch (error) {
+      console.warn('Unable to refresh Firebase public trial settings:', error.message || error);
+    }
+  }
+  if (!canUseBackendAuth()) return null;
+  try {
+    const result = await apiFetch('/public/settings');
+    if (result.settings && result.settings.trial) {
+      syncTrialSettingsCache(result.settings.trial);
+      return result.settings.trial;
+    }
+  } catch (error) {
+    console.warn('Unable to refresh public trial settings:', error.message || error);
+  }
+  return null;
+}
+function setLoginBusy(isBusy) {
+  const busyLabel = loginMethod === 'mobile' && getEffectiveMobileLoginMode() === 'otp'
+    ? 'Verifying OTP…'
+    : 'Signing in…';
+  document.querySelectorAll('#panel-login .btn-submit').forEach(btn => {
+    btn.classList.toggle('loading', !!isBusy);
+    btn.disabled = !!isBusy;
+    if (btn.closest('#login-mobile-otp-box')) {
+      btn.textContent = isBusy ? busyLabel : 'Verify OTP & Sign In →';
+    } else {
+      btn.textContent = isBusy ? busyLabel : 'Sign In →';
+    }
+  });
+  ['login-mobile-send-otp', 'login-mobile-resend-otp'].forEach((id) => {
+    const btn = document.getElementById(id);
+    if (btn) btn.disabled = !!isBusy;
+  });
+}
+
+function setRegisterBusy(isBusy) {
+  const btn = document.getElementById('btn-plan-next');
+  if (!btn) return;
+  btn.classList.toggle('loading', !!isBusy);
+  btn.disabled = !!isBusy;
+  btn.textContent = isBusy
+    ? 'Creating Account…'
+    : (!selectedPlan ? 'Start Free Trial →' : 'Continue to Payment · ' + formatPlanAmount(getPlanAmount(selectedPlan)) + ' · ' + (PLAN_LABELS[selectedPlan] || 'Plan') + ' →');
+}
+
+function getPlanPrices() {
+  try {
+    return { ...DEFAULT_PLAN_PRICES, ...(JSON.parse(localStorage.getItem('parichayam_plan_prices') || '{}') || {}) };
+  } catch (e) {
+    return { ...DEFAULT_PLAN_PRICES };
+  }
+}
+
+function getPlanAmount(plan) {
+  const prices = getPlanPrices();
+  const amount = parseInt(prices[plan], 10);
+  return !isNaN(amount) && amount > 0 ? amount : (DEFAULT_PLAN_PRICES[plan] || 0);
+}
+
+function getTrialSettings() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('parichayam_trial_settings') || '{}') || {};
+    return {
+      ...DEFAULT_TRIAL_SETTINGS,
+      ...saved,
+      durationDays: Math.max(1, parseInt(saved.durationDays ?? DEFAULT_TRIAL_SETTINGS.durationDays, 10) || DEFAULT_TRIAL_SETTINGS.durationDays),
+      trialConnects: Math.max(1, parseInt(saved.trialConnects ?? DEFAULT_TRIAL_SETTINGS.trialConnects, 10) || DEFAULT_TRIAL_SETTINGS.trialConnects),
+      freeConnects: Math.max(0, parseInt(saved.freeConnects ?? DEFAULT_TRIAL_SETTINGS.freeConnects, 10) || DEFAULT_TRIAL_SETTINGS.freeConnects),
+      freeDailyInterests: Math.max(1, parseInt(saved.freeDailyInterests ?? DEFAULT_TRIAL_SETTINGS.freeDailyInterests, 10) || DEFAULT_TRIAL_SETTINGS.freeDailyInterests),
+      freeMonthlyInterests: Math.max(1, parseInt(saved.freeMonthlyInterests ?? DEFAULT_TRIAL_SETTINGS.freeMonthlyInterests, 10) || DEFAULT_TRIAL_SETTINGS.freeMonthlyInterests),
+    };
+  } catch (e) {
+    return { ...DEFAULT_TRIAL_SETTINGS };
+  }
+}
+
+function updateTrialCopy() {
+  const settings = getTrialSettings();
+  const days = settings.durationDays;
+  const title = document.getElementById('trial-title');
+  const sub = document.getElementById('trial-sub');
+  const heading = document.getElementById('trial-heading');
+  const meta = document.getElementById('trial-meta');
+  if (title) title.innerHTML = `Your ${days}-Day <em style="font-style:italic;color:var(--maroon)">Free Trial</em>`;
+  if (sub) sub.textContent = `Start free — full access for ${days} days.`;
+  if (heading) heading.textContent = `${days} Days · Full Access`;
+  if (meta) meta.textContent = `${settings.trialConnects} connects/month · All features`;
+}
+
+function formatPlanAmount(amount) {
+  return '₹' + Number(amount || 0).toLocaleString('en-IN');
+}
+
+function updatePlanCTA() {
+  const btn = document.getElementById('btn-plan-next');
+  if (!btn) return;
+  if (!selectedPlan) {
+    btn.textContent = 'Start Free Trial →';
+    return;
+  }
+
+  const amount = getPlanAmount(selectedPlan);
+  const label = PLAN_LABELS[selectedPlan] || 'Plan';
+  btn.textContent = 'Continue to Payment · ' + formatPlanAmount(amount) + ' · ' + label + ' →';
+}
+
+function buildCheckoutUrlForPlan(plan) {
+  const params = new URLSearchParams({
+    type: 'membership',
+    plan: plan,
+    amount: String(getPlanAmount(plan)),
+    back: 'dashboard.html',
+  });
+  return 'checkout.html?' + params.toString();
+}
+
+/* ── TAB SWITCHING ── */
+function switchTab(tab, el) {
+  document.querySelectorAll('.at').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  else document.querySelectorAll('.at').forEach(t => { if (t.textContent.toLowerCase().includes(tab==='login'?'sign':'create')) t.classList.add('active'); });
+  showPanel(tab === 'login' ? 'login' : 'register');
+}
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const p = document.getElementById('panel-' + id);
+  if (p) p.classList.add('active');
+}
+
+function togglePass(id, btn) {
+  const input = document.getElementById(id);
+  if (!input) return;
+  const showing = input.type === 'text';
+  input.type = showing ? 'password' : 'text';
+  if (btn) btn.textContent = showing ? '👁' : '🙈';
+}
+
+/* ── LOGIN METHOD ── */
+function setLoginMethod(method, el) {
+  loginMethod = method;
+  document.querySelectorAll('#panel-login .mt-btn').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('login-mobile').style.display = method === 'mobile' ? 'block' : 'none';
+  document.getElementById('login-email').style.display  = method === 'email'  ? 'block' : 'none';
+  updateMobileAuthModeUI();
+}
+
+function doLocalLogin(identifier, pass, method) {
+  const members = JSON.parse(localStorage.getItem('parichayam_members') || '[]');
+  const found = members.find(m => {
+    if (method === 'mobile') return m.phone === identifier && m.password === pass;
+    return m.email === identifier && m.password === pass;
+  });
+  if (!found) {
+    showToast('Invalid credentials. Check mobile/email and password.', 'error');
+    return false;
+  }
+  persistAuthSession(found, '');
+  return true;
+}
+
+/* ── LOGIN — backend first, local fallback for demo mode ── */
+async function doLogin() {
+  const method = document.querySelector('#panel-login .mt-btn.active')?.textContent.includes('Mobile') ? 'mobile' : 'email';
+  let identifier, pass;
+  const otpMode = method === 'mobile' && getEffectiveMobileLoginMode() === 'otp';
+  if (method === 'mobile') {
+    identifier = document.getElementById('login-phone').value.trim();
+    if (!identifier || identifier.length < 10) { showToast('Enter valid 10-digit mobile', 'error'); return; }
+    if (!otpMode) {
+      pass = document.getElementById('login-mobile-pass').value;
+    }
+  } else {
+    identifier = document.getElementById('login-email-inp').value.trim();
+    pass = document.getElementById('login-pass').value;
+    if (!identifier.includes('@')) { showToast('Enter valid email', 'error'); return; }
+  }
+  if (!otpMode && !pass) { showToast('Enter your password', 'error'); return; }
+
+  setLoginBusy(true);
+
+  try {
+    if (otpMode) {
+      const result = await completeMobileOtpLogin();
+      persistAuthSession(result.member, result.token);
+      showToast('Signed in successfully.', 'success');
+      setTimeout(() => window.location.href = 'dashboard.html', 500);
+      return;
+    }
+    if (canUseBackendAuth() || canUseFirebaseBridge()) {
+      const result = await requestAuthAction('/auth/login', {
+        identifier,
+        password: pass,
+      });
+      persistAuthSession(result.member, result.token);
+      showToast('Signed in successfully.', 'success');
+      setTimeout(() => window.location.href = 'dashboard.html', 500);
+      return;
+    }
+  } catch (error) {
+    if (!error.isNetworkError) {
+      showToast(normalizeAuthError(error, 'Unable to sign in.'), 'error');
+      if (otpMode) setInlineStatus('login-mobile-otp-hint', normalizeAuthError(error, 'Unable to sign in.'), 'error');
+      setLoginBusy(false);
+      return;
+    }
+    if (!isLocalDemoMode()) {
+      showToast('Sign-in service is temporarily unavailable. Please try again shortly.', 'error');
+      setLoginBusy(false);
+      return;
+    }
+    showToast('Backend unavailable. Using local demo sign-in.', 'info');
+  }
+
+  if (doLocalLogin(identifier, pass, method)) {
+    setTimeout(() => window.location.href = 'dashboard.html', 500);
+  }
+  setLoginBusy(false);
+}
+
+/* ── REGISTER STEP 1 — validate basics ── */
+function regStep1Next() {
+  try {
+    const authSettings = getAuthSettings();
+    const regFor  = document.getElementById('reg-for').value;
+    const name    = document.getElementById('reg-name').value.trim();
+    const phoneEl = document.getElementById('reg-phone');
+    const phone   = String(phoneEl?.value || '').replace(/\D/g, '').slice(-10);
+    const emailEl = document.getElementById('reg-email');
+    const email   = emailEl.value.trim();
+    const agentRefEl = document.getElementById('reg-agent-ref');
+    const agentRefId = normalizeAgentRefId(agentRefEl?.value || '');
+    const pass    = document.getElementById('reg-pass').value;
+    const confirm = document.getElementById('reg-confirm-pass').value;
+    const terms   = document.getElementById('terms-cb').checked;
+
+    if (phoneEl) phoneEl.value = phone;
+    if (emailEl) emailEl.value = email;
+    if (agentRefEl) agentRefEl.value = agentRefId;
+
+    if (!regFor)                     { showToast('Select who this profile is for', 'error'); return false; }
+    if (!name)                       { showToast('Enter the full name', 'error'); return false; }
+    if (!phone || phone.length < 10) { showToast('Enter valid 10-digit mobile', 'error'); return false; }
+    if (!email.includes('@'))        { showToast('Enter valid email', 'error'); return false; }
+    if (pass.length < 8)             { showToast('Password must be 8+ characters', 'error'); return false; }
+    if (pass !== confirm)            { showToast('Passwords do not match', 'error'); return false; }
+    if (!terms)                      { showToast('Accept Terms & Conditions', 'error'); return false; }
+    if (agentRefId && getAgentDirectory().length && !findAgentByRefId(agentRefId)) {
+      showToast('Agent Ref ID not found. Please check the code or clear the field.', 'error');
+      return false;
+    }
+    if (authSettings.enabled && authSettings.mode !== 'firebase-password' && authSettings.requireSignupOtp) {
+      if (!(msg91Runtime.signup.verified && msg91Runtime.signup.phone === phone)) {
+        setInlineStatus('signup-msg91-status', 'Verify this mobile number with OTP before continuing.', 'error');
+        showToast('Verify this mobile number with OTP before continuing.', 'error');
+        return false;
+      }
+    }
+
+    if (!canUseBackendAuth() && !canUseFirebaseBridge()) {
+      const members = JSON.parse(localStorage.getItem('parichayam_members') || '[]');
+      if (members.find(m => m.phone === phone)) {
+        showToast('Mobile already registered. Sign in instead.', 'error');
+        return false;
+      }
+    }
+
+    showRegStep(2);
+    updatePlanCTA();
+    return false;
+  } catch (error) {
+    console.error('Registration step 1 failed:', error);
+    showToast('Something blocked the next step. Please refresh once and try again.', 'error');
+    return false;
+  }
+}
+
+function completeLocalRegistration(memberData) {
+  const members = JSON.parse(localStorage.getItem('parichayam_members') || '[]');
+  members.push(memberData);
+  localStorage.setItem('parichayam_members', JSON.stringify(members));
+  persistAuthSession(memberData, '');
+}
+
+/* ── REGISTER STEP 2 — backend first, local fallback for demo mode ── */
+async function regStep2Next() {
+  const regFor = document.getElementById('reg-for').value;
+  const trialSettings = getTrialSettings();
+  const registeredOn = new Date();
+  const agentRefId = normalizeAgentRefId(document.getElementById('reg-agent-ref')?.value || '');
+  const referredAgent = findAgentByRefId(agentRefId);
+  const currentPhone = String(document.getElementById('reg-phone').value || '').replace(/\D/g, '').slice(-10);
+  const verifiedPhone = msg91Runtime.signup.verified && msg91Runtime.signup.phone === currentPhone;
+  /* Determine gender from profile-for value */
+  const gender = ['bride','daughter','sister'].includes(regFor) ? 'female' : 'male';
+
+  const memberData = {
+    name:       document.getElementById('reg-name').value.trim(),
+    phone:      currentPhone,
+    email:      document.getElementById('reg-email').value.trim(),
+    password:   document.getElementById('reg-pass').value,
+    profileFor: regFor,
+    gender:     gender,
+    plan:       'trial',
+    tier:       'trial',
+    pendingPlan: selectedPlan || '',
+    isPaid:     false,
+    registeredOn: registeredOn.toISOString(),
+    trialDurationDays: trialSettings.durationDays,
+    trialEndsOn: new Date(registeredOn.getTime() + (trialSettings.durationDays * 24 * 60 * 60 * 1000)).toISOString(),
+    connects: trialSettings.trialConnects,
+    connectsMax: trialSettings.trialConnects,
+    phoneVerified: verifiedPhone,
+    phoneVerificationProvider: verifiedPhone ? 'msg91' : '',
+    phoneVerifiedAt: verifiedPhone ? (msg91Runtime.signup.verifiedAt || registeredOn.toISOString()) : '',
+    ...(agentRefId ? {
+      agentRefId,
+      referredByAgentRefId: agentRefId,
+      referredByAgentName: referredAgent?.name || '',
+      referredByAgentCity: referredAgent?.city || '',
+      referredByAgentTier: referredAgent?.tier || '',
+      referredByAgentMobile: referredAgent?.mobile || '',
+      agentReferralStatus: referredAgent ? 'matched' : (getAgentDirectory().length ? 'unverified' : 'pending'),
+      referredAt: registeredOn.toISOString(),
+    } : {}),
+  };
+
+  setRegisterBusy(true);
+  ['signup-msg91-send', 'signup-msg91-resend', 'signup-msg91-verify'].forEach((id) => {
+    const btn = document.getElementById(id);
+    if (btn) btn.disabled = true;
+  });
+
+  try {
+    if (canUseBackendAuth() || canUseFirebaseBridge()) {
+      const result = await requestAuthAction('/auth/register', {
+        name: memberData.name,
+        phone: memberData.phone,
+        email: memberData.email,
+        password: memberData.password,
+        profileFor: memberData.profileFor,
+        gender: memberData.gender,
+        pendingPlan: memberData.pendingPlan || null,
+        agentRefId: memberData.agentRefId || '',
+        phoneVerified: memberData.phoneVerified === true,
+        phoneVerificationProvider: memberData.phoneVerificationProvider || '',
+        phoneVerifiedAt: memberData.phoneVerifiedAt || '',
+      });
+      persistAuthSession(result.member, result.token);
+      syncTrialSettingsCache(result.trialSettings);
+      if (selectedPlan) {
+        showToast('Account created. Redirecting to secure checkout...', 'success');
+        setRegisterBusy(false);
+        ['signup-msg91-send', 'signup-msg91-resend', 'signup-msg91-verify'].forEach((id) => {
+          const btn = document.getElementById(id);
+          if (btn) btn.disabled = false;
+        });
+        setTimeout(() => window.location.href = buildCheckoutUrlForPlan(selectedPlan), 500);
+        return;
+      }
+      showToast('Welcome to Parichayam!', 'success');
+      setRegisterBusy(false);
+      ['signup-msg91-send', 'signup-msg91-resend', 'signup-msg91-verify'].forEach((id) => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = false;
+      });
+      setTimeout(() => showRegStep(3), 500);
+      return;
+    }
+  } catch (error) {
+    if (!error.isNetworkError) {
+      showToast(normalizeAuthError(error, 'Unable to create account.'), 'error');
+      setRegisterBusy(false);
+      ['signup-msg91-send', 'signup-msg91-resend', 'signup-msg91-verify'].forEach((id) => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = false;
+      });
+      return;
+    }
+    if (!isLocalDemoMode()) {
+      showToast('Registration service is temporarily unavailable. Please try again shortly.', 'error');
+      setRegisterBusy(false);
+      ['signup-msg91-send', 'signup-msg91-resend', 'signup-msg91-verify'].forEach((id) => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = false;
+      });
+      return;
+    }
+    showToast('Backend unavailable. Saving this registration in local demo mode.', 'info');
+  }
+
+  completeLocalRegistration(memberData);
+
+  if (selectedPlan) {
+    showToast('Account created. Redirecting to secure checkout...', 'success');
+    setTimeout(() => window.location.href = buildCheckoutUrlForPlan(selectedPlan), 500);
+    setRegisterBusy(false);
+    ['signup-msg91-send', 'signup-msg91-resend', 'signup-msg91-verify'].forEach((id) => {
+      const btn = document.getElementById(id);
+      if (btn) btn.disabled = false;
+    });
+    return;
+  }
+
+  showToast('Welcome to Parichayam!', 'success');
+  setTimeout(() => showRegStep(3), 600);
+  setRegisterBusy(false);
+  ['signup-msg91-send', 'signup-msg91-resend', 'signup-msg91-verify'].forEach((id) => {
+    const btn = document.getElementById(id);
+    if (btn) btn.disabled = false;
+  });
+}
+
+/* ── STEP NAVIGATION ── */
+function showRegStep(step) {
+  [1,2,3].forEach(s => { const el = document.getElementById('reg-step'+s); if(el) el.style.display = s===step?'block':'none'; });
+  document.querySelector('.auth-box')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ── PLAN SELECTION ── */
+function selPlan(el, plan) {
+  selectedPlan = plan;
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  updatePlanCTA();
+}
+
+/* ── THIRD-PARTY NOTICE ── */
+document.getElementById('reg-for')?.addEventListener('change', function() {
+  const isThird = this.value && !['bride','groom'].includes(this.value);
+  document.getElementById('third-party-notice').style.display = isThird ? 'block' : 'none';
+});
+
+/* ── PASSWORD STRENGTH ── */
+function checkPassStrength(val) {
+  const bar=document.getElementById('pass-strength-bar'), fill=document.getElementById('pass-strength-fill'), label=document.getElementById('pass-strength-label');
+  if (!bar) return;
+  if (!val) { bar.style.display='none'; label.style.display='none'; return; }
+  bar.style.display='block'; label.style.display='block';
+  let score=0;
+  if(val.length>=8)score++; if(val.length>=12)score++; if(/[A-Z]/.test(val))score++; if(/[0-9]/.test(val))score++; if(/[^A-Za-z0-9]/.test(val))score++;
+  const levels=[{pct:'20%',color:'#dc2626',text:'Weak'},{pct:'40%',color:'#f97316',text:'Fair'},{pct:'60%',color:'#eab308',text:'Good'},{pct:'80%',color:'#22c55e',text:'Strong ✓'},{pct:'100%',color:'#16a34a',text:'Very Strong ✓✓'}];
+  const l=levels[Math.min(score,4)];
+  fill.style.width=l.pct; fill.style.background=l.color; label.textContent=l.text; label.style.color=l.color;
+}
+
+/* ── FORGOT PASSWORD ── */
+function resetForgotPasswordUI(){
+  forgotPasswordState = { identifier:'', resetToken:'', maskedEmail:'' };
+  const step1=document.getElementById('forgot-step1'),step2=document.getElementById('forgot-step2'),step3=document.getElementById('forgot-step3');
+  if(step1) step1.style.display='block';
+  if(step2) step2.style.display='none';
+  if(step3) step3.style.display='none';
+  const sent=document.getElementById('forgot-sent-to'); if(sent) sent.textContent='your registered email';
+  const identifier=document.getElementById('forgot-identifier'); if(identifier) identifier.value='';
+  const resend=document.getElementById('resend-forgot'); if(resend) resend.style.display='none';
+  const countdown=document.getElementById('countdown-forgot'); if(countdown) countdown.textContent='30';
+}
+function showForgotPassword(){resetForgotPasswordUI();showPanel('forgot');}
+async function sendForgotOTP(){
+  const identifier=document.getElementById('forgot-identifier')?.value.trim()||'';
+  if(!identifier){showToast('Enter your mobile number or email','error');return;}
+  try {
+    const result = await requestAuthAction('/auth/forgot-password/request', { identifier });
+    forgotPasswordState.identifier = identifier;
+    forgotPasswordState.maskedEmail = result.maskedEmail || 'your registered email';
+    document.getElementById('forgot-sent-to').textContent = forgotPasswordState.maskedEmail;
+    document.getElementById('forgot-step1').style.display='none';
+    document.getElementById('forgot-step2').style.display='block';
+    document.getElementById('forgot-step3').style.display='none';
+    showToast('Reset link sent to your registered email','success');
+    startCountdown('forgot',30);
+  } catch(error) {
+    showToast(normalizeAuthError(error, 'Unable to send reset email'),'error');
+  }
+}
+async function verifyForgotOTP(){
+  showToast('Open the reset email and follow the secure Firebase link to set your new password.','info');
+}
+async function resetPassword(){
+  showToast('Use the secure reset link in your email to set a new password, then sign in here.','info');
+}
+/* —— OTP HELPERS —— */
+function otpNext(el,idx){el.classList.add('filled');const inputs=el.closest('.otp-row').querySelectorAll('.otp-inp');if(el.value&&idx<inputs.length-1)inputs[idx+1].focus();if(idx===inputs.length-1&&el.value){const otp=[...inputs].map(i=>i.value).join('');if(otp.length===inputs.length)setTimeout(()=>verifyForgotOTP(),300);}}
+function otpBack(el,e){if(e.key==='Backspace'&&!el.value){const inputs=el.closest('.otp-row').querySelectorAll('.otp-inp');const idx=[...inputs].indexOf(el);if(idx>0){inputs[idx-1].value='';inputs[idx-1].focus();}}}
+function startCountdown(id,seconds){const el=document.getElementById('countdown-'+id),resend=document.getElementById('resend-'+id);if(!el)return;let s=seconds;if(resend)resend.style.display='none';el.textContent=s;const timer=setInterval(()=>{s--;el.textContent=s;if(s<=0){clearInterval(timer);if(resend)resend.style.display='inline';}},1000);}
+/* ── SYNC ADMIN PLAN PRICES ── */
+(async function(){
+  try { await window.ParichayamFirebase?.bootstrapPage('auth'); } catch(e) { console.warn('Firebase auth bootstrap failed:', e); }
+  try { await syncAgentDirectory(); } catch(e) {}
+  try { await syncAuthSettings(); } catch(e) {}
+  try { await syncPublicTrialSettings(); } catch(e) {}
+  try {
+    const prices = getPlanPrices();
+    document.querySelectorAll('.plan-card').forEach(card => {
+      const m = card.getAttribute('onclick')?.match(/selPlan\(this,'(\w+)'\)/);
+      if (!m) return;
+      const p = parseInt(prices[m[1]], 10);
+      if (!isNaN(p)) card.querySelector('.pc-price').textContent = formatPlanAmount(p);
+    });
+    updatePlanCTA();
+    updateTrialCopy();
+  } catch(e) {}
+  try { applyPrefilledAgentRef(); } catch(e) {}
+  try { handleAgentRefInput(); } catch(e) {}
+  try { updateMobileAuthModeUI(); } catch(e) {}
+  try { resetSignupVerificationIfPhoneChanged(); } catch(e) {}
+})();
+document.getElementById('reg-phone')?.addEventListener('input', resetSignupVerificationIfPhoneChanged);
+document.getElementById('login-phone')?.addEventListener('input', resetLoginOtpIfPhoneChanged);
+</script>
+</body>
+</html>
+
+
+
+
+

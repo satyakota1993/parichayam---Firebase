@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Parichayam Agent Portal — earn commission by connecting Vyshya families. Add members, track earnings, manage your network.">
+<title>Agent Portal — Parichayam Vyshya Matrimony</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--m:#7B1C2E;--d:#4A0E1A;--d2:#2A0810;--g:#C9963A;--gl:#E8C06A;--cr:#FDF6EC;--w:#F5EAD8;--tx:#2C1A10;--mu:#8A6A58;--wh:#FFFDF9;--gn:#166534;--rd:#dc2626;--bl:#2563eb;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--tx);min-height:100vh;}
+
+/* ── NAV ── */
+.nav{background:var(--d2);padding:.75rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--gl);}
+.nav-sub{font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;}
+.nav-links{display:flex;gap:1rem;align-items:center;}
+.nav-links a{font-size:.8rem;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--gl);}
+.btn-nav{padding:.42rem 1rem;background:var(--g);color:var(--d2);border:none;border-radius:7px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;}
+
+/* ── TABS ── */
+.tabs{display:flex;background:var(--w);border-bottom:1px solid rgba(201,150,58,.2);}
+.tab{padding:.85rem 1.8rem;font-size:.82rem;font-weight:500;color:var(--mu);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .2s;}
+.tab.active{color:var(--m);border-bottom-color:var(--m);background:var(--wh);}
+
+/* ── LAYOUT ── */
+.container{max-width:1100px;margin:0 auto;padding:1.5rem 1.5rem;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.card{background:var(--wh);border-radius:12px;border:1px solid rgba(201,150,58,.2);padding:1.2rem;}
+.card-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--d);margin-bottom:.9rem;padding-bottom:.55rem;border-bottom:1px solid rgba(201,150,58,.15);display:flex;align-items:center;gap:.5rem;}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;margin-bottom:1.2rem;}
+.sc{background:var(--wh);border-radius:10px;padding:.9rem;border:1px solid rgba(201,150,58,.18);text-align:center;}
+.sc-n{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--m);}
+.sc-l{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-top:.15rem;}
+
+/* ── FORM ── */
+.f{display:flex;flex-direction:column;gap:.28rem;margin-bottom:.85rem;}
+.f label{font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);}
+.f input,.f select,.f textarea{padding:.65rem .9rem;background:var(--cr);border:1.5px solid rgba(201,150,58,.22);border-radius:9px;font-size:.85rem;font-family:'DM Sans',sans-serif;color:var(--tx);outline:none;transition:border-color .2s;}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--g);}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;}
+.btn-primary{padding:.72rem 1.6rem;background:linear-gradient(135deg,var(--d),var(--m));color:white;border:none;border-radius:10px;font-size:.88rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(123,28,46,.3);}
+.btn-sec{padding:.6rem 1.2rem;background:transparent;color:var(--m);border:1.5px solid rgba(123,28,46,.3);border-radius:9px;font-size:.82rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
+
+/* ── MEMBER CARDS ── */
+.member-card{background:var(--cr);border-radius:10px;padding:.85rem;border:1px solid rgba(201,150,58,.18);display:flex;align-items:center;gap:.85rem;margin-bottom:.55rem;}
+.mc-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--d),var(--m));display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.mc-info{flex:1;}
+.mc-name{font-size:.82rem;font-weight:600;color:var(--tx);}
+.mc-det{font-size:.64rem;color:var(--mu);margin-top:.08rem;}
+.badge{display:inline-flex;align-items:center;font-size:.58rem;font-weight:600;padding:.15rem .45rem;border-radius:7px;}
+.bg-gn{background:rgba(22,101,52,.1);color:var(--gn);border:1px solid rgba(22,101,52,.2);}
+.bg-rd{background:rgba(220,38,38,.1);color:var(--rd);border:1px solid rgba(220,38,38,.2);}
+.bg-gd{background:rgba(201,150,58,.12);color:#92400e;border:1px solid rgba(201,150,58,.25);}
+.bg-bl{background:rgba(37,99,235,.1);color:var(--bl);border:1px solid rgba(37,99,235,.2);}
+
+/* ── TOAST ── */
+.toast-wrap{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:.5rem;}
+.toast{display:flex;align-items:center;gap:.6rem;padding:.75rem 1.1rem;border-radius:10px;font-size:.8rem;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.15);}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.success{background:#166534;color:#d1fae5;border:1px solid rgba(34,197,94,.3);}
+.toast.error{background:#7f1d1d;color:#fecaca;}
+.toast.info{background:#1e3a5f;color:#bfdbfe;}
+
+/* ── LOGIN BOX ── */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(155deg,var(--d2),var(--d),var(--m));}
+.login-box{background:var(--wh);border-radius:16px;padding:2.2rem;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.login-logo{text-align:center;margin-bottom:1.5rem;}
+.login-logo-name{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--m);}
+.login-logo-sub{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mu);}
+.login-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--d);margin-bottom:.3rem;}
+.login-sub{font-size:.8rem;color:var(--mu);margin-bottom:1.4rem;}
+
+@media(max-width:720px){
+  .stats{grid-template-columns:1fr 1fr;}
+  .grid2{grid-template-columns:1fr;}
+  .f2{grid-template-columns:1fr;}
+  .nav{padding:.6rem 1rem;flex-wrap:wrap;gap:.5rem;}
+  .nav-links{flex-wrap:wrap;gap:.5rem;justify-content:flex-end;}
+  .nav-links a,.nav-links span{font-size:.7rem;}
+  .container{padding:1rem .85rem;}
+  .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .tab{padding:.75rem 1.1rem;white-space:nowrap;font-size:.76rem;}
+  .member-card{flex-wrap:wrap;}
+  .login-box{padding:1.5rem 1.2rem;}
+}
+@media(max-width:420px){
+  .nav-links .badge{display:none;}
+  .nav-links a[href="dashboard.html"]{display:none;}
+  .stats{grid-template-columns:1fr 1fr;}
+  .stats .sc{padding:.7rem;}
+  .stats .sc-n{font-size:1.3rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN PANEL (shown first) ── -->
+<div id="login-panel" class="login-wrap">
+  <div class="login-box" style="max-width:460px">
+    <div class="login-logo">
+      <div style="font-size:2rem;margin-bottom:.4rem">🤝</div>
+      <div class="login-logo-name">Parichayam</div>
+      <div class="login-logo-sub">Agent Portal</div>
+    </div>
+
+    <!-- TABS -->
+    <div style="display:flex;background:rgba(123,28,46,.08);border-radius:10px;padding:.28rem;margin-bottom:1.4rem;gap:.2rem">
+      <button id="atab-signin" onclick="switchAgentLoginTab('signin')" style="flex:1;padding:.55rem;border:none;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;background:var(--m);color:white;font-family:'DM Sans',sans-serif">Agent Sign In</button>
+      <button id="atab-apply" onclick="switchAgentLoginTab('apply')" style="flex:1;padding:.55rem;border:none;border-radius:8px;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;background:transparent;color:var(--mu);font-family:'DM Sans',sans-serif">Apply to Join</button>
+    </div>
+
+    <!-- SIGN IN TAB -->
+    <div id="agent-tab-signin">
+      <div class="f">
+        <label>Mobile Number</label>
+        <input id="login-mobile" type="tel" placeholder="Registered mobile number" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+      </div>
+      <div class="f">
+        <label>Password</label>
+        <input id="login-pass" type="password" placeholder="Your password" onkeydown="if(event.key==='Enter')doAgentLogin()">
+      </div>
+      <div id="login-err" style="display:none;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.2);border-radius:8px;padding:.6rem .85rem;font-size:.74rem;color:#dc2626;margin-bottom:.75rem"></div>
+      <button class="btn-primary" style="width:100%;margin-top:.2rem" onclick="doAgentLogin()">Sign In to Agent Portal →</button>
+      <div style="text-align:center;margin-top:.85rem;font-size:.73rem;color:var(--mu)">
+        Don't have login yet? <a href="#" onclick="switchAgentLoginTab('apply');return false" style="color:var(--m);font-weight:500">Apply to become an agent →</a>
+      </div>
+    </div>
+
+    <!-- APPLY TAB -->
+    <div id="agent-tab-apply" style="display:none">
+      <div style="background:rgba(201,150,58,.07);border:1px solid rgba(201,150,58,.18);border-radius:8px;padding:.65rem .85rem;font-size:.72rem;color:#854F0B;margin-bottom:1rem;line-height:1.65">
+        ✦ Earn <strong style="color:var(--tx)">20–45% commission</strong> on every premium member you refer · Monthly UPI payout · No upfront fees
+      </div>
+      <div class="f">
+        <label>Full Name *</label>
+        <input id="apply-name" placeholder="Your full name">
+      </div>
+      <div class="f2" style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem">
+        <div class="f">
+          <label>Mobile (WhatsApp) *</label>
+          <input id="apply-mobile" type="tel" maxlength="10" placeholder="10-digit" oninput="this.value=this.value.replace(/\D/g,'')">
+        </div>
+        <div class="f">
+          <label>City / District *</label>
+          <input id="apply-city" placeholder="Your city">
+        </div>
+      </div>
+      <div class="f">
+        <label>Vyshya Network Size</label>
+        <select id="apply-network">
+          <option>Below 50 families</option>
+          <option>50–200 families</option>
+          <option>200–500 families</option>
+          <option>500+ families</option>
+        </select>
+      </div>
+      <div class="f">
+        <label>Your Background / Experience (optional)</label>
+        <textarea id="apply-exp" rows="2" placeholder="e.g. Matchmaker 10 years, Vyshya Sabha member…" style="resize:none"></textarea>
+      </div>
+      <div id="apply-err" style="display:none;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.2);border-radius:8px;padding:.6rem .85rem;font-size:.74rem;color:#dc2626;margin-bottom:.75rem"></div>
+      <button class="btn-primary" style="width:100%;background:linear-gradient(135deg,#92400e,#C9963A)" onclick="submitAgentPageApplication()">Submit Application →</button>
+      <div style="font-size:.65rem;color:var(--mu);text-align:center;margin-top:.65rem">Admin reviews within 24 hrs · WhatsApp confirmation</div>
+    </div>
+
+    <!-- APPLY SUCCESS -->
+    <div id="agent-tab-success" style="display:none;text-align:center;padding:1rem 0">
+      <div style="font-size:2.5rem;margin-bottom:.65rem">🙏</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--d);margin-bottom:.35rem">Application Submitted!</div>
+      <div style="font-size:.78rem;color:var(--mu);line-height:1.65;margin-bottom:1rem">Admin will review and WhatsApp you within 24 hours. Once approved you'll receive your login credentials.</div>
+      <a href="index.html" style="font-size:.78rem;color:var(--m);font-weight:500">← Back to Parichayam website</a>
+    </div>
+
+    <div style="text-align:center;margin-top:.85rem;font-size:.72rem;color:var(--mu)">
+      <a href="index.html" style="color:var(--mu)">← Back to Parichayam</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── AGENT DASHBOARD (shown after login) ── -->
+<div id="agent-dashboard" style="display:none">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div>
+      <div class="nav-brand">Parichayam</div>
+      <span class="nav-sub">Agent Portal</span>
+    </div>
+    <div class="nav-links">
+      <span style="font-size:.78rem;color:rgba(255,255,255,.5)" id="agent-name-nav">Agent</span>
+      <span class="badge bg-gd" id="agent-tier-nav">City Agent</span>
+      <a href="dashboard.html" style="font-size:.75rem;color:rgba(255,255,255,.5)">📊 Member Dashboard</a>
+      <a href="#" class="btn-nav" onclick="doAgentLogout()">Sign Out</a>
+    </div>
+  </nav>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="agentTab('overview',this)">📊 Overview</div>
+    <div class="tab" onclick="agentTab('members',this)">👥 My Members</div>
+    <div class="tab" onclick="agentTab('add',this)">➕ Add Member</div>
+    <div class="tab" onclick="agentTab('earnings',this)">💰 Earnings</div>
+  </div>
+
+  <div class="container">
+
+    <!-- ── OVERVIEW ── -->
+    <div id="tab-overview">
+      <div class="stats">
+        <div class="sc"><div class="sc-n" id="ag-total">0</div><div class="sc-l">Total Members</div></div>
+        <div class="sc"><div class="sc-n" id="ag-active">0</div><div class="sc-l">Active Paid</div></div>
+        <div class="sc"><div class="sc-n" id="ag-earning">₹0</div><div class="sc-l">Payout Due</div></div>
+        <div class="sc"><div class="sc-n" id="ag-comm">0%</div><div class="sc-l">My Commission</div></div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">📋 Recent Activity</div>
+          <div id="ag-activity">
+            <div style="font-size:.8rem;color:var(--mu);padding:1rem;text-align:center">No recent activity.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">💡 Agent Tips</div>
+          <div style="background:rgba(201,150,58,.08);border:1px solid rgba(201,150,58,.2);border-radius:10px;padding:.8rem .9rem;margin-bottom:.9rem">
+            <div style="font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);margin-bottom:.28rem">My Referral Identity</div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--m)" id="agent-ref-code">PARI-AGNT-0000</div>
+            <div style="font-size:.68rem;color:var(--mu);line-height:1.7;margin:.38rem 0 .55rem">Share this code or link with families so their signup is automatically credited to you.</div>
+            <input id="agent-ref-link" readonly style="width:100%;padding:.58rem .75rem;background:var(--wh);border:1px solid rgba(201,150,58,.22);border-radius:8px;font-size:.74rem;color:var(--tx);margin-bottom:.55rem">
+            <div style="display:flex;gap:.45rem;flex-wrap:wrap">
+              <button class="btn-sec" onclick="copyCurrentAgentRefId()">Copy Ref ID</button>
+              <button class="btn-primary" style="padding:.6rem 1.1rem;font-size:.78rem" onclick="copyCurrentAgentSignupLink()">Copy Signup Link</button>
+            </div>
+          </div>
+          <div style="font-size:.78rem;color:var(--mu);line-height:1.8">
+            <div>✅ Every paid member earns you <strong style="color:var(--tx)">commission on membership fee</strong></div>
+            <div>✅ Refer more families from your area — <strong style="color:var(--tx)">no cap on earnings</strong></div>
+            <div>✅ Your WhatsApp number is on each member's profile as their agent contact</div>
+            <div>✅ Use bulk upload in admin to add biodatas you collected</div>
+            <div style="margin-top:.75rem;padding:.65rem;background:rgba(201,150,58,.07);border-radius:8px;border:1px solid rgba(201,150,58,.2)">
+              📞 Support: <strong style="color:var(--tx)">+91 94401 76078</strong><br>
+              <span style="font-size:.68rem">WhatsApp your payout queries · Mon–Sat 9AM–8PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MY MEMBERS ── -->
+    <div id="tab-members" style="display:none">
+      <div class="card">
+        <div class="card-title">👥 My Members
+          <span style="font-size:.62rem;font-weight:300;color:var(--mu);margin-left:.5rem">Members you registered through your agent link</span>
+        </div>
+        <input style="width:100%;padding:.6rem .9rem;background:var(--cr);border:1.5px solid rgba(201,150,58,.22);border-radius:9px;font-size:.82rem;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:.85rem" placeholder="Search by name or mobile…" oninput="filterAgentMembers(this.value)">
+        <div id="agent-members-list"></div>
+      </div>
+    </div>
+
+    <!-- ── ADD MEMBER ── -->
+    <div id="tab-add" style="display:none">
+      <div class="card">
+        <div class="card-title">➕ Add New Member
+          <span style="font-size:.62rem;font-weight:300;color:var(--mu);margin-left:.5rem">Register a member on their behalf (requires their consent)</span>
+        </div>
+        <div style="background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.2);border-radius:8px;padding:.72rem .9rem;font-size:.72rem;color:var(--rd);margin-bottom:1rem;line-height:1.6">
+          ⚖️ <strong>DPDPA 2023:</strong> Only add members who have explicitly consented. Keep WhatsApp screenshot or written consent as proof.
+        </div>
+        <div class="f2">
+          <div class="f"><label>Full Name *</label><input id="nm-name" placeholder="Name as on Aadhaar"></div>
+          <div class="f"><label>Profile For *</label>
+            <select id="nm-for">
+              <option value="">Select</option>
+              <option>Myself — Bride</option><option>Myself — Bridegroom</option>
+              <option>Daughter</option><option>Son</option>
+            </select>
+          </div>
+          <div class="f"><label>Mobile *</label><input id="nm-mobile" type="tel" maxlength="10" placeholder="10-digit mobile"></div>
+          <div class="f"><label>Age *</label><input id="nm-age" type="number" placeholder="e.g. 26" min="18" max="60"></div>
+          <div class="f"><label>City *</label><input id="nm-city" placeholder="Current city"></div>
+          <div class="f"><label>Education</label><input id="nm-edu" placeholder="e.g. B.Tech, CA, MBA"></div>
+          <div class="f"><label>Occupation</label><input id="nm-job" placeholder="e.g. Software Engineer"></div>
+          <div class="f"><label>Gotra</label><input id="nm-gotra" placeholder="Gotra name"></div>
+        </div>
+        <div class="f"><label>Consent Proof (optional note)</label>
+          <textarea id="nm-consent" rows="2" placeholder="e.g. WhatsApp screenshot saved, or Verbal consent on 14-Mar-2026"></textarea>
+        </div>
+        <div style="display:flex;gap:.75rem;margin-top:.5rem">
+          <button class="btn-primary" onclick="agentAddMember()">+ Add Member</button>
+          <button class="btn-sec" onclick="clearAddForm()">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── EARNINGS ── -->
+    <div id="tab-earnings" style="display:none">
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-title">💰 Earnings Summary</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.85rem;margin-bottom:1rem">
+          <div style="background:var(--cr);border-radius:10px;padding:.85rem;border:1px solid rgba(201,150,58,.18);text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--m)" id="earn-due">₹0</div>
+            <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--mu)">Payout Due</div>
+          </div>
+          <div style="background:var(--cr);border-radius:10px;padding:.85rem;border:1px solid rgba(201,150,58,.18);text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gn)" id="earn-total">₹0</div>
+            <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--mu)">Total Earned</div>
+          </div>
+          <div style="background:var(--cr);border-radius:10px;padding:.85rem;border:1px solid rgba(201,150,58,.18);text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--tx)" id="earn-comm">0%</div>
+            <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--mu)">Commission Rate</div>
+          </div>
+        </div>
+        <div style="background:rgba(201,150,58,.07);border:1px solid rgba(201,150,58,.2);border-radius:8px;padding:.75rem .9rem;font-size:.75rem;color:var(--mu);line-height:1.7">
+          💳 Payouts are processed <strong style="color:var(--tx)">manually via UPI</strong> by the admin. There is now <strong style="color:var(--tx)">no minimum payout limit</strong> — request withdrawal whenever you want.<br>
+          Support: <strong style="color:var(--tx)">+91 94401 76078</strong> · UPI: <strong style="color:var(--m)">parichayam@upi</strong>
+        </div>
+        <div style="margin-top:1rem;background:rgba(22,101,52,.06);border:1px solid rgba(22,101,52,.16);border-radius:10px;padding:.9rem">
+          <div style="font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);margin-bottom:.35rem">Withdraw Anytime</div>
+          <div style="font-size:.74rem;color:var(--mu);line-height:1.7;margin-bottom:.75rem">
+            Raise a payout request whenever you want. Admin will review your <strong style="color:var(--tx)">live due amount</strong> and settle it to your preferred UPI or bank destination.
+          </div>
+          <div class="f2" style="margin-bottom:.65rem">
+            <div class="f" style="margin-bottom:0">
+              <label>Preferred UPI ID</label>
+              <input id="agent-payout-upi" placeholder="name@bank">
+            </div>
+            <div class="f" style="margin-bottom:0">
+              <label>Note for Admin</label>
+              <input id="agent-payout-note" placeholder="Optional note">
+            </div>
+          </div>
+          <div style="display:flex;gap:.55rem;flex-wrap:wrap;align-items:center">
+            <button class="btn-primary" style="padding:.65rem 1.1rem;font-size:.82rem" onclick="requestAgentWithdrawal()">Request Withdrawal</button>
+            <span id="agent-payout-status" style="font-size:.72rem;color:var(--mu)">No request sent yet.</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">📋 Earnings History</div>
+        <div id="earn-history">
+          <div style="font-size:.78rem;color:var(--mu);padding:1rem;text-align:center">No earnings history yet.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /agent-dashboard -->
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-storage-compat.js"></script>
+<script src="parichayam-firebase-config.js"></script>
+<script src="parichayam-firebase.js"></script>
+<script>
+window.ParichayamFirebase?.bootstrapPage('agent').catch(function(error){ console.warn('Firebase agent bootstrap failed:', error); });
+// ── LOGIN PAGE TABS ──
+function switchAgentLoginTab(tab) {
+  ['signin','apply','success'].forEach(t => {
+    const el = document.getElementById('agent-tab-' + t);
+    if (el) el.style.display = t === tab ? '' : 'none';
+  });
+  const si = document.getElementById('atab-signin');
+  const ap = document.getElementById('atab-apply');
+  if (si) { si.style.background = tab==='signin'?'var(--m)':'transparent'; si.style.color = tab==='signin'?'white':'var(--mu)'; }
+  if (ap) { ap.style.background = tab==='apply'?'var(--m)':'transparent'; ap.style.color = tab==='apply'?'white':'var(--mu)'; }
+}
+
+function submitAgentPageApplication() {
+  const name    = document.getElementById('apply-name').value.trim();
+  const mobile  = document.getElementById('apply-mobile').value.trim();
+  const city    = document.getElementById('apply-city').value.trim();
+  const network = document.getElementById('apply-network').value;
+  const exp     = document.getElementById('apply-exp').value.trim();
+  const errEl   = document.getElementById('apply-err');
+
+  if (!name)   { errEl.textContent='Please enter your full name.'; errEl.style.display='block'; return; }
+  if (!mobile || mobile.length < 10) { errEl.textContent='Enter a valid 10-digit mobile.'; errEl.style.display='block'; return; }
+  if (!city)   { errEl.textContent='Please enter your city.'; errEl.style.display='block'; return; }
+  errEl.style.display = 'none';
+
+  const applications = JSON.parse(localStorage.getItem('parichayam_agent_applications') || '[]');
+  applications.unshift({
+    id: Date.now(), name, mobile, city, network, exp,
+    status: 'pending',
+    permissions: { addMembers:true, viewMembers:true, bulkUpload:false, viewEarnings:true, viewReports:false },
+    appliedOn: new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),
+  });
+  localStorage.setItem('parichayam_agent_applications', JSON.stringify(applications));
+
+  switchAgentLoginTab('success');
+
+  const waMsg = encodeURIComponent(
+    'Namaste! I want to apply as a *Parichayam Agent*.\n\n' +
+    'Name: '+name+'\nMobile: '+mobile+'\nCity: '+city+'\nNetwork: '+network+
+    (exp?'\nExperience: '+exp:'')+'\n\nPlease contact me. 🙏'
+  );
+  setTimeout(() => window.open('https://wa.me/919440176078?text='+waMsg,'_blank'), 600);
+}
+
+// ── AGENT LOGIN ──
+const AGENT_KEY = 'parichayam_agents';
+const AGENT_MEMBERS_KEY = 'parichayam_agent_members';
+const AGENT_DIRECTORY_KEY = 'parichayam_agent_directory';
+const AGENT_PAYOUT_REQUESTS_KEY = 'parichayam_agent_payout_requests';
+const AGENT_PAYOUT_REQUESTS_COLLECTION = 'agentPayoutRequests';
+
+// Demo agent (in production, comes from server after login)
+let CURRENT_AGENT = null;
+
+function normalizeMobile(m) {
+  if (!m) return '';
+  return m.replace(/[\s+\-]/g, '').replace(/^91/, '').slice(-10);
+}
+
+function formatINR(value) {
+  return '₹' + Math.round(Number(value || 0)).toLocaleString('en-IN');
+}
+
+function normalizeAgentRefId(value) {
+  return String(value || '')
+    .toUpperCase()
+    .replace(/[^A-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-{2,}/g, '-');
+}
+
+function buildAgentRefSegment(value) {
+  const raw = String(value || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  return raw.slice(0, 4) || 'AGNT';
+}
+
+function buildAgentRefId(agent, idx) {
+  const mobile = normalizeMobile(agent?.mobile || '');
+  const suffix = mobile.slice(-4) || String((idx || 0) + 1).padStart(4, '0');
+  return normalizeAgentRefId(agent?.refId || `PARI-${buildAgentRefSegment(agent?.city || agent?.name || 'AGNT')}-${suffix}`);
+}
+
+function getAgentSignupLink(refId) {
+  const base = window.location.protocol === 'file:'
+    ? 'auth.html'
+    : String(window.location.origin || '').replace(/\/+$/, '') + '/auth';
+  return `${base}?ref=${encodeURIComponent(refId)}`;
+}
+
+function ensureAgentRecord(agent, idx) {
+  const mobile = normalizeMobile(agent?.mobile || '');
+  return {
+    ...agent,
+    mobile,
+    tier: String(agent?.tier || 'City Agent').trim() || 'City Agent',
+    password: agent?.password || ('agent' + (mobile.slice(-4) || String((idx || 0) + 1).padStart(4, '0'))),
+    refId: buildAgentRefId({ ...agent, mobile }, idx),
+    status: String(agent?.status || 'active').toLowerCase(),
+  };
+}
+
+function syncAgentDirectory(list) {
+  const directory = (list || [])
+    .map((agent, idx) => ensureAgentRecord(agent, idx))
+    .filter(agent => agent.status !== 'revoked')
+    .map(agent => ({
+      refId: agent.refId,
+      name: agent.name,
+      city: agent.city || '',
+      tier: agent.tier,
+      mobile: agent.mobile,
+      joined: agent.joined || '',
+      status: agent.status,
+      active: agent.status !== 'revoked',
+      shareLink: getAgentSignupLink(agent.refId),
+    }));
+  localStorage.setItem(AGENT_DIRECTORY_KEY, JSON.stringify(directory));
+}
+
+function getAgents() {
+  const defaults = [
+    { name:'Suresh Naidu', mobile:'9988776655', password:'agent123', city:'Guntur',        tier:'City Agent',     comm:28, members:24, payout:4200, joined:'Jan 2025', status:'active' },
+    { name:'Ravi Prasad',  mobile:'8877665544', password:'agent456', city:'Vizag District', tier:'District Agent', comm:35, members:38, payout:7840, joined:'Feb 2025', status:'active' },
+  ];
+  const saved = JSON.parse(localStorage.getItem(AGENT_KEY) || 'null');
+  const source = Array.isArray(saved) && saved.length ? saved : defaults;
+  const normalized = source.map((agent, idx) => ensureAgentRecord(agent, idx));
+  if (JSON.stringify(source) !== JSON.stringify(normalized)) {
+    localStorage.setItem(AGENT_KEY, JSON.stringify(normalized));
+  }
+  const directoryJson = JSON.stringify((normalized || [])
+    .filter(agent => agent.status !== 'revoked')
+    .map(agent => ({
+      refId: agent.refId,
+      name: agent.name,
+      city: agent.city || '',
+      tier: agent.tier,
+      mobile: agent.mobile,
+      joined: agent.joined || '',
+      status: agent.status,
+      active: agent.status !== 'revoked',
+      shareLink: getAgentSignupLink(agent.refId),
+    })));
+  if (localStorage.getItem(AGENT_DIRECTORY_KEY) !== directoryJson) {
+    localStorage.setItem(AGENT_DIRECTORY_KEY, directoryJson);
+  }
+  return normalized;
+}
+
+function getAgentMembers(agentMobile) {
+  const all = JSON.parse(localStorage.getItem(AGENT_MEMBERS_KEY) || '{}');
+  const key = normalizeMobile(agentMobile);
+  return all[key] || [];
+}
+function saveAgentMembers(agentMobile, list) {
+  const all = JSON.parse(localStorage.getItem(AGENT_MEMBERS_KEY) || '{}');
+  const key = normalizeMobile(agentMobile);
+  all[key] = list;
+  localStorage.setItem(AGENT_MEMBERS_KEY, JSON.stringify(all));
+}
+
+function getCurrentAgentDue() {
+  if (!CURRENT_AGENT) return 0;
+  const members = getAgentMembers(CURRENT_AGENT.mobile);
+  const paid = members.filter(m => m.status === 'paid').length;
+  return paid * Math.round(200 * (CURRENT_AGENT.comm || 20) / 100);
+}
+
+function getAgentLastPayoutRequestKey() {
+  const refId = normalizeAgentRefId(CURRENT_AGENT?.refId || '');
+  return refId ? ('parichayam_agent_last_payout_request_' + refId) : '';
+}
+
+function renderAgentWithdrawalStatus() {
+  const el = document.getElementById('agent-payout-status');
+  if (!el) return;
+  const key = getAgentLastPayoutRequestKey();
+  if (!key) {
+    el.textContent = 'No request sent yet.';
+    return;
+  }
+  let last = null;
+  try {
+    last = JSON.parse(localStorage.getItem(key) || 'null');
+  } catch (error) {
+    last = null;
+  }
+  if (!last?.requestedAt) {
+    el.textContent = 'No request sent yet.';
+    return;
+  }
+  const requestedOn = new Date(last.requestedAt);
+  const label = Number.isNaN(requestedOn.getTime())
+    ? 'just now'
+    : requestedOn.toLocaleString('en-IN', { day:'numeric', month:'short', hour:'numeric', minute:'2-digit' });
+  const statusText = last.status === 'requested'
+    ? `Last request sent ${label} for ${formatINR(last.requestedAmount)}`
+    : `Last request ${last.status} ${label}`;
+  el.textContent = statusText;
+}
+
+function renderAgentEarningsHistory() {
+  const el = document.getElementById('earn-history');
+  if (!el) return;
+  const key = getAgentLastPayoutRequestKey();
+  let last = null;
+  try {
+    last = key ? JSON.parse(localStorage.getItem(key) || 'null') : null;
+  } catch (error) {
+    last = null;
+  }
+  const dueAmount = getCurrentAgentDue();
+  const items = [];
+  items.push(`
+    <div style="background:var(--cr);border-radius:10px;padding:.85rem;border:1px solid rgba(201,150,58,.18)">
+      <div style="font-size:.8rem;font-weight:600;color:var(--tx)">Current due snapshot</div>
+      <div style="font-size:.64rem;color:var(--mu);margin-top:.15rem">You can request withdrawal anytime for ${formatINR(dueAmount)}.</div>
+    </div>
+  `);
+  if (last?.requestedAt) {
+    const requestedOn = new Date(last.requestedAt);
+    const label = Number.isNaN(requestedOn.getTime())
+      ? 'just now'
+      : requestedOn.toLocaleString('en-IN', { day:'numeric', month:'short', year:'numeric', hour:'numeric', minute:'2-digit' });
+    items.unshift(`
+      <div style="background:var(--cr);border-radius:10px;padding:.85rem;border:1px solid rgba(22,101,52,.18)">
+        <div style="display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap">
+          <div style="font-size:.8rem;font-weight:600;color:var(--tx)">Withdrawal request</div>
+          <span class="badge ${last.status === 'requested' ? 'bg-gd' : 'bg-gn'}">${last.status || 'requested'}</span>
+        </div>
+        <div style="font-size:.64rem;color:var(--mu);margin-top:.15rem">${formatINR(last.requestedAmount)} · ${label}${last.upiId ? ' · ' + last.upiId : ''}</div>
+        ${last.note ? `<div style="font-size:.64rem;color:var(--mu);margin-top:.15rem">Note: ${last.note}</div>` : ''}
+      </div>
+    `);
+  }
+  el.innerHTML = items.join('');
+}
+
+async function requestAgentWithdrawal() {
+  if (!CURRENT_AGENT) {
+    toast('Please sign in to request withdrawal.', 'error');
+    return;
+  }
+  const dueAmount = getCurrentAgentDue();
+  if (dueAmount <= 0) {
+    toast('No payout is pending right now.', 'warning');
+    return;
+  }
+  const upiId = document.getElementById('agent-payout-upi')?.value.trim() || '';
+  const note = document.getElementById('agent-payout-note')?.value.trim() || '';
+  const payload = {
+    agentRefId: CURRENT_AGENT.refId || buildAgentRefId(CURRENT_AGENT, 0),
+    agentName: CURRENT_AGENT.name || 'Agent',
+    agentMobile: normalizeMobile(CURRENT_AGENT.mobile || ''),
+    agentCity: CURRENT_AGENT.city || '',
+    requestedAmount: dueAmount,
+    requestedAt: new Date().toISOString(),
+    status: 'requested',
+    upiId,
+    note,
+    createdFrom: 'agent-portal',
+  };
+  const localKey = getAgentLastPayoutRequestKey();
+  try {
+    if (window.ParichayamFirebase?.isConfigured?.() && window.firebase?.firestore) {
+      const docRef = await window.firebase.firestore().collection(AGENT_PAYOUT_REQUESTS_COLLECTION).add(payload);
+      if (localKey) localStorage.setItem(localKey, JSON.stringify({ ...payload, id: docRef.id }));
+      renderAgentWithdrawalStatus();
+      renderAgentEarningsHistory();
+      toast('✅ Withdrawal request sent to admin', 'success');
+      return;
+    }
+  } catch (error) {
+    console.warn('Unable to create Firebase payout request:', error?.message || error);
+  }
+
+  const requests = JSON.parse(localStorage.getItem(AGENT_PAYOUT_REQUESTS_KEY) || '[]');
+  const localRequest = { id: 'req-' + Date.now(), ...payload };
+  requests.unshift(localRequest);
+  localStorage.setItem(AGENT_PAYOUT_REQUESTS_KEY, JSON.stringify(requests));
+  if (localKey) localStorage.setItem(localKey, JSON.stringify(localRequest));
+  renderAgentWithdrawalStatus();
+  renderAgentEarningsHistory();
+
+  const waMsg = encodeURIComponent(
+    `Namaste, payout withdrawal request from Parichayam agent.\n\n` +
+    `Agent: ${payload.agentName}\nRef ID: ${payload.agentRefId}\nMobile: ${payload.agentMobile}\nRequested amount: ${formatINR(payload.requestedAmount)}\n` +
+    (upiId ? `UPI: ${upiId}\n` : '') +
+    (note ? `Note: ${note}\n` : '') +
+    `Please review and settle when possible.`
+  );
+  window.open('https://wa.me/919440176078?text=' + waMsg, '_blank');
+  toast('✅ Request saved. WhatsApp opened as backup.', 'info');
+}
+
+// ── LOGIN ──
+function doAgentLogin() {
+  const mobile = normalizeMobile(document.getElementById('login-mobile').value);
+  const pass   = document.getElementById('login-pass').value;
+  const errEl  = document.getElementById('login-err');
+  if (errEl) errEl.style.display = 'none';
+  if (!mobile || mobile.length < 10 || !pass) { if(errEl){errEl.textContent='Enter mobile and password.';errEl.style.display='block';} return; }
+  const agents = getAgents();
+  const agent  = agents.find(a => normalizeMobile(a.mobile) === mobile && a.password === pass);
+  if (!agent) {
+    if(errEl){errEl.textContent='Invalid credentials. Contact admin for login details.';errEl.style.display='block';}
+    return;
+  }
+  CURRENT_AGENT = agent;
+  sessionStorage.setItem('parichayam_agent_session', JSON.stringify(agent));
+  document.getElementById('login-panel').style.display     = 'none';
+  document.getElementById('agent-dashboard').style.display = 'block';
+  document.getElementById('agent-name-nav').textContent    = agent.name;
+  document.getElementById('agent-tier-nav').textContent    = agent.tier;
+  loadAgentDashboard();
+  toast('Welcome back, ' + agent.name + '! 🙏', 'success');
+}
+
+function doAgentLogout() {
+  CURRENT_AGENT = null;
+  sessionStorage.removeItem('parichayam_agent_session');
+  document.getElementById('login-panel').style.display    = 'flex';
+  document.getElementById('agent-dashboard').style.display = 'none';
+}
+
+// ── AUTO-LOGIN from session (passed from index.html modal or previous login) ──
+(function checkAgentSession() {
+  try {
+    const session = JSON.parse(sessionStorage.getItem('parichayam_agent_session'));
+    if (session && session.mobile) {
+      const agents = getAgents();
+      const agent = agents.find(a => normalizeMobile(a.mobile) === normalizeMobile(session.mobile));
+      if (agent) {
+        CURRENT_AGENT = agent;
+        document.getElementById('login-panel').style.display     = 'none';
+        document.getElementById('agent-dashboard').style.display = 'block';
+        document.getElementById('agent-name-nav').textContent    = agent.name;
+        document.getElementById('agent-tier-nav').textContent    = agent.tier;
+        loadAgentDashboard();
+      }
+    }
+  } catch(e) {}
+})();
+
+function updateAgentReferralIdentity() {
+  if (!CURRENT_AGENT) return;
+  const refId = CURRENT_AGENT.refId || buildAgentRefId(CURRENT_AGENT, 0);
+  const refCodeEl = document.getElementById('agent-ref-code');
+  const refLinkEl = document.getElementById('agent-ref-link');
+  if (refCodeEl) refCodeEl.textContent = refId;
+  if (refLinkEl) refLinkEl.value = getAgentSignupLink(refId);
+}
+
+async function copyCurrentAgentRefId() {
+  if (!CURRENT_AGENT?.refId) return;
+  try {
+    await navigator.clipboard.writeText(CURRENT_AGENT.refId);
+  } catch (error) {
+    const tmp = document.createElement('textarea');
+    tmp.value = CURRENT_AGENT.refId;
+    document.body.appendChild(tmp);
+    tmp.select();
+    document.execCommand('copy');
+    tmp.remove();
+  }
+  toast('Agent Ref ID copied', 'success');
+}
+
+async function copyCurrentAgentSignupLink() {
+  if (!CURRENT_AGENT?.refId) return;
+  const link = getAgentSignupLink(CURRENT_AGENT.refId);
+  try {
+    await navigator.clipboard.writeText(link);
+  } catch (error) {
+    const tmp = document.createElement('textarea');
+    tmp.value = link;
+    document.body.appendChild(tmp);
+    tmp.select();
+    document.execCommand('copy');
+    tmp.remove();
+  }
+  toast('Signup link copied', 'success');
+}
+
+// ── LOAD DASHBOARD ──
+function loadAgentDashboard() {
+  if (!CURRENT_AGENT) return;
+  CURRENT_AGENT = ensureAgentRecord(CURRENT_AGENT, 0);
+  updateAgentReferralIdentity();
+  const perms   = CURRENT_AGENT.permissions || {};
+  const members = getAgentMembers(CURRENT_AGENT.mobile);
+  const paid    = members.filter(m => m.status === 'paid').length;
+  const payout  = getCurrentAgentDue();
+
+  document.getElementById('ag-total').textContent   = members.length || CURRENT_AGENT.members || 0;
+  document.getElementById('ag-active').textContent  = paid;
+  document.getElementById('ag-earning').textContent = formatINR(payout || CURRENT_AGENT.payout || 0);
+  document.getElementById('ag-comm').textContent    = (CURRENT_AGENT.comm || 20) + '%';
+  renderAgentWithdrawalStatus();
+  renderAgentEarningsHistory();
+
+  // ── PERMISSION-BASED TAB VISIBILITY ──
+  const tabMap = {
+    members:  perms.viewMembers  !== false,
+    add:      perms.addMembers   !== false,
+    earnings: perms.viewEarnings !== false,
+  };
+  Object.entries(tabMap).forEach(([tab, allowed]) => {
+    const btn = document.querySelector('.tab[onclick*="\''+tab+'\'"]');
+    if (btn) btn.style.display = allowed ? '' : 'none';
+  });
+
+  // Activity feed
+  const actEl = document.getElementById('ag-activity');
+  if (members.length && perms.viewMembers !== false) {
+    actEl.innerHTML = members.slice(-5).reverse().map(m => `
+      <div style="display:flex;align-items:center;gap:.65rem;padding:.45rem 0;border-bottom:1px solid rgba(201,150,58,.08)">
+        <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--d),var(--m));display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0">${m.for?.includes('Bride')||m.for?.includes('Daughter')?'👩':'👨'}</div>
+        <div><div style="font-size:.78rem;font-weight:500">${m.name}</div><div style="font-size:.62rem;color:var(--mu)">${m.city} · Added ${m.added||'today'}</div></div>
+        <span class="badge ${m.status==='paid'?'bg-gn':'bg-gd'}" style="margin-left:auto">${m.status==='paid'?'Paid':'Trial'}</span>
+      </div>`).join('');
+  } else {
+    actEl.innerHTML = '<div style="font-size:.8rem;color:var(--mu);padding:.75rem;text-align:center">No recent activity.</div>';
+  }
+
+  renderAgentMembers();
+}
+
+// ── MEMBERS LIST ──
+function renderAgentMembers(filter='') {
+  const members = getAgentMembers(CURRENT_AGENT?.mobile || '');
+  const list    = document.getElementById('agent-members-list');
+  if (!list) return;
+  const filtered = filter ? members.filter(m => m.name.toLowerCase().includes(filter.toLowerCase()) || m.mobile?.includes(filter)) : members;
+  if (!filtered.length) {
+    list.innerHTML = '<div style="font-size:.78rem;color:var(--mu);padding:1.2rem;text-align:center;border:1px dashed rgba(201,150,58,.2);border-radius:8px">No members yet. Add your first member in the + Add Member tab.</div>';
+    return;
+  }
+  list.innerHTML = filtered.map((m, i) => `
+    <div class="member-card">
+      <div class="mc-av">${m.for?.includes('Bride')||m.for?.includes('Daughter')?'👩':'👨'}</div>
+      <div class="mc-info">
+        <div class="mc-name">${m.name} <span class="badge ${m.status==='paid'?'bg-gn':'bg-gd'}">${m.status==='paid'?'Paid Member':'Trial'}</span></div>
+        <div class="mc-det">${m.age ? m.age+' yrs · ' : ''}${m.city||''} · ${m.mobile||'No mobile'} · Added ${m.added||'today'}</div>
+        ${m.edu ? '<div class="mc-det">'+m.edu+(m.job?' · '+m.job:'')+'</div>' : ''}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.3rem;flex-shrink:0">
+        <button onclick="markMemberPaid(${i})" class="badge bg-${m.status==='paid'?'gn':'gd'}" style="cursor:pointer;padding:.3rem .65rem;font-size:.65rem">${m.status==='paid'?'✓ Paid':'Mark Paid'}</button>
+        <button onclick="removeMember(${i})" class="badge bg-rd" style="cursor:pointer;padding:.3rem .65rem;font-size:.65rem">Remove</button>
+      </div>
+    </div>`).join('');
+}
+
+function filterAgentMembers(v) { renderAgentMembers(v); }
+
+function renderAgentMembers(filter='') {
+  const members = getAgentMembers(CURRENT_AGENT?.mobile || '');
+  const list = document.getElementById('agent-members-list');
+  if (!list) return;
+  const filtered = filter ? members.filter(m => m.name.toLowerCase().includes(filter.toLowerCase()) || String(m.mobile || '').includes(filter)) : members;
+  if (!filtered.length) {
+    list.innerHTML = '<div style="font-size:.78rem;color:var(--mu);padding:1.2rem;text-align:center;border:1px dashed rgba(201,150,58,.2);border-radius:8px">No members yet. Add your first member in the + Add Member tab.</div>';
+    return;
+  }
+  list.innerHTML = filtered.map((m, i) => `
+    <div class="member-card">
+      <div class="mc-av">${m.for?.includes('Bride') || m.for?.includes('Daughter') ? '👩' : '👨'}</div>
+      <div class="mc-info">
+        <div class="mc-name">${m.name} <span class="badge ${m.status === 'paid' ? 'bg-gn' : 'bg-gd'}">${m.status === 'paid' ? 'Paid Member' : 'Trial'}</span></div>
+        <div class="mc-det">${m.age ? m.age + ' yrs · ' : ''}${m.city || ''} · ${m.mobile || 'No mobile'} · Added ${m.added || 'today'}</div>
+        ${m.edu ? '<div class="mc-det">' + m.edu + (m.job ? ' · ' + m.job : '') + '</div>' : ''}
+        <div style="display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.45rem">
+          ${m.mobile ? `<a href="tel:+91${normalizeMobile(m.mobile)}" class="badge bg-bl" style="text-decoration:none;padding:.3rem .65rem">Call</a>` : ''}
+          ${m.mobile ? `<a href="https://wa.me/91${normalizeMobile(m.mobile)}?text=${encodeURIComponent('Namaste ' + (m.name || '') + ', this is ' + (CURRENT_AGENT?.name || 'your Parichayam agent') + ' from Parichayam. I am following up on your profile.')}" target="_blank" rel="noopener" class="badge bg-gn" style="text-decoration:none;padding:.3rem .65rem">WhatsApp</a>` : ''}
+          ${m.email ? `<a href="mailto:${m.email}" class="badge bg-gd" style="text-decoration:none;padding:.3rem .65rem">Email</a>` : ''}
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.3rem;flex-shrink:0">
+        <button onclick="markMemberPaid(${i})" class="badge bg-${m.status === 'paid' ? 'gn' : 'gd'}" style="cursor:pointer;padding:.3rem .65rem;font-size:.65rem">${m.status === 'paid' ? '✓ Paid' : 'Mark Paid'}</button>
+        <button onclick="removeMember(${i})" class="badge bg-rd" style="cursor:pointer;padding:.3rem .65rem;font-size:.65rem">Remove</button>
+      </div>
+    </div>`).join('');
+}
+
+function markMemberPaid(idx) {
+  const members = getAgentMembers(CURRENT_AGENT.mobile);
+  members[idx].status = 'paid';
+  saveAgentMembers(CURRENT_AGENT.mobile, members);
+  renderAgentMembers();
+  loadAgentDashboard();
+  toast('✅ Member marked as paid — earnings updated', 'success');
+}
+
+function removeMember(idx) {
+  const members = getAgentMembers(CURRENT_AGENT.mobile);
+  const name = members[idx].name;
+  members.splice(idx, 1);
+  saveAgentMembers(CURRENT_AGENT.mobile, members);
+  renderAgentMembers();
+  loadAgentDashboard();
+  toast('Member removed', 'info');
+}
+
+// ── ADD MEMBER ──
+function agentAddMember() {
+  const name    = document.getElementById('nm-name').value.trim();
+  const forProp = document.getElementById('nm-for').value;
+  const mobile  = document.getElementById('nm-mobile').value.trim();
+  const age     = document.getElementById('nm-age').value;
+  const city    = document.getElementById('nm-city').value.trim();
+  const edu     = document.getElementById('nm-edu').value.trim();
+  const job     = document.getElementById('nm-job').value.trim();
+  const gotra   = document.getElementById('nm-gotra').value.trim();
+  const consent = document.getElementById('nm-consent').value.trim();
+
+  if (!name)    { toast('Enter member name', 'error'); return; }
+  if (!forProp) { toast('Select profile type', 'error'); return; }
+  if (!mobile || mobile.length < 10) { toast('Enter valid 10-digit mobile', 'error'); return; }
+  if (!city)    { toast('Enter city', 'error'); return; }
+
+  const members = getAgentMembers(CURRENT_AGENT.mobile);
+  members.push({
+    name, for: forProp, mobile, age: age||'', city, edu, job, gotra, consent,
+    status: 'trial',
+    added: new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),
+    agentMobile: CURRENT_AGENT.mobile,
+  });
+  saveAgentMembers(CURRENT_AGENT.mobile, members);
+  clearAddForm();
+  loadAgentDashboard();
+  toast('✅ ' + name + ' added! Profile pending admin review.', 'success');
+  agentTab('members', document.querySelectorAll('.tab')[1]);
+}
+
+function clearAddForm() {
+  ['nm-name','nm-mobile','nm-age','nm-city','nm-edu','nm-job','nm-gotra','nm-consent'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('nm-for').value = '';
+}
+
+// ── TAB SWITCH ──
+function agentTab(id, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  ['overview','members','add','earnings'].forEach(t => {
+    const el = document.getElementById('tab-' + t);
+    if (el) el.style.display = t === id ? '' : 'none';
+  });
+  if (id === 'members') renderAgentMembers();
+  if (id === 'earnings') {
+    const payout  = getCurrentAgentDue();
+    const dueEl   = document.getElementById('earn-due');
+    const totEl   = document.getElementById('earn-total');
+    const commEl  = document.getElementById('earn-comm');
+    if (dueEl)  dueEl.textContent  = formatINR(payout);
+    if (totEl)  totEl.textContent  = formatINR(payout);
+    if (commEl) commEl.textContent = (CURRENT_AGENT?.comm||20) + '%';
+    renderAgentWithdrawalStatus();
+    renderAgentEarningsHistory();
+  }
+}
+
+// ── TOAST ──
+function toast(msg, type='info') {
+  const w = document.getElementById('toastWrap');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  w.appendChild(t);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show')));
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400);},3500);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1953 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout - Parichayam</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --maroon:#7b1c2e;
+  --maroon-dark:#4a0e1a;
+  --maroon-deep:#2a0810;
+  --gold:#c9963a;
+  --gold-light:#e8c06a;
+  --cream:#fdf6ec;
+  --text:#2c1a10;
+  --muted:#8a6a58;
+  --white:#fffdf9;
+  --green:#166534;
+  --red:#b91c1c;
+  --border:rgba(201,150,58,.16);
+}
+
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top right, rgba(201,150,58,.12), transparent 26%),
+    linear-gradient(180deg, #fff7ef 0%, var(--cream) 40%, #f9efe2 100%);
+}
+
+.nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  background:var(--maroon-deep);
+  padding:1rem 2rem;
+}
+
+.nav-brand{
+  display:flex;
+  align-items:center;
+  gap:.7rem;
+  text-decoration:none;
+}
+
+.nav-icon{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg, var(--gold-light), var(--gold));
+  border:2px solid rgba(201,150,58,.35);
+  color:var(--maroon-deep);
+  font-size:1.1rem;
+  font-weight:700;
+}
+
+.nav-name{
+  font-family:'Playfair Display',serif;
+  color:var(--gold-light);
+  font-size:1.32rem;
+}
+
+.nav-sub{
+  display:block;
+  color:rgba(255,255,255,.35);
+  font-size:.58rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.nav-back{
+  color:rgba(255,255,255,.72);
+  text-decoration:none;
+  font-size:.84rem;
+  transition:color .2s ease;
+}
+
+.nav-back:hover{
+  color:var(--gold-light);
+}
+
+.main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:2rem 1.25rem 2.5rem;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 350px;
+  gap:1.5rem;
+  align-items:start;
+}
+
+.section,
+.summary{
+  background:rgba(255,253,249,.96);
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:0 12px 34px rgba(73,24,10,.08);
+}
+
+.section{
+  padding:1.35rem;
+}
+
+.summary{
+  padding:1.4rem;
+  position:sticky;
+  top:1.25rem;
+}
+
+.sec-title{
+  margin:0 0 1rem;
+  padding-bottom:.8rem;
+  border-bottom:1px solid rgba(201,150,58,.14);
+  color:var(--maroon-dark);
+  font-family:'Playfair Display',serif;
+  font-size:1.18rem;
+}
+
+.plan-opts,
+.pay-methods{
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+}
+
+.po,
+.pm{
+  width:100%;
+  border:1.5px solid var(--border);
+  background:#fff;
+  border-radius:14px;
+  padding:.95rem 1rem;
+  display:flex;
+  align-items:flex-start;
+  gap:.9rem;
+  cursor:pointer;
+  transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease, background .2s ease;
+  position:relative;
+  text-align:left;
+}
+
+.po:hover,
+.po.sel,
+.pm:hover,
+.pm.sel{
+  border-color:var(--maroon);
+  background:rgba(123,28,46,.03);
+  box-shadow:0 10px 22px rgba(123,28,46,.08);
+  transform:translateY(-1px);
+}
+
+.po.static{
+  cursor:default;
+}
+
+.po.sel::after{
+  content:"";
+  position:absolute;
+  top:.9rem;
+  right:.95rem;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 0 3px rgba(22,101,52,.12);
+}
+
+.po-radio{
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  border:2px solid rgba(201,150,58,.35);
+  flex-shrink:0;
+  margin-top:.15rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.po.sel .po-radio{
+  border-color:var(--maroon);
+  background:var(--maroon);
+}
+
+.po.sel .po-radio::after{
+  content:"";
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#fff;
+}
+
+.po-info{
+  flex:1;
+  min-width:0;
+}
+
+.po-name,
+.pm-name{
+  color:var(--maroon-dark);
+  font-size:.92rem;
+  font-weight:700;
+}
+
+.po-desc,
+.pm-desc{
+  margin-top:.18rem;
+  color:var(--muted);
+  font-size:.72rem;
+  line-height:1.6;
+}
+
+.po-price{
+  margin-left:auto;
+  padding-right:1.2rem;
+  color:var(--maroon);
+  font-family:'Playfair Display',serif;
+  font-size:1.28rem;
+  white-space:nowrap;
+}
+
+.po-badge{
+  position:absolute;
+  top:-10px;
+  left:1rem;
+  border-radius:999px;
+  background:var(--green);
+  color:#fff;
+  font-size:.55rem;
+  font-weight:700;
+  letter-spacing:.03em;
+  padding:.18rem .58rem;
+}
+
+.coupon-block{
+  margin-top:1.2rem;
+  padding-top:1rem;
+  border-top:1px solid rgba(201,150,58,.12);
+}
+
+.coupon-label{
+  margin-bottom:.45rem;
+  color:var(--muted);
+  font-size:.68rem;
+  font-weight:700;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.coupon-row{
+  display:flex;
+  gap:.55rem;
+}
+
+.coupon-inp{
+  flex:1;
+  border:1.5px solid rgba(201,150,58,.22);
+  border-radius:10px;
+  background:var(--cream);
+  color:var(--text);
+  padding:.72rem .88rem;
+  font:inherit;
+  text-transform:uppercase;
+  outline:none;
+}
+
+.coupon-inp:focus{
+  border-color:var(--gold);
+}
+
+.coupon-btn{
+  border:1.5px solid rgba(201,150,58,.34);
+  border-radius:10px;
+  background:rgba(201,150,58,.14);
+  color:#8e6116;
+  padding:.72rem 1rem;
+  font:inherit;
+  font-size:.8rem;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.coupon-result{
+  display:none;
+  margin-top:.55rem;
+  padding:.6rem .78rem;
+  border-radius:10px;
+  font-size:.75rem;
+  line-height:1.45;
+}
+
+.coupon-result.ok{
+  display:block;
+  color:var(--green);
+  background:rgba(22,101,52,.08);
+  border:1px solid rgba(22,101,52,.18);
+}
+
+.coupon-result.err{
+  display:block;
+  color:var(--red);
+  background:rgba(185,28,28,.06);
+  border:1px solid rgba(185,28,28,.14);
+}
+
+.notice{
+  margin-bottom:.85rem;
+  border-radius:12px;
+  padding:.8rem .95rem;
+  background:rgba(29,78,216,.07);
+  border:1px solid rgba(29,78,216,.14);
+  color:#214e9b;
+  font-size:.76rem;
+  line-height:1.55;
+}
+
+.notice.warn{
+  background:rgba(185,28,28,.06);
+  border-color:rgba(185,28,28,.14);
+  color:#9f1d1d;
+}
+
+.pm{
+  align-items:center;
+}
+
+.pm-icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:rgba(123,28,46,.07);
+  color:var(--maroon);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1rem;
+  font-weight:700;
+  flex-shrink:0;
+}
+
+.upi-details{
+  margin-top:.8rem;
+  display:none;
+  border:1px solid rgba(201,150,58,.2);
+  border-radius:14px;
+  background:var(--cream);
+  padding:1rem;
+}
+
+.upi-copy-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.65rem;
+  align-items:center;
+}
+
+.upi-id{
+  font-size:1.02rem;
+  font-weight:700;
+  color:var(--maroon);
+  letter-spacing:.04em;
+}
+
+.upi-copy{
+  border:none;
+  border-radius:8px;
+  background:var(--maroon);
+  color:#fff;
+  padding:.48rem .88rem;
+  font:inherit;
+  font-size:.78rem;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.upi-steps{
+  margin-top:.7rem;
+  color:var(--muted);
+  font-size:.75rem;
+  line-height:1.7;
+}
+
+.sum-row,
+.sum-total{
+  display:flex;
+  justify-content:space-between;
+  gap:.8rem;
+}
+
+.sum-row{
+  padding:.55rem 0;
+  border-bottom:1px solid rgba(201,150,58,.08);
+  font-size:.84rem;
+}
+
+.sum-label{
+  color:var(--muted);
+}
+
+.sum-val{
+  color:var(--text);
+  font-weight:600;
+  text-align:right;
+}
+
+.sum-total{
+  margin-top:.8rem;
+  padding-top:.95rem;
+  border-top:2px solid rgba(201,150,58,.16);
+  align-items:flex-end;
+}
+
+.sum-total-label{
+  color:var(--maroon-dark);
+  font-family:'Playfair Display',serif;
+  font-size:1rem;
+}
+
+.sum-total-val{
+  color:var(--maroon);
+  font-family:'Playfair Display',serif;
+  font-size:1.6rem;
+}
+
+.sum-discount{
+  color:var(--green);
+}
+
+.btn-pay{
+  width:100%;
+  margin-top:1rem;
+  border:none;
+  border-radius:12px;
+  padding:1rem 1.1rem;
+  background:linear-gradient(135deg, var(--maroon-dark), var(--maroon));
+  color:#fff;
+  font:inherit;
+  font-size:.96rem;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 12px 30px rgba(123,28,46,.28);
+  transition:transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+
+.btn-pay:hover{
+  transform:translateY(-1px);
+  box-shadow:0 16px 32px rgba(123,28,46,.34);
+}
+
+.btn-pay:disabled{
+  opacity:.62;
+  cursor:not-allowed;
+  transform:none;
+  box-shadow:none;
+}
+
+.secure-note{
+  margin-top:.8rem;
+  text-align:center;
+  color:var(--muted);
+  font-size:.7rem;
+  line-height:1.75;
+}
+
+.success-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:999;
+  background:rgba(42,8,16,.78);
+  backdrop-filter:blur(4px);
+  padding:1rem;
+  align-items:center;
+  justify-content:center;
+}
+
+.success-overlay.show{
+  display:flex;
+}
+
+.success-box{
+  width:100%;
+  max-width:460px;
+  border-radius:22px;
+  background:var(--white);
+  padding:2.25rem;
+  text-align:center;
+  box-shadow:0 24px 72px rgba(0,0,0,.28);
+}
+
+.overlay-icon{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  margin:0 auto .9rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(22,101,52,.08);
+  color:var(--green);
+  font-size:1rem;
+  font-weight:700;
+}
+
+.overlay-title{
+  margin:0 0 .45rem;
+  color:var(--maroon-dark);
+  font-family:'Playfair Display',serif;
+  font-size:1.45rem;
+}
+
+.overlay-message{
+  margin:0 0 1.4rem;
+  color:var(--muted);
+  font-size:.86rem;
+  line-height:1.7;
+}
+
+.overlay-link{
+  display:inline-block;
+  text-decoration:none;
+  border-radius:12px;
+  background:linear-gradient(135deg, var(--maroon-dark), var(--maroon));
+  color:#fff;
+  padding:.8rem 1.5rem;
+  font-size:.92rem;
+  font-weight:700;
+}
+
+.demo-actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:.65rem;
+}
+
+.demo-btn{
+  border:none;
+  border-radius:12px;
+  padding:.78rem 1.15rem;
+  font:inherit;
+  font-size:.84rem;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.demo-btn-primary{
+  background:linear-gradient(135deg, var(--maroon-dark), var(--maroon));
+  color:#fff;
+}
+
+.demo-btn-muted{
+  background:rgba(201,150,58,.12);
+  color:var(--maroon-dark);
+  border:1px solid rgba(201,150,58,.26);
+}
+
+.toast-wrap{
+  position:fixed;
+  right:1rem;
+  bottom:1rem;
+  z-index:1100;
+  display:flex;
+  flex-direction:column;
+  gap:.55rem;
+  pointer-events:none;
+}
+
+.toast{
+  min-width:260px;
+  max-width:340px;
+  border-radius:12px;
+  padding:.82rem 1rem;
+  box-shadow:0 10px 24px rgba(0,0,0,.18);
+  font-size:.8rem;
+  transform:translateY(8px);
+  opacity:0;
+  transition:opacity .22s ease, transform .22s ease;
+  pointer-events:auto;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.toast.success{
+  background:#166534;
+  color:#d1fae5;
+}
+
+.toast.error{
+  background:#7f1d1d;
+  color:#fecaca;
+}
+
+.toast.info{
+  background:#1e3a5f;
+  color:#bfdbfe;
+}
+
+@media (max-width: 860px){
+  .main{
+    grid-template-columns:1fr;
+  }
+
+  .summary{
+    position:static;
+  }
+}
+
+@media (max-width: 640px){
+  .nav{
+    padding:.9rem 1rem;
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .nav-back{
+    width:100%;
+  }
+
+  .main{
+    padding:1rem .85rem 1.5rem;
+    gap:1rem;
+  }
+
+  .section,
+  .summary,
+  .success-box{
+    padding:1rem;
+  }
+
+  .coupon-row{
+    flex-direction:column;
+  }
+
+  .po,
+  .pm{
+    padding:.85rem .9rem;
+  }
+
+  .po-price{
+    margin-left:0;
+    width:100%;
+    padding-right:0;
+    padding-left:1.8rem;
+    margin-top:.15rem;
+  }
+
+  .sum-total-val{
+    font-size:1.45rem;
+  }
+
+  .toast-wrap{
+    left:.85rem;
+    right:.85rem;
+  }
+
+  .toast{
+    min-width:0;
+    max-width:none;
+    width:100%;
+  }
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-icon">P</div>
+    <div>
+      <div class="nav-name" id="brandName">Parichayam</div>
+      <span class="nav-sub">Checkout</span>
+    </div>
+  </a>
+  <a href="dashboard.html" class="nav-back" id="navBackLink">Back to Dashboard</a>
+</nav>
+
+<div class="main">
+  <div>
+    <div class="section">
+      <h2 class="sec-title" id="purchaseTitle">Choose Your Plan</h2>
+      <div class="plan-opts" id="planOptions"></div>
+
+      <div class="coupon-block" id="couponSection">
+        <div class="coupon-label">Have a coupon?</div>
+        <div class="coupon-row">
+          <input class="coupon-inp" id="couponInput" placeholder="Enter code (for example UGADI25)">
+          <button class="coupon-btn" type="button" onclick="applyCoupon()">Apply</button>
+        </div>
+        <div class="coupon-result" id="couponResult"></div>
+      </div>
+    </div>
+
+    <div class="section" style="margin-top:1rem;">
+      <h2 class="sec-title">Payment Method</h2>
+      <div class="notice" id="gatewayNotice"></div>
+
+      <div class="pay-methods">
+        <button class="pm sel" id="upiMethod" type="button" onclick="selectPayment('upi', this)">
+          <div class="pm-icon">UPI</div>
+          <div>
+            <div class="pm-name">Manual UPI</div>
+            <div class="pm-desc" id="upiMethodDesc"></div>
+          </div>
+        </button>
+
+        <button class="pm" id="razorpayMethod" type="button" onclick="selectPayment('gateway', this)">
+          <div class="pm-icon" id="gatewayMethodIcon">PAY</div>
+          <div>
+            <div class="pm-name" id="gatewayMethodName">Cards, UPI and Net Banking</div>
+            <div class="pm-desc" id="razorpayMethodDesc"></div>
+          </div>
+        </button>
+      </div>
+
+      <div class="upi-details" id="upiDetails">
+        <div style="font-size:.76rem;color:var(--muted);margin-bottom:.55rem;">Send the payment to this UPI ID and share the screenshot on WhatsApp:</div>
+        <div class="upi-copy-row">
+          <div class="upi-id" id="upiId">parichayam@upi</div>
+          <button class="upi-copy" type="button" onclick="copyUPI()">Copy</button>
+        </div>
+        <div class="upi-steps" id="upiSteps"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="summary">
+    <h2 class="sec-title">Order Summary</h2>
+    <div id="summaryContent">
+      <div class="sum-row">
+        <span class="sum-label" id="sumItemLabel">Plan</span>
+        <span class="sum-val" id="sumPlan">6 Months</span>
+      </div>
+      <div class="sum-row">
+        <span class="sum-label">Base Price</span>
+        <span class="sum-val" id="sumBase">₹550</span>
+      </div>
+      <div class="sum-row" id="sumDiscountRow" style="display:none;">
+        <span class="sum-label">Coupon Discount</span>
+        <span class="sum-val sum-discount" id="sumDiscount">-₹0</span>
+      </div>
+      <div class="sum-row" id="sumTaxRow">
+        <span class="sum-label" id="sumTaxLabel">GST (18%)</span>
+        <span class="sum-val" id="sumGST">₹99</span>
+      </div>
+    </div>
+
+    <div class="sum-total">
+      <span class="sum-total-label">Total</span>
+      <span class="sum-total-val" id="sumTotal">₹649</span>
+    </div>
+
+    <button class="btn-pay" id="payBtn" type="button" onclick="processPayment()">Pay ₹649 →</button>
+    <div class="secure-note" id="secureNote"></div>
+  </aside>
+</div>
+
+<div class="success-overlay" id="successOverlay">
+  <div class="success-box">
+    <div class="overlay-icon" id="overlayIcon">OK</div>
+    <h3 class="overlay-title" id="overlayTitle">Payment Update</h3>
+    <p class="overlay-message" id="successMsg">Your purchase has been recorded.</p>
+    <a class="overlay-link" id="overlayLink" href="dashboard.html">Go to Dashboard →</a>
+  </div>
+</div>
+
+<div class="success-overlay" id="demoGatewayOverlay">
+  <div class="success-box">
+    <div class="overlay-icon" id="demoGatewayIcon">TEST</div>
+    <h3 class="overlay-title">Demo Test Gateway</h3>
+    <p class="overlay-message" id="demoGatewayMessage">Choose how this test payment should behave.</p>
+    <div class="demo-actions">
+      <button class="demo-btn demo-btn-muted" type="button" onclick="closeDemoGateway('cancel')">Cancel</button>
+      <button class="demo-btn demo-btn-muted" type="button" onclick="closeDemoGateway('fail')">Simulate Failure</button>
+      <button class="demo-btn demo-btn-primary" type="button" onclick="closeDemoGateway('success')">Simulate Success</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+<script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-storage-compat.js"></script>
+<script src="parichayam-firebase-config.js"></script>
+<script src="parichayam-firebase.js"></script>
+<script>
+const DEFAULT_SITE_SETTINGS = {
+  businessName: 'Parichayam',
+  supportPhone: '+91 94401 76078',
+  supportEmail: 'hello@parichayam.co.in',
+  upiId: 'parichayam@upi',
+  officeLocation: 'Vijayawada, AP',
+};
+
+const DEFAULT_PAYMENT_SETTINGS = {
+  gateway: 'demo',
+  mode: 'test',
+  currency: 'INR',
+  razorpayKeyId: 'demo_test_key',
+  createOrderUrl: 'http://127.0.0.1:8787/payments/demo/order',
+  verifyOrderUrl: 'http://127.0.0.1:8787/payments/demo/verify',
+};
+const AUTH_TOKEN_KEY = 'parichayam_auth_token';
+const DEFAULT_API_BASE_URL = window.location.protocol === 'file:' ? 'http://localhost:4000/api' : '/api';
+
+const PLAN_KEYS = ['1mo', '3mo', '6mo', 'annual'];
+
+const PLANS = {
+  '1mo': { name: '1 Month', desc: '30 connects each month, priority search and faster responses.', price: 199, badge: '' },
+  '3mo': { name: '3 Months', desc: 'Save 25%, get mutual highlights and a response badge.', price: 449, badge: 'Popular' },
+  '6mo': { name: '6 Months', desc: 'Save 54%, anonymous browsing and who viewed me.', price: 550, badge: 'Best Value', badgeStyle: 'background:var(--green);' },
+  'annual': { name: 'Annual', desc: 'Save 58%, dedicated matchmaker and AI report.', price: 1000, badge: '' },
+};
+
+const ITEM_CATALOG = {
+  'whatsapp-alerts': {
+    type: 'addon',
+    name: 'WhatsApp Alerts',
+    description: 'Monthly alerts for interests, matches and admin updates.',
+    price: 100,
+    taxRate: 0,
+    couponEligible: false,
+  },
+  'profile-boost': {
+    type: 'addon',
+    name: 'Profile Boost',
+    description: 'One-time profile boost for higher visibility in staff-curated shortlists.',
+    price: 1000,
+    taxRate: 0,
+    couponEligible: false,
+  },
+  'anonymous-browse': {
+    type: 'addon',
+    name: 'Anonymous Browse',
+    description: 'Browse partner profiles without showing in Who Viewed Me.',
+    price: 199,
+    taxRate: 0,
+    couponEligible: false,
+  },
+  'gotra-block': {
+    type: 'addon',
+    name: 'Gotra Auto-Block',
+    description: 'Monthly add-on for respectful same-Gotra auto-blocking.',
+    price: 100,
+    taxRate: 0,
+    couponEligible: false,
+  },
+  'kundali-pack': {
+    type: 'addon',
+    name: 'Kundali Match Pack',
+    description: 'Pack of paid Kundali validations with admin-controlled usage and expiry.',
+    price: 100,
+    taxRate: 0,
+    couponEligible: false,
+  },
+  'aadhaar-verification': {
+    type: 'verification',
+    name: 'ID Verification',
+    description: 'Manual Aadhaar review by the Parichayam verification desk.',
+    price: 100,
+    taxRate: 0,
+    couponEligible: false,
+  },
+  'income-verification': {
+    type: 'verification',
+    name: 'Income Verification',
+    description: 'Manual income review by the Parichayam verification desk.',
+    price: 100,
+    taxRate: 0,
+    couponEligible: false,
+  },
+  'psychology-report': {
+    type: 'report',
+    name: 'Psychology Report',
+    description: 'One-time detailed psychology report purchase.',
+    price: 50,
+    taxRate: 0,
+    couponEligible: false,
+  },
+  'connect-5': {
+    type: 'connect-pack',
+    name: '5 Extra Connects',
+    description: 'One-time connect top-up for the current month.',
+    price: 50,
+    taxRate: 0,
+    couponEligible: false,
+    connectCount: 5,
+  },
+  'connect-15': {
+    type: 'connect-pack',
+    name: '15 Extra Connects',
+    description: 'One-time connect top-up for the current month.',
+    price: 120,
+    taxRate: 0,
+    couponEligible: false,
+    connectCount: 15,
+  },
+  'connect-30': {
+    type: 'connect-pack',
+    name: '30 Extra Connects',
+    description: 'One-time connect top-up for the current month.',
+    price: 200,
+    taxRate: 0,
+    couponEligible: false,
+    connectCount: 30,
+  },
+};
+
+const DEFAULT_COUPONS = [
+  { code: 'UGADI25', type: 'percent', value: 25, desc: 'Ugadi Festival - 25% off', expiry: '2026-04-15', maxUses: 100, used: 0, plans: PLAN_KEYS },
+  { code: 'WELCOME10', type: 'percent', value: 10, desc: 'Welcome offer - 10% off', expiry: '2026-12-31', maxUses: 500, used: 0, plans: PLAN_KEYS },
+  { code: 'FLAT100', type: 'flat', value: 100, desc: 'Flat INR 100 off', expiry: '2026-12-31', maxUses: 200, used: 0, plans: PLAN_KEYS },
+  { code: 'VYSHYA50', type: 'flat', value: 50, desc: 'Community special - INR 50 off', expiry: '2026-12-31', maxUses: 300, used: 0, plans: PLAN_KEYS },
+  { code: 'NRI20', type: 'percent', value: 20, desc: 'NRI special - 20% off', expiry: '2026-12-31', maxUses: 100, used: 0, plans: ['annual'] },
+];
+
+let selectedPlanKey = '6mo';
+let basePrice = 550;
+let couponDiscount = 0;
+let paymentMethod = 'upi';
+let activeCoupon = null;
+let checkoutItem = null;
+let isProcessing = false;
+let razorpayLoader = null;
+let demoGatewayPromise = null;
+
+function readJSON(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function getSiteSettings() {
+  return { ...DEFAULT_SITE_SETTINGS, ...(readJSON('parichayam_site_settings', {}) || {}) };
+}
+
+function getPaymentSettings() {
+  const saved = readJSON('parichayam_payment_settings', {}) || {};
+  const merged = { ...DEFAULT_PAYMENT_SETTINGS, ...saved };
+  const hasGatewayUrls = !!(String(merged.createOrderUrl || '').trim() && String(merged.verifyOrderUrl || '').trim());
+  const hasRazorpayKey = !!String(merged.razorpayKeyId || '').trim();
+  if (!hasGatewayUrls && !hasRazorpayKey) {
+    return {
+      ...DEFAULT_PAYMENT_SETTINGS,
+      ...saved,
+      gateway: 'demo',
+      razorpayKeyId: DEFAULT_PAYMENT_SETTINGS.razorpayKeyId,
+      createOrderUrl: DEFAULT_PAYMENT_SETTINGS.createOrderUrl,
+      verifyOrderUrl: DEFAULT_PAYMENT_SETTINGS.verifyOrderUrl,
+    };
+  }
+  return merged;
+}
+
+function isDemoGateway() {
+  return String(getPaymentSettings().gateway || '').toLowerCase() === 'demo';
+}
+
+function getCoupons() {
+  return (readJSON('parichayam_coupons', DEFAULT_COUPONS) || DEFAULT_COUPONS).map(coupon => ({
+    code: String(coupon.code || '').toUpperCase(),
+    type: coupon.type === 'flat' ? 'flat' : 'percent',
+    value: Number(coupon.value) || 0,
+    desc: coupon.desc || '',
+    expiry: coupon.expiry || '2099-12-31',
+    maxUses: Number(coupon.maxUses) || 0,
+    used: Number(coupon.used) || 0,
+    plans: Array.isArray(coupon.plans) && coupon.plans.length ? coupon.plans : PLAN_KEYS,
+  }));
+}
+
+function getApiBaseUrl() {
+  const saved = localStorage.getItem('parichayam_api_base_url');
+  const configured = window.PARICHAYAM_API_BASE_URL || saved || DEFAULT_API_BASE_URL;
+  return String(configured || '').replace(/\/+$/, '');
+}
+
+function getAuthToken() {
+  return sessionStorage.getItem(AUTH_TOKEN_KEY) || '';
+}
+
+function hasBackendAuth() {
+  return !!getAuthToken();
+}
+
+async function apiFetch(path, options = {}) {
+  const response = await fetch(getApiBaseUrl() + path, {
+    method: options.method || 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(hasBackendAuth() ? { Authorization: 'Bearer ' + getAuthToken() } : {}),
+      ...(options.headers || {}),
+    },
+    body: options.body ? JSON.stringify(options.body) : undefined,
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const error = new Error(data.message || 'Request failed');
+    error.status = response.status;
+    error.payload = data;
+    throw error;
+  }
+  return data;
+}
+
+function getMemberSession() {
+  try {
+    return JSON.parse(sessionStorage.getItem('parichayam_member_session') || 'null');
+  } catch (error) {
+    return null;
+  }
+}
+
+function formatCurrency(amount) {
+  return '₹' + Number(amount || 0).toLocaleString('en-IN');
+}
+
+function normalizePhone(value) {
+  return String(value || '').replace(/[^\d]/g, '');
+}
+
+function getWhatsAppDigits(phone) {
+  const digits = normalizePhone(phone);
+  if (digits.length === 10) return '91' + digits;
+  if (digits.startsWith('91') && digits.length >= 12) return digits;
+  return digits || '919440176078';
+}
+
+function loadAdminPrices() {
+  const prices = readJSON('parichayam_plan_prices', {});
+  Object.entries(prices).forEach(([key, value]) => {
+    const parsed = parseInt(value, 10);
+    if (!Number.isNaN(parsed) && PLANS[key]) {
+      PLANS[key].price = parsed;
+    }
+  });
+}
+
+function resolveCheckoutItem() {
+  const params = new URLSearchParams(window.location.search);
+  const type = (params.get('type') || 'membership').toLowerCase();
+
+  if (type === 'membership') {
+    const planKey = PLANS[params.get('plan')] ? params.get('plan') : '6mo';
+    const amountOverride = parseInt(String(params.get('amount') || '').replace(/[^\d]/g, ''), 10);
+    if (!Number.isNaN(amountOverride) && amountOverride > 0) {
+      PLANS[planKey].price = amountOverride;
+    }
+    selectedPlanKey = planKey;
+    basePrice = PLANS[planKey].price;
+    return {
+      type: 'membership',
+      code: planKey,
+      couponPrefill: params.get('coupon') || '',
+      backHref: params.get('back') || 'dashboard.html',
+    };
+  }
+
+  const itemKey = (params.get('item') || '').toLowerCase();
+  const count = parseInt(params.get('count'), 10) || 0;
+  const amount = parseInt(String(params.get('amount') || '').replace(/[^\d]/g, ''), 10) || 0;
+  const catalog = ITEM_CATALOG[itemKey] ? { ...ITEM_CATALOG[itemKey] } : {
+    type,
+    name: params.get('label') || 'Secure Purchase',
+    description: params.get('desc') || 'One-time checkout item.',
+    price: amount,
+    taxRate: Number(params.get('taxRate') || 0),
+    couponEligible: params.get('couponEligible') === '1',
+  };
+
+  if (amount) catalog.price = amount;
+  if (count && !catalog.connectCount) catalog.connectCount = count;
+
+  basePrice = Number(catalog.price) || 0;
+
+  return {
+    ...catalog,
+    type: catalog.type || type,
+    code: itemKey || type,
+    couponPrefill: params.get('coupon') || '',
+    backHref: params.get('back') || 'dashboard.html',
+    targetProfileName: params.get('targetProfile') || '',
+    targetProfileIdx: params.get('targetIdx') || '',
+    requestId: params.get('requestId') || '',
+    verificationType: params.get('verificationType') || '',
+    documentType: params.get('documentType') || '',
+    kundaliChecks: parseInt(params.get('kundaliChecks'), 10) || 0,
+    kundaliValidityDays: parseInt(params.get('kundaliValidityDays'), 10) || 0,
+    kundaliExpiresAt: params.get('kundaliExpiresAt') || '',
+  };
+}
+
+function getCurrentItem() {
+  if (checkoutItem.type === 'membership') {
+    return {
+      type: 'membership',
+      code: selectedPlanKey,
+      name: PLANS[selectedPlanKey].name,
+      description: PLANS[selectedPlanKey].desc,
+      price: PLANS[selectedPlanKey].price,
+      taxRate: 0.18,
+      couponEligible: true,
+    };
+  }
+  return checkoutItem;
+}
+
+function getTaxRate() {
+  return getCurrentItem().type === 'membership' ? 0.18 : Number(getCurrentItem().taxRate || 0);
+}
+
+function getPricing() {
+  const discounted = Math.max(0, basePrice - couponDiscount);
+  const tax = Math.round(discounted * getTaxRate());
+  return {
+    discounted,
+    tax,
+    total: discounted + tax,
+  };
+}
+
+function isGatewayConfigured() {
+  const payment = getPaymentSettings();
+  if (String(payment.gateway || '').toLowerCase() === 'demo') {
+    return !!(payment.createOrderUrl && payment.verifyOrderUrl);
+  }
+  return !!(payment.razorpayKeyId && payment.createOrderUrl && payment.verifyOrderUrl);
+}
+
+function renderPlanOptions() {
+  const wrapper = document.getElementById('planOptions');
+  const title = document.getElementById('purchaseTitle');
+  const couponSection = document.getElementById('couponSection');
+  if (!wrapper || !title) return;
+
+  if (checkoutItem.type === 'membership') {
+    title.textContent = 'Choose Your Plan';
+    wrapper.innerHTML = PLAN_KEYS.map(key => {
+      const plan = PLANS[key];
+      const selected = key === selectedPlanKey ? ' sel' : '';
+      const badge = plan.badge ? `<div class="po-badge"${plan.badgeStyle ? ` style="${plan.badgeStyle}"` : ''}>${plan.badge}</div>` : '';
+      return `<div class="po${selected}" data-plan="${key}" onclick="selectPlan(this, '${key}')">
+        <div class="po-radio"></div>
+        <div class="po-info">
+          <div class="po-name">${plan.name}</div>
+          <div class="po-desc">${plan.desc}</div>
+        </div>
+        <div class="po-price">${formatCurrency(plan.price)}</div>
+        ${badge}
+      </div>`;
+    }).join('');
+    couponSection.style.display = '';
+  } else {
+    title.textContent = 'Purchase Details';
+    wrapper.innerHTML = `<div class="po sel static">
+      <div class="po-radio"></div>
+      <div class="po-info">
+        <div class="po-name">${checkoutItem.name}</div>
+        <div class="po-desc">${checkoutItem.description}</div>
+      </div>
+      <div class="po-price">${formatCurrency(basePrice)}</div>
+    </div>`;
+    couponSection.style.display = checkoutItem.couponEligible ? '' : 'none';
+  }
+}
+
+function updatePaymentUI() {
+  const site = getSiteSettings();
+  const payment = getPaymentSettings();
+  const gatewayNotice = document.getElementById('gatewayNotice');
+  const upiMethodDesc = document.getElementById('upiMethodDesc');
+  const razorpayMethodDesc = document.getElementById('razorpayMethodDesc');
+  const gatewayMethodName = document.getElementById('gatewayMethodName');
+  const gatewayMethodIcon = document.getElementById('gatewayMethodIcon');
+  const upiId = document.getElementById('upiId');
+  const upiSteps = document.getElementById('upiSteps');
+  const secureNote = document.getElementById('secureNote');
+  const backLink = document.getElementById('navBackLink');
+  const brand = document.getElementById('brandName');
+  const gatewayLabel = isDemoGateway() ? 'Demo Test Gateway' : 'Cards, UPI and Net Banking';
+
+  if (brand) brand.textContent = site.businessName || 'Parichayam';
+  if (backLink) backLink.href = checkoutItem.backHref || 'dashboard.html';
+  if (upiMethodDesc) upiMethodDesc.textContent = 'GPay, PhonePe or Paytm to ' + site.upiId + '.';
+  if (gatewayMethodName) gatewayMethodName.textContent = gatewayLabel;
+  if (gatewayMethodIcon) gatewayMethodIcon.textContent = isDemoGateway() ? 'TEST' : 'PAY';
+  if (razorpayMethodDesc) {
+    razorpayMethodDesc.textContent = isDemoGateway()
+      ? (isGatewayConfigured()
+        ? 'Local sandbox payment using create-order and verify APIs on your machine.'
+        : 'Start the local demo API and add the create-order and verify URLs in Admin > Website Content.')
+      : (isGatewayConfigured()
+        ? (payment.mode === 'test'
+          ? 'Test mode checkout through secure order and verify APIs.'
+          : 'Live checkout through secure order and verify APIs.')
+        : 'Requires admin payment key plus create-order and verify APIs.');
+  }
+  if (gatewayNotice) {
+    gatewayNotice.className = 'notice' + (isGatewayConfigured() ? '' : ' warn');
+    gatewayNotice.textContent = isDemoGateway()
+      ? (isGatewayConfigured()
+        ? 'Demo gateway is ready. Start `payment_test_api.ps1`, then use the online method to simulate success or failure.'
+        : 'Demo gateway is not fully configured yet. Start `payment_test_api.ps1` and save the local API URLs in Admin > Website Content.')
+      : (isGatewayConfigured()
+        ? (payment.mode === 'test'
+          ? 'Online payments are running in TEST mode. Use Razorpay test credentials and test instruments only.'
+          : 'Online payments are running in LIVE mode. Orders are created and verified through backend APIs.')
+        : 'Online payment is not fully configured yet. Manual UPI is available now, or an admin can add the Razorpay key and API URLs in Admin > Website Content.');
+  }
+  if (upiId) upiId.textContent = site.upiId;
+  if (upiSteps) {
+    const item = getCurrentItem();
+    const action = item.type === 'membership' ? 'membership' : 'purchase';
+    upiSteps.innerHTML =
+      '1. Open your UPI app and pay <strong style="color:var(--text)">' + formatCurrency(getPricing().total) + '</strong> to <strong style="color:var(--text)">' + site.upiId + '</strong><br>' +
+      '2. Share the payment screenshot and your registered mobile number to <strong style="color:var(--maroon)">' + site.supportPhone + '</strong><br>' +
+      '3. Our team verifies the payment and activates the ' + action + '.';
+  }
+  if (secureNote) {
+    secureNote.innerHTML =
+      'Secure checkout. Refund review within 7 days where applicable.<br>' +
+      'No auto-renewal. Cancel anytime. ' + site.officeLocation;
+  }
+}
+
+function showCouponResult(ok, message) {
+  const result = document.getElementById('couponResult');
+  if (!result) return;
+  result.className = 'coupon-result ' + (ok ? 'ok' : 'err');
+  result.textContent = message;
+}
+
+function isCouponExpired(coupon) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return new Date(coupon.expiry) < today;
+}
+
+function isCouponApplicable(coupon) {
+  if (!coupon) return false;
+  if (checkoutItem.type !== 'membership') return !!checkoutItem.couponEligible;
+  return Array.isArray(coupon.plans) && coupon.plans.includes(selectedPlanKey);
+}
+
+function updateSummary() {
+  const item = getCurrentItem();
+  const pricing = getPricing();
+  const discountRow = document.getElementById('sumDiscountRow');
+  const taxRow = document.getElementById('sumTaxRow');
+
+  basePrice = Number(item.price) || basePrice;
+  document.getElementById('sumItemLabel').textContent = item.type === 'membership' ? 'Plan' : 'Item';
+  document.getElementById('sumPlan').textContent = item.name;
+  document.getElementById('sumBase').textContent = formatCurrency(basePrice);
+  document.getElementById('sumTotal').textContent = formatCurrency(pricing.total);
+  document.getElementById('payBtn').textContent = isProcessing ? 'Processing...' : 'Pay ' + formatCurrency(pricing.total) + ' →';
+
+  if (couponDiscount > 0) {
+    discountRow.style.display = 'flex';
+    document.getElementById('sumDiscount').textContent = '-' + formatCurrency(couponDiscount);
+  } else {
+    discountRow.style.display = 'none';
+  }
+
+  if (pricing.tax > 0) {
+    taxRow.style.display = 'flex';
+    document.getElementById('sumTaxLabel').textContent = 'GST (' + Math.round(getTaxRate() * 100) + '%)';
+    document.getElementById('sumGST').textContent = formatCurrency(pricing.tax);
+  } else {
+    taxRow.style.display = 'none';
+  }
+
+  updatePaymentUI();
+}
+
+function selectPlan(element, key) {
+  if (!PLANS[key]) return;
+  selectedPlanKey = key;
+  basePrice = PLANS[key].price;
+  document.querySelectorAll('#planOptions .po').forEach(card => card.classList.remove('sel'));
+  if (element) element.classList.add('sel');
+
+  if (activeCoupon && !isCouponApplicable(activeCoupon)) {
+    activeCoupon = null;
+    couponDiscount = 0;
+    showCouponResult(false, 'Coupon removed because it is not valid for this plan.');
+  } else if (activeCoupon) {
+    applyDiscount(activeCoupon);
+    return;
+  }
+
+  updateSummary();
+}
+
+function applyDiscount(coupon) {
+  if (!coupon || !isCouponApplicable(coupon)) {
+    couponDiscount = 0;
+    updateSummary();
+    return;
+  }
+
+  couponDiscount = coupon.type === 'percent'
+    ? Math.round(basePrice * coupon.value / 100)
+    : Math.min(coupon.value, basePrice);
+
+  updateSummary();
+}
+
+function applyCoupon() {
+  const input = document.getElementById('couponInput');
+  const code = input ? input.value.trim().toUpperCase() : '';
+  if (!code) {
+    showCouponResult(false, 'Enter a coupon code.');
+    return;
+  }
+
+  if (checkoutItem.type !== 'membership' && !checkoutItem.couponEligible) {
+    activeCoupon = null;
+    couponDiscount = 0;
+    showCouponResult(false, 'Coupons are not available for this purchase.');
+    updateSummary();
+    return;
+  }
+
+  const coupon = getCoupons().find(item => item.code === code);
+  if (!coupon) {
+    activeCoupon = null;
+    couponDiscount = 0;
+    showCouponResult(false, 'Invalid coupon code.');
+    updateSummary();
+    return;
+  }
+
+  if (isCouponExpired(coupon)) {
+    activeCoupon = null;
+    couponDiscount = 0;
+    showCouponResult(false, 'This coupon has expired.');
+    updateSummary();
+    return;
+  }
+
+  if (coupon.maxUses > 0 && coupon.used >= coupon.maxUses) {
+    activeCoupon = null;
+    couponDiscount = 0;
+    showCouponResult(false, 'This coupon has already reached its usage limit.');
+    updateSummary();
+    return;
+  }
+
+  if (!isCouponApplicable(coupon)) {
+    activeCoupon = null;
+    couponDiscount = 0;
+    showCouponResult(false, 'This coupon is not valid for the selected plan.');
+    updateSummary();
+    return;
+  }
+
+  activeCoupon = coupon;
+  applyDiscount(coupon);
+  showCouponResult(true, coupon.code + ' applied - ' + coupon.desc);
+  toast('Coupon ' + coupon.code + ' applied.', 'success');
+}
+
+function selectPayment(method, element) {
+  if (method === 'gateway' && !isGatewayConfigured()) {
+    toast('Online checkout is not fully configured yet. Use UPI or ask an admin to add the payment API settings.', 'error');
+    return;
+  }
+
+  paymentMethod = method;
+  document.querySelectorAll('.pm').forEach(card => card.classList.remove('sel'));
+  if (element) element.classList.add('sel');
+  document.getElementById('upiDetails').style.display = method === 'upi' ? 'block' : 'none';
+}
+
+function copyUPI() {
+  navigator.clipboard?.writeText(getSiteSettings().upiId);
+  toast('UPI ID copied.', 'success');
+}
+
+function buildReference() {
+  return 'PARI-' + Date.now();
+}
+
+function persistPaymentRecord(status, extra = {}) {
+  const item = getCurrentItem();
+  const pricing = getPricing();
+  const history = readJSON('parichayam_payment_history', []);
+  const record = {
+    id: extra.id || buildReference(),
+    createdAt: new Date().toISOString(),
+    status,
+    paymentMethod,
+    itemType: item.type,
+    itemCode: item.code,
+    itemName: item.name,
+    baseAmount: basePrice,
+    discountAmount: couponDiscount,
+    taxAmount: pricing.tax,
+    totalAmount: pricing.total,
+    couponCode: activeCoupon ? activeCoupon.code : null,
+    ...extra,
+  };
+  history.unshift(record);
+  localStorage.setItem('parichayam_payment_history', JSON.stringify(history));
+  localStorage.setItem('parichayam_last_payment', JSON.stringify(record));
+  return record;
+}
+
+function incrementCouponUsage(code) {
+  if (!code) return;
+  const coupons = getCoupons();
+  const index = coupons.findIndex(coupon => coupon.code === code);
+  if (index === -1) return;
+  coupons[index].used = Number(coupons[index].used || 0) + 1;
+  localStorage.setItem('parichayam_coupons', JSON.stringify(coupons));
+}
+
+async function syncMemberPlan(record) {
+  if (getCurrentItem().type !== 'membership') return;
+  const session = getMemberSession();
+  if (!session) return;
+
+  session.plan = selectedPlanKey;
+  session.planName = PLANS[selectedPlanKey].name;
+  session.isPaid = true;
+  session.pendingPlan = '';
+  session.lastPaymentId = record.gatewayPaymentId || record.id;
+  session.lastPaymentAt = record.createdAt;
+  if (hasBackendAuth()) {
+    try {
+      const result = await apiFetch('/payment/complete-membership', {
+        method: 'POST',
+        body: {
+          plan: selectedPlanKey,
+          planName: PLANS[selectedPlanKey]?.name || selectedPlanKey,
+          amount: record.totalAmount,
+          currency: getPaymentSettings().currency || 'INR',
+          gateway: isDemoGateway() ? 'demo' : 'razorpay',
+          gatewayOrderId: record.gatewayOrderId || '',
+          gatewayPaymentId: record.gatewayPaymentId || record.id,
+          gatewaySignature: record.gatewaySignature || '',
+          status: record.status || 'paid',
+          payload: {
+            itemCode: getCurrentItem().code,
+            itemName: getCurrentItem().name,
+            verification: record.verification || null,
+            couponCode: activeCoupon ? activeCoupon.code : null,
+          },
+        },
+      });
+      if (result.member) Object.assign(session, result.member);
+    } catch (error) {
+      console.warn('Unable to sync membership purchase to backend:', error.message || error);
+      toast('Payment saved locally, but backend membership sync is pending.', 'info');
+    }
+  }
+
+  sessionStorage.setItem('parichayam_member_session', JSON.stringify(session));
+  if (hasBackendAuth()) return;
+
+  const members = readJSON('parichayam_members', []);
+  const index = members.findIndex(member =>
+    (session.phone && member.phone === session.phone) ||
+    (session.email && member.email === session.email)
+  );
+  if (index >= 0) {
+    members[index] = { ...members[index], ...session };
+    localStorage.setItem('parichayam_members', JSON.stringify(members));
+  }
+}
+
+function storeCheckoutNotice(record) {
+  const item = getCurrentItem();
+  localStorage.setItem('parichayam_checkout_notice', JSON.stringify({
+    type: item.type,
+    code: item.code,
+    name: item.name,
+    connectCount: item.connectCount || 0,
+    targetProfileName: checkoutItem.targetProfileName || '',
+    targetProfileIdx: checkoutItem.targetProfileIdx || '',
+    requestId: checkoutItem.requestId || '',
+    verificationType: checkoutItem.verificationType || '',
+    documentType: checkoutItem.documentType || '',
+    kundaliChecks: checkoutItem.kundaliChecks || item.kundaliChecks || 0,
+    kundaliValidityDays: checkoutItem.kundaliValidityDays || item.kundaliValidityDays || 0,
+    kundaliExpiresAt: checkoutItem.kundaliExpiresAt || item.kundaliExpiresAt || '',
+    totalAmount: record.totalAmount,
+    status: record.status,
+    createdAt: record.createdAt,
+  }));
+}
+
+function showConfirmation(options) {
+  document.getElementById('overlayIcon').textContent = options.icon || 'OK';
+  document.getElementById('overlayTitle').textContent = options.title || 'Payment Update';
+  document.getElementById('successMsg').innerHTML = options.message || '';
+  document.getElementById('overlayLink').textContent = options.linkText || 'Go to Dashboard →';
+  document.getElementById('overlayLink').href = options.linkHref || 'dashboard.html';
+  document.getElementById('successOverlay').classList.add('show');
+}
+
+function setProcessing(flag) {
+  isProcessing = flag;
+  document.getElementById('payBtn').disabled = flag;
+  updateSummary();
+}
+
+async function loadRazorpayScript() {
+  if (window.Razorpay) return window.Razorpay;
+  if (!razorpayLoader) {
+    razorpayLoader = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(window.Razorpay);
+      script.onerror = () => reject(new Error('Unable to load Razorpay checkout script.'));
+      document.head.appendChild(script);
+    });
+  }
+  return razorpayLoader;
+}
+
+function buildOrderPayload() {
+  const site = getSiteSettings();
+  const payment = getPaymentSettings();
+  const session = getMemberSession() || {};
+  const item = getCurrentItem();
+  const pricing = getPricing();
+  const contactDigits = normalizePhone(session.phone || site.supportPhone).slice(-10) || '9440176078';
+  return {
+    receipt: buildReference(),
+    amount: pricing.total * 100,
+    currency: payment.currency || 'INR',
+    itemType: item.type,
+    itemCode: item.code,
+    itemName: item.name,
+    description: item.description,
+    baseAmount: basePrice,
+    discountAmount: couponDiscount,
+    taxAmount: pricing.tax,
+    totalAmount: pricing.total,
+    couponCode: activeCoupon ? activeCoupon.code : null,
+    customer: {
+      name: session.name || '',
+      email: session.email || site.supportEmail,
+      contact: contactDigits,
+    },
+    metadata: {
+      targetProfileName: checkoutItem.targetProfileName || '',
+      targetProfileIdx: checkoutItem.targetProfileIdx || '',
+      requestId: checkoutItem.requestId || '',
+      verificationType: checkoutItem.verificationType || '',
+      documentType: checkoutItem.documentType || '',
+      kundaliChecks: checkoutItem.kundaliChecks || 0,
+      kundaliValidityDays: checkoutItem.kundaliValidityDays || 0,
+      kundaliExpiresAt: checkoutItem.kundaliExpiresAt || '',
+    },
+  };
+}
+
+async function createRazorpayOrder(payload) {
+  const payment = getPaymentSettings();
+  const response = await fetch(payment.createOrderUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error('Order API returned ' + response.status + '.');
+  }
+
+  const data = await response.json();
+  const order = data.order || data;
+  const orderId = order.id || order.orderId;
+  if (!orderId) {
+    throw new Error('Order API response did not include an order ID.');
+  }
+
+  return {
+    id: orderId,
+    amount: Number(order.amount) || payload.amount,
+    currency: order.currency || payload.currency,
+    receipt: order.receipt || payload.receipt,
+  };
+}
+
+async function verifyRazorpayPayment(payload) {
+  const payment = getPaymentSettings();
+  const response = await fetch(payment.verifyOrderUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error('Verification API returned ' + response.status + '.');
+  }
+
+  const data = await response.json();
+  if (data.verified === false || data.status === 'failed') {
+    throw new Error(data.message || 'Payment verification failed.');
+  }
+  return data;
+}
+
+function openDemoGateway(order, payload) {
+  const overlay = document.getElementById('demoGatewayOverlay');
+  const message = document.getElementById('demoGatewayMessage');
+  if (!overlay || !message) {
+    return Promise.reject(new Error('Demo payment overlay is not available.'));
+  }
+
+  message.innerHTML =
+    '<strong>' + getCurrentItem().name + '</strong><br>' +
+    'Order ID: <strong>' + order.id + '</strong><br>' +
+    'Amount: <strong>' + formatCurrency(payload.totalAmount) + '</strong><br>' +
+    '<span style="font-size:.78rem;color:var(--muted);">Use success to test activation, failure to test retry handling, or cancel to close.</span>';
+
+  overlay.classList.add('show');
+
+  return new Promise((resolve, reject) => {
+    demoGatewayPromise = { resolve, reject, order, payload };
+  });
+}
+
+function closeDemoGateway(action) {
+  const overlay = document.getElementById('demoGatewayOverlay');
+  if (overlay) overlay.classList.remove('show');
+  if (!demoGatewayPromise) return;
+
+  const pending = demoGatewayPromise;
+  demoGatewayPromise = null;
+
+  if (action === 'cancel') {
+    pending.reject(new Error('Demo payment was canceled.'));
+    return;
+  }
+
+  if (action === 'fail') {
+    pending.resolve({
+      status: 'failed',
+      payment: {
+        razorpay_order_id: pending.order.id,
+        razorpay_payment_id: 'demo_pay_failed_' + Date.now(),
+        razorpay_signature: 'demo_signature_failed',
+        simulated_status: 'failed',
+      },
+    });
+    return;
+  }
+
+  pending.resolve({
+    status: 'paid',
+    payment: {
+      razorpay_order_id: pending.order.id,
+      razorpay_payment_id: 'demo_pay_' + Date.now(),
+      razorpay_signature: 'demo_signature_success',
+      simulated_status: 'paid',
+    },
+  });
+}
+
+async function startDemoGatewayPayment() {
+  if (!isGatewayConfigured()) {
+    toast('Start the local demo API and save the local create-order and verify URLs before using test checkout.', 'error');
+    return;
+  }
+
+  setProcessing(true);
+
+  try {
+    const payload = buildOrderPayload();
+    const order = await createRazorpayOrder(payload);
+    const simulation = await openDemoGateway(order, payload);
+
+    if (simulation.status !== 'paid') {
+      persistPaymentRecord('failed', {
+        gatewayOrderId: order.id,
+        gatewayPaymentId: simulation.payment.razorpay_payment_id,
+        error: 'Demo gateway simulated failure.',
+      });
+      toast('Demo payment marked as failed.', 'error');
+      return;
+    }
+
+    const verification = await verifyRazorpayPayment({
+      gateway: 'demo',
+      order,
+      checkout: payload,
+      payment: simulation.payment,
+    });
+    const record = persistPaymentRecord('paid', {
+      gatewayOrderId: order.id,
+      gatewayPaymentId: simulation.payment.razorpay_payment_id,
+      gatewaySignature: simulation.payment.razorpay_signature,
+      verification,
+    });
+    incrementCouponUsage(activeCoupon ? activeCoupon.code : '');
+    await syncMemberPlan(record);
+    storeCheckoutNotice(record);
+    showConfirmation({
+      icon: 'TEST',
+      title: 'Demo Payment Successful',
+      message:
+        '<strong>' + getCurrentItem().name + '</strong> · ' + formatCurrency(record.totalAmount) + '<br>' +
+        '<span style="font-size:.76rem;color:var(--green);">Verified by the local demo API and saved successfully.</span>',
+      linkHref: 'dashboard.html',
+      linkText: 'Go to Dashboard →',
+    });
+    toast('Demo payment verified successfully.', 'success');
+  } catch (error) {
+    if (error && error.message === 'Demo payment was canceled.') {
+      toast('Demo payment was canceled before verification.', 'info');
+    } else {
+      toast(error.message || 'Unable to complete demo payment.', 'error');
+    }
+  } finally {
+    setProcessing(false);
+  }
+}
+
+async function startGatewayPayment() {
+  if (isDemoGateway()) {
+    await startDemoGatewayPayment();
+    return;
+  }
+  await startRazorpayPayment();
+}
+
+async function startRazorpayPayment() {
+  const payment = getPaymentSettings();
+  const site = getSiteSettings();
+  const session = getMemberSession() || {};
+
+  if (!isGatewayConfigured()) {
+    toast('Admin must configure the Razorpay key, create-order API and verify API before online payments can go live.', 'error');
+    return;
+  }
+
+  setProcessing(true);
+
+  try {
+    const payload = buildOrderPayload();
+    const order = await createRazorpayOrder(payload);
+    await loadRazorpayScript();
+
+    const rzp = new window.Razorpay({
+      key: payment.razorpayKeyId,
+      order_id: order.id,
+      amount: order.amount,
+      currency: order.currency,
+      name: site.businessName,
+      description: getCurrentItem().name,
+      prefill: {
+        name: session.name || '',
+        email: session.email || site.supportEmail,
+        contact: session.phone || site.supportPhone,
+      },
+      theme: { color: '#7b1c2e' },
+      notes: {
+        item_code: getCurrentItem().code,
+        item_type: getCurrentItem().type,
+        coupon_code: activeCoupon ? activeCoupon.code : '',
+      },
+      modal: {
+        ondismiss: () => {
+          setProcessing(false);
+          toast('Online checkout was closed before completion.', 'info');
+        },
+      },
+      handler: async function (response) {
+        try {
+          setProcessing(true);
+          const verification = await verifyRazorpayPayment({
+            order,
+            checkout: buildOrderPayload(),
+            payment: response,
+          });
+          const record = persistPaymentRecord('paid', {
+            gatewayOrderId: order.id,
+            gatewayPaymentId: response.razorpay_payment_id,
+            gatewaySignature: response.razorpay_signature,
+            verification,
+          });
+          incrementCouponUsage(activeCoupon ? activeCoupon.code : '');
+          await syncMemberPlan(record);
+          storeCheckoutNotice(record);
+          showConfirmation({
+            icon: 'OK',
+            title: 'Payment Successful',
+            message:
+              '<strong>' + getCurrentItem().name + '</strong> · ' + formatCurrency(record.totalAmount) + '<br>' +
+              '<span style="font-size:.76rem;color:var(--green);">Verified via Razorpay and saved successfully.</span>',
+            linkHref: 'dashboard.html',
+            linkText: 'Go to Dashboard →',
+          });
+          toast('Payment verified successfully.', 'success');
+        } catch (error) {
+          persistPaymentRecord('verification_failed', {
+            gatewayOrderId: order.id,
+            gatewayPaymentId: response.razorpay_payment_id,
+            error: error.message,
+          });
+          toast(error.message || 'Payment verification failed.', 'error');
+        } finally {
+          setProcessing(false);
+        }
+      },
+    });
+
+    rzp.on('payment.failed', function (response) {
+      setProcessing(false);
+      persistPaymentRecord('failed', {
+        gatewayOrderId: order.id,
+        error: response && response.error ? response.error : null,
+      });
+      toast(
+        response && response.error && response.error.description
+          ? response.error.description
+          : 'Payment failed. Please try again.',
+        'error'
+      );
+    });
+
+    rzp.open();
+  } catch (error) {
+    setProcessing(false);
+    toast(error.message || 'Unable to start online payment.', 'error');
+  }
+}
+
+function startManualUpiFlow() {
+  const site = getSiteSettings();
+  const session = getMemberSession() || {};
+  const item = getCurrentItem();
+  const pricing = getPricing();
+  const reference = buildReference();
+
+  const record = persistPaymentRecord('pending_verification', {
+    id: reference,
+    supportPhone: site.supportPhone,
+  });
+
+  const messageLines = [
+    'Namaste! I completed a UPI payment request for ' + site.businessName + '.',
+    '',
+    'Reference: ' + reference,
+    'Item: ' + item.name,
+    'Amount: ' + formatCurrency(pricing.total),
+    'UPI ID: ' + site.upiId,
+    activeCoupon ? 'Coupon: ' + activeCoupon.code : '',
+    session.name ? 'Name: ' + session.name : '',
+    session.phone ? 'Registered mobile: ' + session.phone : '',
+    '',
+    'Please verify and activate this purchase. Thank you.',
+  ].filter(Boolean);
+
+  window.open(
+    'https://wa.me/' + getWhatsAppDigits(site.supportPhone) + '?text=' + encodeURIComponent(messageLines.join('\n')),
+    '_blank'
+  );
+
+  showConfirmation({
+    icon: 'UPI',
+    title: 'Awaiting Verification',
+    message:
+      '<strong>' + item.name + '</strong> · ' + formatCurrency(record.totalAmount) + '<br>' +
+      'Reference: <strong>' + reference + '</strong><br>' +
+      '<span style="font-size:.76rem;color:var(--green);">Share the payment screenshot on WhatsApp. The team will verify and activate it shortly.</span>',
+    linkHref: 'dashboard.html',
+    linkText: 'Back to Dashboard →',
+  });
+
+  toast('WhatsApp confirmation draft opened. Share your screenshot to complete verification.', 'success');
+}
+
+async function processPayment() {
+  if (isProcessing) return;
+  if (paymentMethod === 'gateway') {
+    await startGatewayPayment();
+    return;
+  }
+  startManualUpiFlow();
+}
+
+function toast(message, type = 'info') {
+  const wrap = document.getElementById('toastWrap');
+  const toastElement = document.createElement('div');
+  toastElement.className = 'toast ' + type;
+  toastElement.textContent = message;
+  wrap.appendChild(toastElement);
+  requestAnimationFrame(() => requestAnimationFrame(() => toastElement.classList.add('show')));
+  setTimeout(() => {
+    toastElement.classList.remove('show');
+    setTimeout(() => toastElement.remove(), 300);
+  }, 3600);
+}
+
+async function initCheckout() {
+  try { await window.ParichayamFirebase?.bootstrapPage('checkout'); } catch(e) { console.warn('Firebase checkout bootstrap failed:', e); }
+  loadAdminPrices();
+  checkoutItem = resolveCheckoutItem();
+  renderPlanOptions();
+  updatePaymentUI();
+  updateSummary();
+
+  const couponInput = document.getElementById('couponInput');
+  if (couponInput) {
+    couponInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') applyCoupon();
+    });
+    couponInput.addEventListener('input', function () {
+      this.value = this.value.toUpperCase();
+    });
+  }
+
+  if (checkoutItem.couponPrefill && couponInput && document.getElementById('couponSection').style.display !== 'none') {
+    couponInput.value = checkoutItem.couponPrefill.toUpperCase();
+    applyCoupon();
+  }
+}
+
+initCheckout();
+</script>
+</body>
+</html>
+

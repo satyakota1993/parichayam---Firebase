@@ -1,0 +1,170 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return signedIn() &&
+        exists(/databases/$(database)/documents/members/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/members/$(request.auth.uid)).data.role == 'ADMIN';
+    }
+
+    function isStaff() {
+      return signedIn() &&
+        exists(/databases/$(database)/documents/members/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/members/$(request.auth.uid)).data.role in ['ADMIN', 'MATCHMAKER', 'EMPLOYEE'];
+    }
+
+    function isPublicStateKey(key) {
+      return key in [
+        'parichayam_trial_settings',
+        'parichayam_kundali_settings',
+        'parichayam_kundali_pack_settings',
+        'parichayam_verification_settings',
+        'parichayam_dashboard_notice',
+        'parichayam_plan_prices',
+        'parichayam_site_settings',
+        'parichayam_payment_settings',
+        'parichayam_coupons',
+        'parichayam_addon_prices',
+        'parichayam_connect_packs',
+        'parichayam_connect_costs',
+        'parichayam_agent_directory',
+        'parichayam_auth_settings',
+        'parichayam_gotras',
+        'parichayam_ads',
+        'parichayam_dash_vis',
+        'parichayam_communities',
+        'parichayam_public_profile_fields'
+      ];
+    }
+
+    match /members/{uid} {
+      allow create: if isOwner(uid) &&
+        request.resource.data.uid == request.auth.uid &&
+        request.resource.data.id == request.auth.uid &&
+        request.resource.data.role == 'MEMBER';
+
+      allow read: if isOwner(uid) || isAdmin();
+
+      allow update: if isAdmin() || (
+        isOwner(uid) &&
+        request.resource.data.uid == resource.data.uid &&
+        request.resource.data.id == resource.data.id &&
+        request.resource.data.role == resource.data.role
+      );
+
+      allow delete: if isAdmin();
+    }
+
+    match /memberPhoneIndex/{phone} {
+      allow get: if true;
+      allow list: if false;
+
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+
+      allow update: if isAdmin() || (
+        signedIn() &&
+        resource.data.uid == request.auth.uid &&
+        request.resource.data.uid == request.auth.uid
+      );
+
+      allow delete: if isAdmin() || (
+        signedIn() &&
+        resource.data.uid == request.auth.uid
+      );
+    }
+
+    match /publicProfiles/{profileNumber} {
+      allow get: if signedIn();
+      allow list: if false;
+      allow create, update: if isAdmin() || (
+        signedIn() &&
+        request.resource.data.uid == request.auth.uid &&
+        request.resource.data.profileNumber == profileNumber
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /systemCounters/{counterId} {
+      allow get: if signedIn();
+      allow list: if false;
+      allow create: if signedIn() &&
+        counterId == 'publicProfileNumber' &&
+        request.resource.data.nextValue is int &&
+        request.resource.data.nextValue >= 100001;
+      allow update: if signedIn() &&
+        counterId == 'publicProfileNumber' &&
+        resource.data.nextValue is int &&
+        request.resource.data.nextValue is int &&
+        request.resource.data.nextValue == resource.data.nextValue + 1;
+      allow delete: if false;
+    }
+
+    match /appState/{key} {
+      allow get: if isPublicStateKey(key) || isAdmin();
+      allow list: if false;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /agentApplications/{applicationId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /agentPayoutRequests/{requestId} {
+      allow create: if
+        request.resource.data.agentRefId is string &&
+        request.resource.data.agentName is string &&
+        request.resource.data.agentMobile is string &&
+        request.resource.data.requestedAmount is number &&
+        request.resource.data.requestedAmount >= 0 &&
+        request.resource.data.requestedAmount <= 1000000 &&
+        request.resource.data.requestedAt is string &&
+        request.resource.data.status == 'requested';
+
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /verificationRequests/{requestId} {
+      allow create: if signedIn() &&
+        request.resource.data.memberUid == request.auth.uid &&
+        request.resource.data.type in ['aadhaar', 'income'];
+
+      allow read: if isAdmin() ||
+        (signedIn() && resource.data.memberUid == request.auth.uid) ||
+        (signedIn() && resource.data.assignedToUid == request.auth.uid);
+
+      allow update: if isAdmin() ||
+        (signedIn() && resource.data.memberUid == request.auth.uid) ||
+        (signedIn() && resource.data.assignedToUid == request.auth.uid);
+
+      allow delete: if isAdmin();
+    }
+
+    match /memberAssignments/{assignmentId} {
+      allow create, delete: if isAdmin();
+      allow read: if isAdmin() || (signedIn() && resource.data.assignedToUid == request.auth.uid);
+      allow update: if isAdmin() || (signedIn() && resource.data.assignedToUid == request.auth.uid);
+    }
+
+    match /staffActivityLogs/{logId} {
+      allow create: if isStaff() &&
+        request.resource.data.actorUid == request.auth.uid;
+      allow read: if isAdmin() ||
+        (signedIn() && resource.data.actorUid == request.auth.uid) ||
+        (signedIn() && resource.data.memberUid == request.auth.uid);
+      allow update, delete: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
